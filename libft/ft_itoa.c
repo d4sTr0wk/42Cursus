@@ -34,8 +34,7 @@ char	*ft_itoa(int n)
 {
 	char	*itoa;
 	int	n_dig;
-	int	aux_dig;
-	int	digit;
+	int	limit;
 
 	if (n == 0)
 		return(strdup("0"));
@@ -44,14 +43,16 @@ char	*ft_itoa(int n)
 	if(!itoa)
 		return (NULL);
 	itoa[n_dig] = '\0';
+	limit = 0;
 	if (n < 0)
 	{
 		itoa[0] = '-';
 		n *= -1;
+		limit++;
 	}
-	while (n_dig > 0)
+	while (n_dig-- > limit)
 	{
-		itoa[--n_dig] = n % 10;
+		itoa[n_dig] = (n % 10) + 48;
 		n /= 10;
 	}
 	return (itoa);	
