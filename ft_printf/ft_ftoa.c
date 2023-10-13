@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_ftoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 19:41:41 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/10/13 23:37:34 by maxgarci         ###   ########.fr       */
+/*   Created: 2023/10/13 21:52:49 by maxgarci          #+#    #+#             */
+/*   Updated: 2023/10/13 23:34:28 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"ft_printf.h"
-#include"ft_printf.c"
-#include"ft_putchar.c"
-#include"ft_putstr.c"
-#include"ft_strlen.c"
-#include"ft_itoa.c"
-#include"ft_strdup.c"
-#include"ft_ftoa.c"
 
-int	main(void)
+int	ft_ftoa(double n)
 {
-	int m1 = ft_printf("%d\n", 12.45077799999);
-	int m2 = printf("%f\n", 12.450777999999);
-	printf("%i ", m1);
-	printf("%i", m2);
+	int	c1;
+	int	c2;
+	int	c3;
+	int	i;
+	unsigned long	integer_aux;
+
+	c1 = ft_putstr(ft_itoa((int)n));
+	c2 = ft_putchar('.');
+	n -= (int)n;
+	i = -1;
+	while (((n - (int)n)  != 0) && (++i < 15))
+		n *= 10;
+	integer_aux = (long)n;
+	while (integer_aux % 10 == 0)
+		integer_aux /= 10;
+	c3 = ft_putstr(ft_itoa(integer_aux));
+	if (c1 < 0 || c2 < 0 || c3 < 0)
+		return (-1);
+	else
+		return (c1 + c2 + c3);
 }
