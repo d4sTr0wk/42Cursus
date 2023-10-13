@@ -6,11 +6,11 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:48:22 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/10/11 01:06:53 by maxgarci         ###   ########.fr       */
+/*   Updated: 2023/10/13 19:15:30 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libc.h"
+#include "ft_printf.h"
 
 static int	write_str(char const *str, va_list args);
 static int	conversion(char c, va_list args);
@@ -18,8 +18,8 @@ static int	conversion(char c, va_list args);
 int	ft_printf(char const *str, ...)
 {
 	va_list	args;
-	int	characters;
-		
+	int		characters;
+
 	va_start(args, str);
 	characters = write_str(str, args);
 	va_end(args);
@@ -35,7 +35,7 @@ static int	write_str(char const *str, va_list args)
 	i = -1;
 	cnt = 0;
 	va_end(args);
-	while (str[++i]) 
+	while (str[++i])
 	{
 		if (str[i] != '%')
 			cnt += write(1, &(str[i]), 1);
@@ -57,5 +57,9 @@ static int	conversion(char c, va_list args)
 		return (ft_putchar(va_arg(args, int)));
 	if (c == 's')
 		return (ft_putstr(va_arg(args, char *)));
-	return (-1);		
+	/*if (c == 'p')
+		return (ft_putpointer(va_arg(args, void *)));*/
+	if (c == '%')
+		return (ft_putchar(c));
+	return (-1);
 }

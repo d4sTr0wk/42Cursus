@@ -6,11 +6,11 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 00:52:59 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/10/11 01:03:46 by maxgarci         ###   ########.fr       */
+/*   Updated: 2023/10/12 07:51:47 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libc.h"
+#include "ft_printf.h"
 
 int	ft_putstr(char *str)
 {
