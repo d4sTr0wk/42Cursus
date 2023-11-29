@@ -1,34 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/20 12:49:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/11/22 21:41:53 by maxgarci         ###   ########.fr       */
+/*   Created: 2023/10/08 16:04:03 by maxgarci          #+#    #+#             */
+/*   Updated: 2023/11/22 21:38:42 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+void	ft_putendl_fd(char *s, int fd)
 {
-	int	i;
-	int	num;
-	int	sign;
-
-	i = 0;
-	num = 0;
-	sign = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == ' '))
-		i++;
-	if ((str[i] == '-') || (str[i] == '+'))
-		if (str[i++] == '-')
-			sign *= -1;
-	if ((str[i] == '-') || (str[i] == '+'))
-		sign = 0;
-	while (str[i] >= '0' && str[i] <= '9')
-		num = (str[i++] - '0') + num * 10;
-	return ((unsigned)num * sign);
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }

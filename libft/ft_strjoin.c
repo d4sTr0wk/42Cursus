@@ -6,11 +6,11 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:15:37 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/09/29 18:46:11 by maxgarci         ###   ########.fr       */
+/*   Updated: 2023/11/22 21:40:21 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

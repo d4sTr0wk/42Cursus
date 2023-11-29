@@ -6,11 +6,11 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 19:34:14 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/09/29 21:26:24 by maxgarci         ###   ########.fr       */
+/*   Updated: 2023/11/22 21:36:30 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 char	*ft_strtrim(char const *s1, char const *set)
 {

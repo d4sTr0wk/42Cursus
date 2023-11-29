@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/20 12:49:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/11/22 21:41:53 by maxgarci         ###   ########.fr       */
+/*   Created: 2023/10/08 16:13:28 by maxgarci          #+#    #+#             */
+/*   Updated: 2023/11/22 21:38:44 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+void	recursive(long n, int fd)
 {
-	int	i;
-	int	num;
-	int	sign;
+	if (n >= 10)
+		recursive((n / 10), fd);
+	ft_putchar_fd(((n % 10) + '0'), fd);
+}
 
-	i = 0;
-	num = 0;
-	sign = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == ' '))
-		i++;
-	if ((str[i] == '-') || (str[i] == '+'))
-		if (str[i++] == '-')
-			sign *= -1;
-	if ((str[i] == '-') || (str[i] == '+'))
-		sign = 0;
-	while (str[i] >= '0' && str[i] <= '9')
-		num = (str[i++] - '0') + num * 10;
-	return ((unsigned)num * sign);
+void	ft_putnbr_fd(int n, int fd)
+{
+	long	aux;
+
+	aux = (long)n;
+	if (n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		aux *= (-1);
+	}
+	else
+		aux = n;
+	if (n == 0)
+		ft_putchar_fd('0', fd);
+	else
+		recursive(aux, fd);
 }

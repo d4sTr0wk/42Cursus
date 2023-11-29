@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 11:41:03 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/09/23 13:07:25 by maxgarci         ###   ########.fr       */
+/*   Updated: 2023/10/05 22:27:58 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	size_t	i;
 
+	if ((!dst) && (!src))
+		return (NULL);
 	i = 0;
 	while (i < n)
 	{

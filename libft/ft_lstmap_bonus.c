@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/20 12:49:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/11/22 21:41:53 by maxgarci         ###   ########.fr       */
+/*   Created: 2023/10/05 21:03:08 by maxgarci          #+#    #+#             */
+/*   Updated: 2023/11/29 11:26:49 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	int	i;
-	int	num;
-	int	sign;
+	t_list	*new_list;
+	t_list	*new_node;
 
-	i = 0;
-	num = 0;
-	sign = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == ' '))
-		i++;
-	if ((str[i] == '-') || (str[i] == '+'))
-		if (str[i++] == '-')
-			sign *= -1;
-	if ((str[i] == '-') || (str[i] == '+'))
-		sign = 0;
-	while (str[i] >= '0' && str[i] <= '9')
-		num = (str[i++] - '0') + num * 10;
-	return ((unsigned)num * sign);
+	if (!f && !del)
+		return (NULL);
+	new_list = NULL;
+	while (lst)
+	{
+		new_node = ft_lstnew(NULL);
+		if (new_node == NULL)
+		{
+			ft_lstclear(&new_list, del);
+			return (NULL);
+		}
+		new_node->content = (*f)(lst->content);
+		ft_lstadd_back(&new_list, new_node);
+		lst = lst->next;
+	}
+	return (new_list);
 }

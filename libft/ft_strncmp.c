@@ -6,11 +6,11 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:03:09 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/09/20 14:04:39 by maxgarci         ###   ########.fr       */
+/*   Updated: 2023/11/22 21:40:50 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "libft.h"
 
 int	ft_strncmp(char *s1, char *s2, unsigned int n)
 {

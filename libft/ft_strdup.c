@@ -6,11 +6,11 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 16:52:46 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/09/29 21:34:23 by maxgarci         ###   ########.fr       */
+/*   Updated: 2023/11/22 21:38:54 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 char	*ft_strdup(const char *s1)
 {
@@ -18,8 +18,6 @@ char	*ft_strdup(const char *s1)
 	int		i;
 	int		tam;
 
-	if (!s1)
-		return (NULL);
 	tam = ft_strlen(s1);
 	if (tam == 0)
 	{

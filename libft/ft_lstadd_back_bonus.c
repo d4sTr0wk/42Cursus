@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/20 12:49:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/11/22 21:41:53 by maxgarci         ###   ########.fr       */
+/*   Created: 2023/10/05 20:30:10 by maxgarci          #+#    #+#             */
+/*   Updated: 2023/11/22 21:38:15 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	int	i;
-	int	num;
-	int	sign;
+	t_list	*tmp;
 
-	i = 0;
-	num = 0;
-	sign = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == ' '))
-		i++;
-	if ((str[i] == '-') || (str[i] == '+'))
-		if (str[i++] == '-')
-			sign *= -1;
-	if ((str[i] == '-') || (str[i] == '+'))
-		sign = 0;
-	while (str[i] >= '0' && str[i] <= '9')
-		num = (str[i++] - '0') + num * 10;
-	return ((unsigned)num * sign);
+	if (!(*lst))
+		*lst = new;
+	else
+	{
+		tmp = *lst;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
 }
