@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:39:32 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/12/07 16:49:51 by maxgarci         ###   ########.fr       */
+/*   Updated: 2023/12/07 17:06:53 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	line = 0;
-	read_bytes = 0;
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	return (read_file (&static_buffer, buffer, line, fd));
 }
