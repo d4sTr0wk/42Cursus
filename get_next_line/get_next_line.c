@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:39:32 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/12/07 17:06:53 by maxgarci         ###   ########.fr       */
+/*   Updated: 2023/12/08 13:20:32 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 char	*read_file(char **stat_buf, char *buf, char *ln, int fd);
 int		strjoin_buf(char **stat_buf, char *buf, ssize_t read_bytes);
-int		newline(char **stat_buf, char **ln, int point_nl_seek);
+int		newline(char **stat_buf, char **ln, int point_nl_seek, int look_for_nl);
 int		delete_newline(char **stat_buf, int pointer_endnl);
 
 char	*get_next_line(int fd)
@@ -29,7 +29,9 @@ char	*get_next_line(int fd)
 
 	line = 0;
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	return (read_file (&static_buffer, buffer, line, fd));
+	line = read_file (&static_buffer, buffer, line, fd);
+	free(buffer);
+	return (line);
 }
 
 char	*read_file(char **stat_buf, char *buf, char *ln, int fd)
@@ -37,21 +39,24 @@ char	*read_file(char **stat_buf, char *buf, char *ln, int fd)
 	ssize_t	read_bytes;
 	int		point_nl_seek;
 	int		no_nl;
+	int		look_for_nl;
 
 	no_nl = 0;
+	look_for_nl = 0;
+	if (stat_buf[0])
+		look_for_nl = 1;
 	while (!no_nl)
 	{
 		read_bytes = read(fd, buf, BUFFER_SIZE);
-		if (!read_bytes)
-		{
-			free(buf);
-			return (NULL);
-		}
 		buf[read_bytes] = '\0';
 		point_nl_seek = strjoin_buf(stat_buf, buf, read_bytes);
-		if (read_bytes < BUFFER_SIZE)
-			return (*stat_buf);
-		no_nl = newline(stat_buf, &ln, point_nl_seek);
+		if (!read_bytes || (read_bytes < BUFFER_SIZE))
+		{
+			ln = *stat_buf;
+			*stat_buf = 0;
+			return (ln);
+		}
+		no_nl = newline(stat_buf, &ln, point_nl_seek, look_for_nl);
 		if (no_nl < 0)
 			return (NULL);
 	}
@@ -65,6 +70,8 @@ int	strjoin_buf(char **stat_buf, char *buf, ssize_t read_bytes)
 	int		tam_auxbuf;
 	int		tam_statbuf;
 
+	if (!read_bytes)
+		return (0);
 	i = 0;
 	while ((*stat_buf) && (*stat_buf)[i])
 		i++;
@@ -81,18 +88,20 @@ int	strjoin_buf(char **stat_buf, char *buf, ssize_t read_bytes)
 		aux_buffer[i] = buf[i - tam_statbuf];
 		++i;
 	}
-	aux_buffer[i] = '\0';
 	free(*stat_buf);
 	*stat_buf = aux_buffer;
 	return (tam_statbuf);
 }
 
-int	newline(char **stat_buf, char **ln, int point_nl_seek)
+int	newline(char **stat_buf, char **ln, int point_nl_seek, int look_for_nl)
 {
 	int	i;
 	int	j;
 
-	i = point_nl_seek;
+	if (!look_for_nl)
+		i = point_nl_seek;
+	else
+		i = 0;
 	while ((*stat_buf)[i])
 	{
 		if ((*stat_buf)[i] == '\n')

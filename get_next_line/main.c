@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 10:26:22 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/12/07 17:03:12 by maxgarci         ###   ########.fr       */
+/*   Updated: 2023/12/08 13:26:49 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main()
 	FILE	*file;
 	char	*line;
 
-	file = fopen("files/empty", "r");
+	file = fopen("files/multiple_nlx5", "r");
 	if (!file)
 		return (-1);
 
