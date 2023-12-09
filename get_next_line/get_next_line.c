@@ -6,61 +6,91 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:39:32 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/12/08 13:20:32 by maxgarci         ###   ########.fr       */
+/*   Updated: 2023/12/09 02:14:15 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 7
-#endif
-
-char	*read_file(char **stat_buf, char *buf, char *ln, int fd);
-int		strjoin_buf(char **stat_buf, char *buf, ssize_t read_bytes);
-int		newline(char **stat_buf, char **ln, int point_nl_seek, int look_for_nl);
-int		delete_newline(char **stat_buf, int pointer_endnl);
-
 char	*get_next_line(int fd)
 {
-	static char	*static_buffer = 0;
+	static char	*static_buffer = NULL;
 	char		*buffer;
 	char		*line;
-
-	line = 0;
+	
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	line = read_file (&static_buffer, buffer, line, fd);
+	line = read_file(&static_buffer, buffer, fd);
 	free(buffer);
 	return (line);
 }
 
-char	*read_file(char **stat_buf, char *buf, char *ln, int fd)
+char	*read_file(char **stat_buf, char *buf, int fd)
 {
 	ssize_t	read_bytes;
 	int		point_nl_seek;
-	int		no_nl;
+	int		nl;
 	int		look_for_nl;
+	char	*ln;
 
-	no_nl = 0;
+	nl = 0;
 	look_for_nl = 0;
-	if (stat_buf[0])
+	if (*stat_buf)
 		look_for_nl = 1;
-	while (!no_nl)
+	while (!nl)
 	{
 		read_bytes = read(fd, buf, BUFFER_SIZE);
+		if (read_bytes < 0)
+			return (free(*stat_buf), *stat_buf = NULL, NULL);
 		buf[read_bytes] = '\0';
 		point_nl_seek = strjoin_buf(stat_buf, buf, read_bytes);
-		if (!read_bytes || (read_bytes < BUFFER_SIZE))
+		if (point_nl_seek < 0 || (!point_nl_seek && !read_bytes))
 		{
-			ln = *stat_buf;
-			*stat_buf = 0;
-			return (ln);
+			if (*stat_buf && (*stat_buf)[0])
+			{
+				ft_strcpy(&ln, *stat_buf);
+				delete_newline(stat_buf, ft_strlen(ln));
+				return(ln);
+			}
+			return (free(*stat_buf), *stat_buf = NULL, NULL);	
 		}
-		no_nl = newline(stat_buf, &ln, point_nl_seek, look_for_nl);
-		if (no_nl < 0)
-			return (NULL);
+		nl = newline(stat_buf, &ln, point_nl_seek, look_for_nl);
+		if (nl == -1)
+			return (free(*stat_buf), *stat_buf = NULL, NULL);
 	}
 	return (ln);
+}
+
+int	ft_strlen(const char *str)
+{
+	int	cnt;
+
+	cnt = 0;
+	if (str == NULL)
+		return (0);
+	while (*(str + (cnt)) != '\0')
+		++cnt;
+	return (cnt);
+}
+
+void	ft_strcpy(char **dst, const char *src)
+{
+	int	i;
+
+	if (src == NULL || ft_strlen(src) == 0)
+		*dst = NULL;
+	else
+	{
+		*dst = (char *)malloc((ft_strlen(src) + 1) * sizeof(char));
+		i = -1;
+		while (src[++i] != '\n' && src[i] != '\0')
+			(*dst)[i] = src[i];
+		if (src[i] == '\n')
+			(*dst)[i++] = '\n';
+		(*dst)[i] = '\0';
+
+	}
 }
 
 int	strjoin_buf(char **stat_buf, char *buf, ssize_t read_bytes)
@@ -73,16 +103,19 @@ int	strjoin_buf(char **stat_buf, char *buf, ssize_t read_bytes)
 	if (!read_bytes)
 		return (0);
 	i = 0;
-	while ((*stat_buf) && (*stat_buf)[i])
+	while ((*stat_buf) != NULL && (*stat_buf)[i] != '\0')
 		i++;
 	tam_statbuf = i;
 	tam_auxbuf = i + (int)read_bytes + 1;
 	aux_buffer = (char *)malloc(tam_auxbuf * sizeof(char));
 	if (!aux_buffer)
-		return (0);
-	i = -1;
-	while ((++i) < tam_statbuf)
+		return (-1);
+	i = 0;
+	while ((*stat_buf) != NULL && (*stat_buf)[i] != '\0')
+	{
 		aux_buffer[i] = (*stat_buf)[i];
+		i++;
+	}
 	while (i < tam_auxbuf)
 	{
 		aux_buffer[i] = buf[i - tam_statbuf];
@@ -106,8 +139,8 @@ int	newline(char **stat_buf, char **ln, int point_nl_seek, int look_for_nl)
 	{
 		if ((*stat_buf)[i] == '\n')
 		{
-			*ln = (char *)malloc((i + 1) * sizeof(char));
-			if (!ln)
+			*ln = (char *)malloc((i + 2) * sizeof(char));
+			if (!(*ln))
 				return (-1);
 			j = -1;
 			while ((++j) != (i + 1))
@@ -127,6 +160,8 @@ int	delete_newline(char **stat_buf, int pointer_endnl)
 	int		end_surplus;
 
 	i = pointer_endnl;
+	if ((*stat_buf) == NULL || (*stat_buf)[i] == '\0')
+		return (free(*stat_buf), *stat_buf = NULL, 1);
 	while ((*stat_buf)[i])
 		i++;
 	end_surplus = i;
