@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 10:09:01 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/12/09 01:04:17 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/01/17 10:57:50 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ void	ft_strcpy(char **dst, const char *src);
 int		strjoin_buf(char **stat_buf, char *buf, ssize_t read_bytes);
 int		newline(char **stat_buf, char **ln, int point_nl_seek, int look_for_nl);
 int		delete_newline(char **stat_buf, int pointer_endnl);
+int		newbuffer_tam(char **stat_buf, ssize_t read_bytes);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:39:32 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/12/09 02:14:15 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/01/17 10:56:55 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*get_next_line(int fd)
 	static char	*static_buffer = NULL;
 	char		*buffer;
 	char		*line;
-	
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
@@ -51,46 +51,15 @@ char	*read_file(char **stat_buf, char *buf, int fd)
 			{
 				ft_strcpy(&ln, *stat_buf);
 				delete_newline(stat_buf, ft_strlen(ln));
-				return(ln);
+				return (ln);
 			}
-			return (free(*stat_buf), *stat_buf = NULL, NULL);	
+			return (free(*stat_buf), *stat_buf = NULL, NULL);
 		}
 		nl = newline(stat_buf, &ln, point_nl_seek, look_for_nl);
 		if (nl == -1)
 			return (free(*stat_buf), *stat_buf = NULL, NULL);
 	}
 	return (ln);
-}
-
-int	ft_strlen(const char *str)
-{
-	int	cnt;
-
-	cnt = 0;
-	if (str == NULL)
-		return (0);
-	while (*(str + (cnt)) != '\0')
-		++cnt;
-	return (cnt);
-}
-
-void	ft_strcpy(char **dst, const char *src)
-{
-	int	i;
-
-	if (src == NULL || ft_strlen(src) == 0)
-		*dst = NULL;
-	else
-	{
-		*dst = (char *)malloc((ft_strlen(src) + 1) * sizeof(char));
-		i = -1;
-		while (src[++i] != '\n' && src[i] != '\0')
-			(*dst)[i] = src[i];
-		if (src[i] == '\n')
-			(*dst)[i++] = '\n';
-		(*dst)[i] = '\0';
-
-	}
 }
 
 int	strjoin_buf(char **stat_buf, char *buf, ssize_t read_bytes)
@@ -102,11 +71,7 @@ int	strjoin_buf(char **stat_buf, char *buf, ssize_t read_bytes)
 
 	if (!read_bytes)
 		return (0);
-	i = 0;
-	while ((*stat_buf) != NULL && (*stat_buf)[i] != '\0')
-		i++;
-	tam_statbuf = i;
-	tam_auxbuf = i + (int)read_bytes + 1;
+	tam_auxbuf = newbuffer_tam(stat_buf, read_bytes);
 	aux_buffer = (char *)malloc(tam_auxbuf * sizeof(char));
 	if (!aux_buffer)
 		return (-1);
@@ -116,11 +81,9 @@ int	strjoin_buf(char **stat_buf, char *buf, ssize_t read_bytes)
 		aux_buffer[i] = (*stat_buf)[i];
 		i++;
 	}
-	while (i < tam_auxbuf)
-	{
-		aux_buffer[i] = buf[i - tam_statbuf];
-		++i;
-	}
+	tam_statbuf = i;
+	while ((i++) < tam_auxbuf)
+		aux_buffer[i - 1] = buf[(i - 1) - tam_statbuf];
 	free(*stat_buf);
 	*stat_buf = aux_buffer;
 	return (tam_statbuf);
