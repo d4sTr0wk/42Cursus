@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:00:59 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/17 10:55:25 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/01/17 11:31:06 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,15 @@ int	newbuffer_tam(char **stat_buf, ssize_t read_bytes)
 	while ((*stat_buf) != NULL && (*stat_buf)[i] != '\0')
 		i++;
 	return (i + (int)read_bytes + 1);
+}
+
+char	*end_of_file(char **stat_buf, char *ln)
+{
+	if (*stat_buf && (*stat_buf)[0])
+	{
+		ft_strcpy(&ln, *stat_buf);
+		delete_newline(stat_buf, ft_strlen(ln));
+		return (ln);
+	}
+	return (free(*stat_buf), *stat_buf = NULL, NULL);
 }

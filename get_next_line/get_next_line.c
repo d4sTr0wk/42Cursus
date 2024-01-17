@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:39:32 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/17 10:56:55 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/01/17 11:35:14 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,7 @@ char	*read_file(char **stat_buf, char *buf, int fd)
 		buf[read_bytes] = '\0';
 		point_nl_seek = strjoin_buf(stat_buf, buf, read_bytes);
 		if (point_nl_seek < 0 || (!point_nl_seek && !read_bytes))
-		{
-			if (*stat_buf && (*stat_buf)[0])
-			{
-				ft_strcpy(&ln, *stat_buf);
-				delete_newline(stat_buf, ft_strlen(ln));
-				return (ln);
-			}
-			return (free(*stat_buf), *stat_buf = NULL, NULL);
-		}
+			return (end_of_file(stat_buf, ln));
 		nl = newline(stat_buf, &ln, point_nl_seek, look_for_nl);
 		if (nl == -1)
 			return (free(*stat_buf), *stat_buf = NULL, NULL);
