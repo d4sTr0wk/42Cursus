@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+         #
+#    By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/10 14:16:19 by maxgarci          #+#    #+#              #
-#    Updated: 2023/10/13 21:53:45 by maxgarci         ###   ########.fr        #
+#    Updated: 2024/01/18 20:35:05 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = ft_printf.c ft_putchar.c ft_putstr.c ft_strlen.c ft_itoa.c ft_strdup.c ft_ftoa.c
+SRCS = ft_printf.c ft_putchar.c ft_putstr.c ft_strlen.c ft_itoa.c ft_hex.c
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
 

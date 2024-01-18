@@ -3,26 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 19:41:41 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/10/13 23:37:34 by maxgarci         ###   ########.fr       */
+/*   Created: 2024/01/18 19:12:12 by maxgarci          #+#    #+#             */
+/*   Updated: 2024/01/18 20:32:10 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"ft_printf.h"
-#include"ft_printf.c"
-#include"ft_putchar.c"
-#include"ft_putstr.c"
-#include"ft_strlen.c"
-#include"ft_itoa.c"
-#include"ft_strdup.c"
-#include"ft_ftoa.c"
+#include "ft_printf.h"
 
-int	main(void)
+int main()
 {
-	int m1 = ft_printf("%d\n", 12.45077799999);
-	int m2 = printf("%f\n", 12.450777999999);
-	printf("%i ", m1);
-	printf("%i", m2);
+    int tamanyo;
+	tamanyo = ft_printf(" %x", 0xABCD);
+	printf("\n%i", tamanyo);
+    return (0);
 }

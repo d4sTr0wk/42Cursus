@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 00:41:09 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/10/12 07:51:40 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/01/18 18:15:36 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,4 +15,4 @@
 int	ft_putchar(char c)
 {
 	return (write(1, &c, 1));
- }
+}

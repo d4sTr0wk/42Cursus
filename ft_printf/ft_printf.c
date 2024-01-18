@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:48:22 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/10/13 22:17:54 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/01/18 20:32:24 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ static int	conversion(char c, va_list args)
 		return (ft_putstr(va_arg(args, char *)));
 	/*if (c == 'p')
 		return (ft_putpointer(va_arg(args, void *)));*/
-	if (c == 'd')
-		return (ft_ftoa(va_arg(args, double)));
-	if (c == 'i')
-		return (ft_putstr(ft_itoa(va_arg(args, int))));
+	if ((c == 'd') || (c == 'i'))
+		return (ft_itoa(va_arg(args, int)));
+	if ((c == 'x') || (c == 'X'))
+		return (ft_hex(c, va_arg(args, int)));
 	if (c == '%')
 		return (ft_putchar(c));
 	return (-1);
