@@ -6,7 +6,7 @@
 #    By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/28 18:22:03 by maxgarci          #+#    #+#              #
-#    Updated: 2024/01/28 18:22:03 by maxgarci         ###   ########.fr        #
+#    Updated: 2024/01/29 01:58:57 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,3 +31,4 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+re: fclean all

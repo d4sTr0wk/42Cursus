@@ -6,13 +6,13 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 21:35:36 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/28 21:35:36 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/01/29 02:10:34 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	ft_atoi(const char *nptr, int *err)
+int	ft_atoi(const char *nptr, int *error)
 {
 	long	num;
 	int		sign;
@@ -32,10 +32,10 @@ int	ft_atoi(const char *nptr, int *err)
 		num += nptr[i] - '0';
 		++i;
 	}
-    if (nptr[i] != '\0')
-    {
-        num = 0;
-        *err = 1;
-    }
+	if (nptr[i] != '\0')
+	{
+		num = 0;
+		*error = 1;
+	}
 	return ((int)(num * sign));
 }
