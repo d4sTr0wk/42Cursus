@@ -6,35 +6,71 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 11:22:12 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/29 11:44:30 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:59:24 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_stack	*ft_lstnew(int value)
+int	ft_stacksize(t_stack *stack)
 {
-	t_stack	*lst;
+	int	cnt;
 
-	lst = (t_stack *)malloc(sizeof(t_stack));
-	if (!lst)
-		return (NULL);
-	lst->value = value;
-	lst->next = NULL;
-	return (lst);
+	cnt = 0;
+	while (stack)
+	{
+		cnt++;
+		stack = stack->next;
+	}
+	return (cnt);
 }
 
-void	ft_lstadd_back(t_stack **lst, t_stack *new)
+t_stack	*ft_stacklast(t_stack *stack)
+{
+	if (!stack)
+		return (NULL);
+	while (stack->next)
+		stack = stack->next;
+	return (stack);
+}
+
+t_stack	*ft_stacknew(int value)
+{
+	t_stack	*stack;
+
+	stack = (t_stack *)malloc(sizeof(t_stack));
+	if (!stack)
+		return (NULL);
+	stack->value = value;
+	stack->index = 0;
+	stack->next = NULL;
+	return (stack);
+}
+
+void	ft_stackadd_back(t_stack **stack, t_stack *new)
 {
 	t_stack	*tmp;
 
-	if (!(*lst))
-		*lst = new;
+	if (!(*stack))
+		*stack = new;
 	else
 	{
-		tmp = *lst;
+		tmp = *stack;
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
+	}
+}
+
+void	ft_stackadd_front(t_stack **stack, t_stack *new)
+{
+	if (stack && new)
+	{
+		new->next = *stack;
+		*stack = new;
+	}
+	else if (!stack && new)
+	{
+		*stack = new;
 	}
 }

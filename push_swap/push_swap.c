@@ -3,46 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/28 23:25:42 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/29 11:42:37 by maxgarci         ###   ########.fr       */
+/*   Created: 2024/01/29 14:29:02 by maxgarci          #+#    #+#             */
+/*   Updated: 2024/01/31 22:11:37 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	initialize_args(int argc, char **argv, t_stack **a)
+int	calc_cand(t_stack *a, t_stack *b, t_stack *tmp)
 {
 	int	i;
-	int	arg;
-	int	error;
+	int	min_moves;
+	int	moves;
+	int	pos;
 
-	error = 0;
-	if (!argc)
-		return (1);
-	i = 1;
-	while (i < argc)
+	i = 0;
+	min_moves = 1;
+	while (i != 4 && ft_stacksize(a) - i > 3)
 	{
-		arg = ft_atoi(argv[i], &error);
-		if (arg == 0 && error == 1)
-			return (1);
-		ft_lstadd_back(a, ft_lstnew(arg));
+		tmp = a;
+		while (tmp)
+		{
+
+			tmp = tmp->next;
 		i++;
 	}
-	return (0);
 }
 
-int	main(int argc, char **argv)
+void	push_swap(t_stack **a)
 {
-	t_stack	*a;
+	t_stack	*b;
+	t_stack	*tmp;
+	int	candidate_pos;
 
-	a = NULL;
-	if (initialize_args(argc, argv, &a))
+	b = NULL;
+	while ((!sorted(*a) && (*a)->index != 1) || b)
 	{
-		ft_printf("Error\n");
-		exit(-1);
+		if (ft_stacksize(*a) <= 3 && !partially_sorted(*a))
+		{
+			if (!partially_sorted(*a))
+				sa(a);
+			if ((*a)->index < (*a)->next->index)
+				rra(a);
+			else
+				ra(a);
+		}
+		else
+		{
+			if (!b)
+			{
+				pb(a, &b);
+				pb(a, &b);
+				if (b->index < b->next->index)
+					sb(&b);
+			}
+			else
+			{
+				candidate_pos = calc_cand(*a, b, tmp);
+
+			}	
+		}
 	}
-	ft_printf("Hola");
-	exit(0);
+	while ((*a)->index != 1)
+		ra(a);
 }

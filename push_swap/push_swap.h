@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/29 11:45:23 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/01/31 22:15:16 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,46 @@
 typedef struct s_stack
 {
 	int				value;
+	int				index;
 	struct s_stack	*next;
 }	t_stack;
 
-int	main(int argc, char **argv);
-int	initialize_args(int argc, char **argv, t_stack **a);
+// main.c
+int		main(int argc, char **argv);
 
-int	ft_atoi(const char *nptr, int *error);
+// push_swap.c
+void		push_swap(t_stack **a);
 
-t_stack *ft_lstnew(int value);
-void    ft_lstadd_back(t_stack **lst, t_stack *new);
+// switch.c
+void		sa(t_stack **a);
+void		sb(t_stack **b);
+
+// push.c
+void		pa(t_stack **b, t_stack **a);
+void		pb(t_stack **a, t_stack **b);
+
+// rotate.c
+void    	ra(t_stack **a);
+void		rb(t_stack **b);
+void		rr(t_stack **a, t_stack **b);
+
+// reverserotate.c
+void    	rra(t_stack **a);
+void		rrb(t_stack **b);
+void		rrr(t_stack **a, t_stack **b);
+
+// push_swap_utils.c
+void		assign_index(t_stack **stack);
+int     	partially_sorted(t_stack *stack);
+int		sorted(t_stack *stack);
+void		show_stack(t_stack *stack);
+int		ft_atoi(const char *nptr, int *error);
+
+// stack.c
+int     	ft_stacksize(t_stack *stack);
+t_stack 	*ft_stacklast(t_stack *stack);
+t_stack 	*ft_stacknew(int value);
+void		ft_stackadd_back(t_stack **stack, t_stack *new);
+void		ft_stackadd_front(t_stack **stack, t_stack *new);
 
 #endif
