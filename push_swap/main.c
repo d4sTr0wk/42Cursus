@@ -27,7 +27,7 @@ static int	initialize_args(int argc, char **argv, t_stack **a)
 		arg = ft_atoi(argv[i], &error);
 		if (arg == 0 && error == 1)
 			return (1);
-		ft_stackadd_back(a, ft_stacknew(arg));
+		ft_stackadd_back(a, ft_stacknew(arg, i));
 		i++;
 	}
 	assign_index(a);

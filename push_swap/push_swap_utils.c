@@ -12,11 +12,6 @@
 
 #include "push_swap.h"
 
-int	calc_cand(t_stack *a, t_stack *b)
-{
-
-}
-
 void	assign_index(t_stack **stack)
 {
 	int		cnt;

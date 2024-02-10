@@ -30,6 +30,7 @@ int	calc_cand(t_stack *a, t_stack *b, t_stack *tmp)
 			tmp = tmp->next;
 		i++;
 	}
+	return (0);
 }
 
 void	push_swap(t_stack **a)
@@ -37,9 +38,10 @@ void	push_swap(t_stack **a)
 	t_stack	*b;
 	t_stack	*tmp;
 	int	candidate_pos;
+	int	cnt;
 
 	b = NULL;
-	while ((!sorted(*a) && (*a)->index != 1) || b)
+	while ((!partially_sorted(*a) && (*a)->index != 1) || b)
 	{
 		if (ft_stacksize(*a) <= 3 && !partially_sorted(*a))
 		{
@@ -66,6 +68,11 @@ void	push_swap(t_stack **a)
 			}	
 		}
 	}
-	while ((*a)->index != 1)
-		ra(a);
+	if (!sorted(*a))
+	{
+		tmp = *a;
+		while (tmp->index != 1)
+			tmp = tmp->next;
+		
+	}
 }

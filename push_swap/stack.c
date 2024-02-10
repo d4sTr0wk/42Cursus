@@ -34,7 +34,7 @@ t_stack	*ft_stacklast(t_stack *stack)
 	return (stack);
 }
 
-t_stack	*ft_stacknew(int value)
+t_stack	*ft_stacknew(int value, int pos)
 {
 	t_stack	*stack;
 
@@ -43,6 +43,7 @@ t_stack	*ft_stacknew(int value)
 		return (NULL);
 	stack->value = value;
 	stack->index = 0;
+	stack->pos = pos;
 	stack->next = NULL;
 	return (stack);
 }
