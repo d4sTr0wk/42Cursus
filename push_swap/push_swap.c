@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:29:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/12 18:50:00 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/12 19:25:44 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,10 @@ void	push_swap(t_stack **a)
 	int		i;
 
 	b = NULL;
-	while ((!partially_sorted(*a) && (*a)->index != 1) || b)
+	while (!partially_sorted(*a) || b)
 	{
-		if (ft_stacksize(*a) <= 3 && !partially_sorted(*a))
-		{
-			if (!partially_sorted(*a))
-				sa(a);
-			if ((*a)->index < (*a)->next->index)
-				rra(a);
-			else
-				ra(a);
-		}
+		if (ft_stacksize(*a) <= 3)
+			sa(a);
 		else
 		{
 			if (!b)
@@ -50,7 +43,7 @@ void	push_swap(t_stack **a)
 		tmp = *a;
 		while (tmp->index != 1)
 			tmp = tmp->next;
-		if (tmp->pos > ft_stacksize(*a) - tmp->pos)
+		if (tmp->pos > ft_stacksize(*a) - tmp->pos + 1)
 		{
 			i = ft_stacksize(*a) - tmp->pos;
 			while ((i--) >= 0)

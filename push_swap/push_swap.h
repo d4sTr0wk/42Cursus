@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/12 18:16:01 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/12 19:06:02 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int     	partially_sorted(t_stack *stack);
 int		sorted(t_stack *stack);
 void		show_stack(t_stack *stack);
 int		ft_atoi(const char *nptr, int *error);
+void	assign_positions(t_stack **stack);
 
 // stack.c
 int     	ft_stacksize(t_stack *stack);

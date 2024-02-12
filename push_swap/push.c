@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:37:58 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/31 22:12:28 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/12 19:07:36 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	pa(t_stack **b, t_stack **a)
 		ft_stackadd_front(a, *b);
 		*b = tmp;
 	}
+	assign_positions(a);
+	assign_positions(b);
 	ft_printf("pa\n");
 }
 
@@ -35,5 +37,7 @@ void	pb(t_stack **a, t_stack **b)
 		ft_stackadd_front(b, *a);
 		*a = tmp;
 	}
+	assign_positions(a);
+	assign_positions(b);
 	ft_printf("pb\n");
 }

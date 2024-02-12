@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:11:19 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/12 18:35:57 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/12 19:19:20 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	partially_sorted(t_stack *stack)
 	tmp = stack;
 	while (stack->next)
 	{
-		if (!(stack->index < stack->next->index) && (stack->index > stack->next->index && !connected(stack, stack->index, stack->next->index)))
+		if ((stack->index != (stack->next->index - 1)) && (!connected(stack, stack->index, stack->next->index)))
 			return (0);
 		stack = stack->next;
 	}
@@ -83,7 +83,7 @@ void	show_stack(t_stack *stack)
 		ft_printf("%i\n", stack->value);
 		stack = stack->next;
 	}
-	ft_printf("-\na");
+	ft_printf("-\na\n");
 }
 
 int     ft_atoi(const char *nptr, int *error)
@@ -114,3 +114,16 @@ int     ft_atoi(const char *nptr, int *error)
         return ((int)(num * sign));
 }
 
+void	assign_positions(t_stack **stack)
+{
+	t_stack	*tmp;
+	int	i;
+
+	i = 1;
+	tmp = *stack;
+	while (tmp)
+	{
+		tmp->pos = i++;
+		tmp = tmp->next;
+	}
+}

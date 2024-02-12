@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:42:53 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/12 18:22:45 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/12 19:08:00 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ra(t_stack **a)
 		iterator = iterator->next;
 	iterator->next = tmp;
 	tmp->next = NULL;
+	assign_positions(a);
 	ft_printf("ra\n");
 }
 
@@ -39,6 +40,7 @@ void	rb(t_stack **b)
 		iterator = iterator->next;
 	iterator->next = tmp;
 	tmp->next = NULL;
+	assign_positions(b);
 	ft_printf("ra\n");
 }
 
