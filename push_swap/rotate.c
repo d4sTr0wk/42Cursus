@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:42:53 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/31 22:14:07 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/12 18:22:45 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	rb(t_stack **b)
 	t_stack	*tmp;
 	t_stack *iterator;
 
-	tmp = *a;
+	tmp = *b;
 	iterator = tmp->next;
-	*a = iterator;
+	*b = iterator;
 	while (iterator->next)
 		iterator = iterator->next;
 	iterator->next = tmp;

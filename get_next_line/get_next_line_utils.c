@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:00:59 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/17 11:31:06 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/01/25 20:03:56 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,15 @@ void	ft_strcpy(char **dst, const char *src)
 	else
 	{
 		*dst = (char *)malloc((ft_strlen(src) + 1) * sizeof(char));
-		i = -1;
-		while (src[++i] != '\n' && src[i] != '\0')
-			(*dst)[i] = src[i];
-		if (src[i] == '\n')
-			(*dst)[i++] = '\n';
-		(*dst)[i] = '\0';
+		if (*dst)
+		{
+			i = -1;
+			while (src[++i] != '\n' && src[i] != '\0')
+				(*dst)[i] = src[i];
+			if (src[i] == '\n')
+				(*dst)[i++] = '\n';
+			(*dst)[i] = '\0';
+		}
 	}
 }
 

@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 14:54:46 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/25 19:38:53 by maxgarci         ###   ########.fr       */
+/*   Created: 2023/09/19 19:28:09 by maxgarci          #+#    #+#             */
+/*   Updated: 2024/01/25 22:54:43 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include <stdarg.h>
-# include <stdlib.h>
+#ifndef LIBFT_H
+# define LIBFT_H
 # include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
 
-int		ft_printf(char const *str, ...);
-int		ft_putchar(char c);
-int		ft_putstr(char *str);
-int		ft_putnbr(long nbr);
-int		ft_puthex(char c, unsigned long long hex);
-int		ft_putptr(unsigned long long ptr);
-size_t	ft_strlen(const char *str);
+int		ft_atoi(const char *str);
 
 #endif

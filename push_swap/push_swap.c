@@ -6,39 +6,17 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:29:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/31 22:11:37 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/12 18:50:00 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	calc_cand(t_stack *a, t_stack *b, t_stack *tmp)
-{
-	int	i;
-	int	min_moves;
-	int	moves;
-	int	pos;
-
-	i = 0;
-	min_moves = 1;
-	while (i != 4 && ft_stacksize(a) - i > 3)
-	{
-		tmp = a;
-		while (tmp)
-		{
-
-			tmp = tmp->next;
-		i++;
-	}
-	return (0);
-}
-
 void	push_swap(t_stack **a)
 {
 	t_stack	*b;
 	t_stack	*tmp;
-	int	candidate_pos;
-	int	cnt;
+	int		i;
 
 	b = NULL;
 	while ((!partially_sorted(*a) && (*a)->index != 1) || b)
@@ -63,7 +41,6 @@ void	push_swap(t_stack **a)
 			}
 			else
 			{
-				candidate_pos = calc_cand(*a, b, tmp);
 
 			}	
 		}
@@ -73,6 +50,17 @@ void	push_swap(t_stack **a)
 		tmp = *a;
 		while (tmp->index != 1)
 			tmp = tmp->next;
-		
+		if (tmp->pos > ft_stacksize(*a) - tmp->pos)
+		{
+			i = ft_stacksize(*a) - tmp->pos;
+			while ((i--) >= 0)
+				rra(a);
+		}
+		else
+		{
+			i = tmp->pos;
+			while ((i--) != 1)
+				ra(a);
+		}
 	}
 }

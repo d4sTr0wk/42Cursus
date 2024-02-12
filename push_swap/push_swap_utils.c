@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:11:19 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/31 12:09:42 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/12 18:35:57 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	partially_sorted(t_stack *stack)
 	tmp = stack;
 	while (stack->next)
 	{
-		if (!(stack->index < stack->next->index) || (stack->index > stack->next->index && !connected(tmp, stack->index, stack->next->index)))
+		if (!(stack->index < stack->next->index) && (stack->index > stack->next->index && !connected(stack, stack->index, stack->next->index)))
 			return (0);
 		stack = stack->next;
 	}
@@ -69,7 +69,7 @@ int	sorted(t_stack *stack)
 	tam = ft_stacksize(stack);
 	while (stack->next)
 	{
-		if ((stack->index != (stack->next->index - 1)) && (stack->index != tam || stack->next->index != 1))
+		if (stack->index != stack->pos)
 			return (0);
 		stack = stack->next;
 	}

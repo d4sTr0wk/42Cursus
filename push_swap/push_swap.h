@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/31 22:15:16 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/12 18:16:01 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		ft_atoi(const char *nptr, int *error);
 // stack.c
 int     	ft_stacksize(t_stack *stack);
 t_stack 	*ft_stacklast(t_stack *stack);
-t_stack 	*ft_stacknew(int value);
+t_stack 	*ft_stacknew(int value, int pos);
 void		ft_stackadd_back(t_stack **stack, t_stack *new);
 void		ft_stackadd_front(t_stack **stack, t_stack *new);
 
