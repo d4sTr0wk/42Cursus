@@ -29,6 +29,7 @@ typedef struct s_stack
 int		main(int argc, char **argv);
 
 // push_swap.c
+void		calc_cand(t_stack *candidates, t_stack *solution, t_stack **above, t_stack **below, int conf);
 void		push_swap(t_stack **a);
 
 // switch.c

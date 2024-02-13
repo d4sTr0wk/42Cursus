@@ -50,12 +50,9 @@ static int	connected(t_stack *stack, int greatest, int lowest)
 
 int	partially_sorted(t_stack *stack)
 {
-	t_stack	*tmp;
-
-	tmp = stack;
 	while (stack->next)
 	{
-		if ((stack->index != (stack->next->index - 1)) && (!connected(stack, stack->index, stack->next->index)))
+		if ((stack->index > stack->next->index && !connected(stack, stack->index, stack->next->index)) || (stack->index < stack->next->index && stack->next->next && connected(stack, stack->next->index, stack->index)))
 			return (0);
 		stack = stack->next;
 	}
@@ -64,9 +61,6 @@ int	partially_sorted(t_stack *stack)
 
 int	sorted(t_stack *stack)
 {
-	int	tam;
-
-	tam = ft_stacksize(stack);
 	while (stack->next)
 	{
 		if (stack->index != stack->pos)

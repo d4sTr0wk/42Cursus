@@ -12,11 +12,11 @@
 
 #include "push_swap.h"
 
-void	pa(t_stack **b, t_stack **a)
+void	pa(t_stack **a, t_stack **b)
 {
 	t_stack *tmp;
 
-	if (b)
+	if (*b)
 	{
 		tmp = (*b)->next;
 		ft_stackadd_front(a, *b);
@@ -31,7 +31,7 @@ void	pb(t_stack **a, t_stack **b)
 {
 	t_stack *tmp;
 
-	if (a)
+	if (*a)
 	{
 		tmp = (*a)->next;
 		ft_stackadd_front(b, *a);
