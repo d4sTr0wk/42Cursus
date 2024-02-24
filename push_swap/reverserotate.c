@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:45:41 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/24 12:59:59 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/24 14:32:32 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	rra(t_stack **a, int *cnt_moves)
 	tmp->next = NULL;
 	assign_positions(a);
 	ft_printf("rra\n");
+	(*cnt_moves)++;
 }
 
 void	rrb(t_stack **b, int *cnt_moves)
@@ -38,6 +39,7 @@ void	rrb(t_stack **b, int *cnt_moves)
 	tmp->next = NULL;
 	assign_positions(b);
 	ft_printf("rrb\n");
+	(*cnt_moves)++;
 }
 
 void	rrr(t_stack **a, t_stack **b, int *cnt_moves)

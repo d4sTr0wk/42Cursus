@@ -6,11 +6,11 @@
 #    By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/28 18:22:03 by maxgarci          #+#    #+#              #
-#    Updated: 2024/01/29 01:58:57 by maxgarci         ###   ########.fr        #
+#    Updated: 2024/02/24 14:31:18 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = push_swap.c ft_atoi.c ft_printf.c ft_printf_utils_1.c ft_printf_utils_2.c
+SRCS = main.c push_swap.c push_swap_utils1.c push_swap_utils2.c stack.c swap.c push.c rotate.c reverserotate.c ft_printf.c ft_printf_utils_1.c ft_printf_utils_2.c
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
 
