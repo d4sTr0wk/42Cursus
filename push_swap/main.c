@@ -46,10 +46,7 @@ int	main(int argc, char **argv)
 		ft_printf("Error\n");
 		exit(-1);
 	}
-	show_stack(a);
+	ft_printf("Init a and b:\n");
 	push_swap(&a, &cnt_moves);
-	ft_printf("\n\nRESULTADO:\n");
-	show_stack(a);
-
-	exit(0);
+	return (0);
 }

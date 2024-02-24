@@ -24,7 +24,8 @@ void	pa(t_stack **a, t_stack **b, int *cnt_moves)
 	}
 	assign_positions(a);
 	assign_positions(b);
-	ft_printf("%i: pa\n", (*cnt_moves)++);
+	ft_printf("%i: Exec pa:\n", (*cnt_moves)++);
+	show_stack(*a, *b);
 }
 
 void	pb(t_stack **a, t_stack **b, int *cnt_moves)
@@ -39,5 +40,6 @@ void	pb(t_stack **a, t_stack **b, int *cnt_moves)
 	}
 	assign_positions(a);
 	assign_positions(b);
-	ft_printf("%i: pb\n", (*cnt_moves)++);
+	ft_printf("%i: Exec pb:\n", (*cnt_moves)++);
+	show_stack(*a, *b);
 }

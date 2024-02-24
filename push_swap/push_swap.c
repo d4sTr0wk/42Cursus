@@ -106,10 +106,11 @@ void	push_swap(t_stack **a, int *cnt_moves)
 	t_stack	*below;
 
 	b = NULL;
+	show_stack(*a, b);
 	while (!partially_sorted(*a) || b)
 	{
 		if (ft_stacksize(*a) <= 3 && !partially_sorted(*a))
-			sa(a, cnt_moves );
+			sa(a, b, cnt_moves );
 		else if (partially_sorted(*a) && b)
 		{
 			calc_cand(b, *a, &above, &below, 1);
@@ -120,14 +121,14 @@ void	push_swap(t_stack **a, int *cnt_moves)
 					while ((*a)->index != below->index)
 						rrr(a, &b, cnt_moves);
 					while (b->index != above->index)
-						rrb(&b, cnt_moves);
+						rrb(*a, &b, cnt_moves);
 				}		
 				else
 				{
 					while (b->index != above->index)
 						rrr(a, &b, cnt_moves);
 					while ((*a)->index != below->index)
-						rra(a, cnt_moves);	
+						rra(a, b, cnt_moves);	
 				}
 			}
 			else if (below->pos <= ft_stacksize(*a) - below->pos + 1 && above->pos <= ft_stacksize(b) - above->pos + 1)
@@ -137,29 +138,29 @@ void	push_swap(t_stack **a, int *cnt_moves)
 					while ((*a)->index != below->index)
 						rr(a, &b, cnt_moves);
 					while (b->index != above->index)
-						rb(&b, cnt_moves);
+						rb(*a, &b, cnt_moves);
 				}
 				else
 				{
 					while (b->index != above->index)
 						rr(a, &b, cnt_moves);
 					while ((*a)->index != below->index)
-						ra(a, cnt_moves);
+						ra(a, b, cnt_moves);
 				}
 			}
 			else if(below->pos > ft_stacksize(*a) - below->pos + 1 && above->pos <= ft_stacksize(b) - above->pos + 1)
 			{
 				while ((*a)->index != below->index)
-					rra(a, cnt_moves);
+					rra(a, b, cnt_moves);
 				while (b->index != above->index)
-					rb(&b, cnt_moves);
+					rb(*a, &b, cnt_moves);
 			}
 			else
 			{
 				while ((*a)->index != below->index)
-					ra(a, cnt_moves);
+					ra(a, b, cnt_moves);
 				while (b->index != above->index)
-					rrb(&b, cnt_moves);
+					rrb(*a, &b, cnt_moves);
 			}
 			pa(a, &b, cnt_moves);
 		}
@@ -170,7 +171,7 @@ void	push_swap(t_stack **a, int *cnt_moves)
 				pb(a, &b, cnt_moves);
 				pb(a, &b, cnt_moves);
 				if (b->index < b->next->index)
-					sb(&b, cnt_moves);
+					sb(*a, &b, cnt_moves);
 			}
 			else
 			{
@@ -182,14 +183,14 @@ void	push_swap(t_stack **a, int *cnt_moves)
 						while ((*a)->index != above->index)
 							rrr(a, &b, cnt_moves);
 						while (b->index != below->index)
-							rrb(&b, cnt_moves);
+							rrb(*a, &b, cnt_moves);
 					}
 					else
 					{
 						while (b->index != below->index)
 							rrr(a, &b, cnt_moves);
 						while ((*a)->index != above->index)
-							rra(a, cnt_moves);	
+							rra(a, b, cnt_moves);	
 					}
 				}
 				else if (above->pos <= ft_stacksize(*a) - above->pos + 1 && below->pos <= ft_stacksize(b) - below->pos + 1)
@@ -199,29 +200,29 @@ void	push_swap(t_stack **a, int *cnt_moves)
 						while ((*a)->index != above->index)
 							rr(a, &b, cnt_moves);
 						while (b->index != below->index)
-							rb(&b, cnt_moves);
+							rb(*a, &b, cnt_moves);
 					}
 					else
 					{
 						while (b->index != below->index)
 							rr(a, &b, cnt_moves);
 						while ((*a)->index != above->index)
-							ra(a, cnt_moves);
+							ra(a, b, cnt_moves);
 					}
 				}
 				else if(above->pos > ft_stacksize(*a) - above->pos + 1 && below->pos <= ft_stacksize(b) - below->pos + 1)
 				{
 					while ((*a)->index != above->index)
-						rra(a, cnt_moves);
+						rra(a, b, cnt_moves);
 					while (b->index != below->index)
-						rb(&b, cnt_moves);
+						rb(*a, &b, cnt_moves);
 				}
 				else
 				{
 					while ((*a)->index != above->index)
-						ra(a, cnt_moves);
+						ra(a, b, cnt_moves);
 					while (b->index != below->index)
-						rrb(&b, cnt_moves);
+						rrb(*a, &b, cnt_moves);
 				}
 				pb(a, &b, cnt_moves);
 			}	
@@ -236,13 +237,13 @@ void	push_swap(t_stack **a, int *cnt_moves)
 		{
 			i = ft_stacksize(*a) - tmp->pos;
 			while ((i--) >= 0)
-				rra(a, cnt_moves);
+				rra(a, b, cnt_moves);
 		}
 		else
 		{
 			i = tmp->pos;
 			while ((i--) != 1)
-				ra(a, cnt_moves);
+				ra(a, b, cnt_moves);
 		}
 	}
 }

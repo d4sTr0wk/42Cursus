@@ -70,14 +70,28 @@ int	sorted(t_stack *stack)
 	return (1);
 }
 
-void	show_stack(t_stack *stack)
+void	show_stack(t_stack *a, t_stack *b)
 {
-	while (stack)
+	while (a || b)
 	{
-		ft_printf("%i\n", stack->value);
-		stack = stack->next;
+		if (a)
+		{
+			ft_printf("%i", a->value);
+			a = a->next;
+		}
+		else
+			ft_printf(" ");
+		ft_printf(" ");
+		if (b)
+		{
+			ft_printf("%i", b->value);
+			b = b->next;
+		}
+		else
+			ft_printf(" ");
+		ft_printf("\n");
 	}
-	ft_printf("-\na\n");
+	ft_printf("- -\na b\n\n");
 }
 
 int     ft_atoi(const char *nptr, int *error)

@@ -33,28 +33,28 @@ void		calc_cand(t_stack *candidates, t_stack *solution, t_stack **above, t_stack
 void		push_swap(t_stack **a, int *cnt_moves);
 
 // switch.c
-void		sa(t_stack **a, int *cnt_moves);
-void		sb(t_stack **b, int *cnt_moves);
+void		sa(t_stack **a, t_stack *b, int *cnt_moves);
+void		sb(t_stack *a, t_stack **b, int *cnt_moves);
 
 // push.c
 void		pa(t_stack **b, t_stack **a, int *cnt_moves);
 void		pb(t_stack **a, t_stack **b, int *cnt_moves);
 
 // rotate.c
-void    	ra(t_stack **a, int *cnt_moves);
-void		rb(t_stack **b, int *cnt_moves);
+void    	ra(t_stack **a, t_stack *b, int *cnt_moves);
+void		rb(t_stack *a, t_stack **b, int *cnt_moves);
 void		rr(t_stack **a, t_stack **b, int *cnt_moves);
 
 // reverserotate.c
-void    	rra(t_stack **a, int *cnt_moves);
-void		rrb(t_stack **b, int *cnt_moves);
+void    	rra(t_stack **a, t_stack *b, int *cnt_moves);
+void		rrb(t_stack *a, t_stack **b, int *cnt_moves);
 void		rrr(t_stack **a, t_stack **b, int *cnt_moves);
 
 // push_swap_utils.c
 void		assign_index(t_stack **stack);
 int     	partially_sorted(t_stack *stack);
 int		sorted(t_stack *stack);
-void		show_stack(t_stack *stack);
+void		show_stack(t_stack *a, t_stack *b);
 int		ft_atoi(const char *nptr, int *error);
 void	assign_positions(t_stack **stack);
 
