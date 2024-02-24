@@ -97,7 +97,7 @@ void	calc_cand(t_stack *candidates, t_stack *solution, t_stack **above, t_stack 
 	}
 }
 
-void	push_swap(t_stack **a)
+void	push_swap(t_stack **a, int *cnt_moves)
 {
 	t_stack	*b;
 	t_stack	*tmp;
@@ -109,25 +109,25 @@ void	push_swap(t_stack **a)
 	while (!partially_sorted(*a) || b)
 	{
 		if (ft_stacksize(*a) <= 3 && !partially_sorted(*a))
-			sa(a);
+			sa(a, cnt_moves );
 		else if (partially_sorted(*a) && b)
 		{
 			calc_cand(b, *a, &above, &below, 1);
 			if (below->pos > ft_stacksize(*a) - below->pos + 1 && above->pos > ft_stacksize(b) - above->pos + 1)
 			{
-				if (ft_stacksize(b) > ft_stacksize(*a))
+				if (ft_stacksize(b) - above->index  > ft_stacksize(*a) - below->index)
 			       	{
 					while ((*a)->index != below->index)
-						rrr(a, &b);
+						rrr(a, &b, cnt_moves);
 					while (b->index != above->index)
-						rrb(&b);
+						rrb(&b, cnt_moves);
 				}		
 				else
 				{
 					while (b->index != above->index)
-						rrr(a, &b);
+						rrr(a, &b, cnt_moves);
 					while ((*a)->index != below->index)
-						rra(a);	
+						rra(a, cnt_moves);	
 				}
 			}
 			else if (below->pos <= ft_stacksize(*a) - below->pos + 1 && above->pos <= ft_stacksize(b) - above->pos + 1)
@@ -135,46 +135,95 @@ void	push_swap(t_stack **a)
 				if (above->pos > below->pos)
 				{
 					while ((*a)->index != below->index)
-						rr(a, &b);
+						rr(a, &b, cnt_moves);
 					while (b->index != above->index)
-						rb(&b);
+						rb(&b, cnt_moves);
 				}
 				else
 				{
 					while (b->index != above->index)
-						rr(a, &b);
+						rr(a, &b, cnt_moves);
 					while ((*a)->index != below->index)
-						ra(a);
+						ra(a, cnt_moves);
 				}
 			}
 			else if(below->pos > ft_stacksize(*a) - below->pos + 1 && above->pos <= ft_stacksize(b) - above->pos + 1)
 			{
 				while ((*a)->index != below->index)
-					rra(a);
+					rra(a, cnt_moves);
 				while (b->index != above->index)
-					rb(&b);
+					rb(&b, cnt_moves);
 			}
 			else
 			{
 				while ((*a)->index != below->index)
-					ra(a);
+					ra(a, cnt_moves);
 				while (b->index != above->index)
-					rrb(&b);
+					rrb(&b, cnt_moves);
 			}
-			pa(a, &b);
+			pa(a, &b, cnt_moves);
 		}
 		else
 		{
 			if (!b)
 			{
-				pb(a, &b);
-				pb(a, &b);
+				pb(a, &b, cnt_moves);
+				pb(a, &b, cnt_moves);
 				if (b->index < b->next->index)
-					sb(&b);
+					sb(&b, cnt_moves);
 			}
 			else
 			{
-
+				calc_cand(*a, b, &above, &below, 0);
+				if (above->pos > ft_stacksize(*a) - above->pos + 1 && below->pos > ft_stacksize(b) - below->pos + 1)
+				{
+					if (ft_stacksize(b) - below->pos > ft_stacksize(*a) - above->pos)
+				       	{
+						while ((*a)->index != above->index)
+							rrr(a, &b, cnt_moves);
+						while (b->index != below->index)
+							rrb(&b, cnt_moves);
+					}
+					else
+					{
+						while (b->index != below->index)
+							rrr(a, &b, cnt_moves);
+						while ((*a)->index != above->index)
+							rra(a, cnt_moves);	
+					}
+				}
+				else if (above->pos <= ft_stacksize(*a) - above->pos + 1 && below->pos <= ft_stacksize(b) - below->pos + 1)
+				{
+					if (below->pos > above->pos)
+					{
+						while ((*a)->index != above->index)
+							rr(a, &b, cnt_moves);
+						while (b->index != below->index)
+							rb(&b, cnt_moves);
+					}
+					else
+					{
+						while (b->index != below->index)
+							rr(a, &b, cnt_moves);
+						while ((*a)->index != above->index)
+							ra(a, cnt_moves);
+					}
+				}
+				else if(above->pos > ft_stacksize(*a) - above->pos + 1 && below->pos <= ft_stacksize(b) - below->pos + 1)
+				{
+					while ((*a)->index != above->index)
+						rra(a, cnt_moves);
+					while (b->index != below->index)
+						rb(&b, cnt_moves);
+				}
+				else
+				{
+					while ((*a)->index != above->index)
+						ra(a, cnt_moves);
+					while (b->index != below->index)
+						rrb(&b, cnt_moves);
+				}
+				pb(a, &b, cnt_moves);
 			}	
 		}
 	}
@@ -187,13 +236,13 @@ void	push_swap(t_stack **a)
 		{
 			i = ft_stacksize(*a) - tmp->pos;
 			while ((i--) >= 0)
-				rra(a);
+				rra(a, cnt_moves);
 		}
 		else
 		{
 			i = tmp->pos;
 			while ((i--) != 1)
-				ra(a);
+				ra(a, cnt_moves);
 		}
 	}
 }
