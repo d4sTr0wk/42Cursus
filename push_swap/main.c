@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:25:42 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/30 18:55:23 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/24 13:43:31 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	initialize_args(int argc, char **argv, t_stack **a)
 		arg = ft_atoi(argv[i], &error);
 		if (arg == 0 && error == 1)
 			return (1);
-		ft_stackadd_back(a, ft_stacknew(arg, i));
+		stackadd_back(a, stacknew(arg, i));
 		i++;
 	}
 	assign_index(a);
@@ -37,7 +37,7 @@ static int	initialize_args(int argc, char **argv, t_stack **a)
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
-	int	cnt_moves;
+	int		cnt_moves;
 
 	a = NULL;
 	cnt_moves = 1;
@@ -46,7 +46,6 @@ int	main(int argc, char **argv)
 		ft_printf("Error\n");
 		exit(-1);
 	}
-	ft_printf("Init a and b:\n");
 	push_swap(&a, &cnt_moves);
 	return (0);
 }

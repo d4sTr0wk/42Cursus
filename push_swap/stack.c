@@ -6,13 +6,13 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 11:22:12 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/01/30 13:59:24 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/24 13:43:06 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	ft_stacksize(t_stack *stack)
+int	stacksize(t_stack *stack)
 {
 	int	cnt;
 
@@ -25,7 +25,7 @@ int	ft_stacksize(t_stack *stack)
 	return (cnt);
 }
 
-t_stack	*ft_stacklast(t_stack *stack)
+t_stack	*stacklast(t_stack *stack)
 {
 	if (!stack)
 		return (NULL);
@@ -34,7 +34,7 @@ t_stack	*ft_stacklast(t_stack *stack)
 	return (stack);
 }
 
-t_stack	*ft_stacknew(int value, int pos)
+t_stack	*stacknew(int value, int pos)
 {
 	t_stack	*stack;
 
@@ -48,7 +48,7 @@ t_stack	*ft_stacknew(int value, int pos)
 	return (stack);
 }
 
-void	ft_stackadd_back(t_stack **stack, t_stack *new)
+void	stackadd_back(t_stack **stack, t_stack *new)
 {
 	t_stack	*tmp;
 
@@ -63,7 +63,7 @@ void	ft_stackadd_back(t_stack **stack, t_stack *new)
 	}
 }
 
-void	ft_stackadd_front(t_stack **stack, t_stack *new)
+void	stackadd_front(t_stack **stack, t_stack *new)
 {
 	if (stack && new)
 	{

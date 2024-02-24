@@ -6,16 +6,16 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:42:53 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/12 19:08:00 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/24 12:59:35 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	ra(t_stack **a, t_stack *b, int *cnt_moves)
+void	ra(t_stack **a, int *cnt_moves)
 {
 	t_stack	*tmp;
-	t_stack *iterator;
+	t_stack	*iterator;
 
 	tmp = *a;
 	iterator = tmp->next;
@@ -25,14 +25,13 @@ void	ra(t_stack **a, t_stack *b, int *cnt_moves)
 	iterator->next = tmp;
 	tmp->next = NULL;
 	assign_positions(a);
-	ft_printf("%i: Exec ra:\n", (*cnt_moves)++);
-	show_stack(*a, b);
+	ft_printf("ra\n");
 }
 
-void	rb(t_stack *a, t_stack **b, int *cnt_moves)
+void	rb(t_stack **b, int *cnt_moves)
 {
 	t_stack	*tmp;
-	t_stack *iterator;
+	t_stack	*iterator;
 
 	tmp = *b;
 	iterator = tmp->next;
@@ -42,12 +41,11 @@ void	rb(t_stack *a, t_stack **b, int *cnt_moves)
 	iterator->next = tmp;
 	tmp->next = NULL;
 	assign_positions(b);
-	ft_printf("%i: Exec ra:\n", (*cnt_moves)++);
-	show_stack(a, *b);
+	ft_printf("rb\n");
 }
 
 void	rr(t_stack **a, t_stack **b, int *cnt_moves)
 {
-	ra(a, *b, cnt_moves);
-	rb(*a, b, cnt_moves);
+	ra(a, cnt_moves);
+	rb(b, cnt_moves);
 }

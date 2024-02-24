@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:37:58 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/12 19:07:36 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/24 13:43:46 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,30 @@
 
 void	pa(t_stack **a, t_stack **b, int *cnt_moves)
 {
-	t_stack *tmp;
+	t_stack	*tmp;
 
 	if (*b)
 	{
 		tmp = (*b)->next;
-		ft_stackadd_front(a, *b);
+		stackadd_front(a, *b);
 		*b = tmp;
 	}
 	assign_positions(a);
 	assign_positions(b);
-	ft_printf("%i: Exec pa:\n", (*cnt_moves)++);
-	show_stack(*a, *b);
+	ft_printf("pa\n");
 }
 
 void	pb(t_stack **a, t_stack **b, int *cnt_moves)
 {
-	t_stack *tmp;
+	t_stack	*tmp;
 
 	if (*a)
 	{
 		tmp = (*a)->next;
-		ft_stackadd_front(b, *a);
+		stackadd_front(b, *a);
 		*a = tmp;
 	}
 	assign_positions(a);
 	assign_positions(b);
-	ft_printf("%i: Exec pb:\n", (*cnt_moves)++);
-	show_stack(*a, *b);
+	ft_printf("pb\n");
 }

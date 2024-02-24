@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:29:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/12 19:25:44 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/24 13:56:52 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 void	get_below(int above_index, t_stack **tmp_sol)
 {
 	t_stack	*tmp;
-	int check;
+	int		check;
 
 	tmp = *tmp_sol;
 	check = 0;
 	while (tmp)
 	{
-		if (above_index < tmp->index && (!check || (check && tmp->index < (*tmp_sol)->index)))
+		if (above_index < tmp->index && \
+				(!check || (check && tmp->index < (*tmp_sol)->index)))
 		{
 			check = 1;
 			*tmp_sol = tmp;
@@ -42,18 +43,18 @@ void	get_below(int above_index, t_stack **tmp_sol)
 
 void	calc_cand(t_stack *candidates, t_stack *solution, t_stack **above, t_stack **below, int conf)
 {
-	int	moves;
-	int	min_moves;
-	int	i;
+	int		moves;
+	int		min_moves;
+	int		i;
 	t_stack	*tmp_cand;
 	t_stack	*tmp_sol;
 
-	if (ft_stacksize(candidates) > ft_stacksize(solution))
-		min_moves = ft_stacksize(candidates) + 1;
+	if (stacksize(candidates) > stacksize(solution))
+		min_moves = stacksize(candidates) + 1;
 	else
-		min_moves = ft_stacksize(solution) + 1;
+		min_moves = stacksize(solution) + 1;
 	i = 0;
-	while (++i <= ft_stacksize(candidates))
+	while (++i <= stacksize(candidates))
 	{
 		moves = 0;
 		tmp_cand = candidates;
@@ -68,24 +69,27 @@ void	calc_cand(t_stack *candidates, t_stack *solution, t_stack **above, t_stack 
 			moves += 2;
 		else
 		{
-			if (tmp_sol->pos > ft_stacksize(solution) - tmp_sol->pos + 1 && tmp_cand->pos > ft_stacksize(candidates) - tmp_cand->pos + 1)
+			if (tmp_sol->pos > stacksize(solution) - tmp_sol->pos + 1 && \
+				tmp_cand->pos > stacksize(candidates) - tmp_cand->pos + 1)
 			{
-				if (ft_stacksize(candidates) > ft_stacksize(solution))
-			       		moves += ft_stacksize(candidates) - tmp_cand->pos + 1;	
+				if (stacksize(candidates) > stacksize(solution))
+					moves += stacksize(candidates) - tmp_cand->pos + 1;
 				else
-					moves += ft_stacksize(solution) - tmp_sol->pos + 1;
+					moves += stacksize(solution) - tmp_sol->pos + 1;
 			}
-			else if (tmp_sol->pos <= ft_stacksize(solution) - tmp_sol->pos + 1 && tmp_cand->pos <= ft_stacksize(candidates) - tmp_cand->pos + 1)
+			else if (tmp_sol->pos <= stacksize(solution) - tmp_sol->pos + 1 && \
+				tmp_cand->pos <= stacksize(candidates) - tmp_cand->pos + 1)
 			{
 				if (tmp_cand->pos > tmp_sol->pos)
 					moves += tmp_cand->pos - 1;
 				else
 					moves += tmp_sol->pos - 1;
 			}
-			else if(tmp_sol->pos > ft_stacksize(solution) - tmp_sol->pos + 1 && tmp_cand->pos <= ft_stacksize(candidates) - tmp_cand->pos + 1)
-				moves += tmp_cand->pos + ft_stacksize(solution) - tmp_sol->pos;
+			else if (tmp_sol->pos > stacksize(solution) - tmp_sol->pos + 1 && \
+					tmp_cand->pos <= stacksize(candidates) - tmp_cand->pos + 1)
+				moves += tmp_cand->pos + stacksize(solution) - tmp_sol->pos;
 			else
-				moves += tmp_sol->pos + ft_stacksize(candidates) - tmp_cand->pos;
+				moves += tmp_sol->pos + stacksize(candidates) - tmp_cand->pos;
 			moves += 1;
 		}
 		if (moves < min_moves)
@@ -101,66 +105,68 @@ void	push_swap(t_stack **a, int *cnt_moves)
 {
 	t_stack	*b;
 	t_stack	*tmp;
-	int	i;
 	t_stack	*above;
 	t_stack	*below;
+	int		i;
 
 	b = NULL;
-	show_stack(*a, b);
 	while (!partially_sorted(*a) || b)
 	{
-		if (ft_stacksize(*a) <= 3 && !partially_sorted(*a))
-			sa(a, b, cnt_moves );
+		if (stacksize(*a) <= 3 && !partially_sorted(*a))
+			sa(a, cnt_moves);
 		else if (partially_sorted(*a) && b)
 		{
 			calc_cand(b, *a, &above, &below, 1);
-			if (below->pos > ft_stacksize(*a) - below->pos + 1 && above->pos > ft_stacksize(b) - above->pos + 1)
+			if (below->pos > stacksize(*a) - below->pos + 1 && \
+					above->pos > stacksize(b) - above->pos + 1)
 			{
-				if (ft_stacksize(b) - above->index  > ft_stacksize(*a) - below->index)
-			       	{
+				if (stacksize(b) - above->index > stacksize(*a) - below->index)
+				{
 					while ((*a)->index != below->index)
 						rrr(a, &b, cnt_moves);
 					while (b->index != above->index)
-						rrb(*a, &b, cnt_moves);
-				}		
+						rrb(&b, cnt_moves);
+				}
 				else
 				{
 					while (b->index != above->index)
 						rrr(a, &b, cnt_moves);
 					while ((*a)->index != below->index)
-						rra(a, b, cnt_moves);	
+						rra(a, cnt_moves);
 				}
 			}
-			else if (below->pos <= ft_stacksize(*a) - below->pos + 1 && above->pos <= ft_stacksize(b) - above->pos + 1)
+			else if (below->pos <= stacksize(*a) - below->pos + 1 && \
+					above->pos <= stacksize(b) - above->pos + 1)
 			{
 				if (above->pos > below->pos)
 				{
 					while ((*a)->index != below->index)
 						rr(a, &b, cnt_moves);
 					while (b->index != above->index)
-						rb(*a, &b, cnt_moves);
+						rb(&b, cnt_moves);
 				}
 				else
 				{
 					while (b->index != above->index)
 						rr(a, &b, cnt_moves);
 					while ((*a)->index != below->index)
-						ra(a, b, cnt_moves);
+						ra(a, cnt_moves);
 				}
 			}
-			else if(below->pos > ft_stacksize(*a) - below->pos + 1 && above->pos <= ft_stacksize(b) - above->pos + 1)
+			else if (below->pos > stacksize(*a) - below->pos + 1 && \
+					above->pos <= stacksize(b) - above->pos + 1)
 			{
 				while ((*a)->index != below->index)
-					rra(a, b, cnt_moves);
+					rra(a, cnt_moves);
 				while (b->index != above->index)
-					rb(*a, &b, cnt_moves);
+					rb(&b, cnt_moves);
 			}
 			else
 			{
 				while ((*a)->index != below->index)
-					ra(a, b, cnt_moves);
+					ra(a, cnt_moves);
 				while (b->index != above->index)
-					rrb(*a, &b, cnt_moves);
+					rrb(&b, cnt_moves);
 			}
 			pa(a, &b, cnt_moves);
 		}
@@ -171,61 +177,64 @@ void	push_swap(t_stack **a, int *cnt_moves)
 				pb(a, &b, cnt_moves);
 				pb(a, &b, cnt_moves);
 				if (b->index < b->next->index)
-					sb(*a, &b, cnt_moves);
+					sb(&b, cnt_moves);
 			}
 			else
 			{
 				calc_cand(*a, b, &above, &below, 0);
-				if (above->pos > ft_stacksize(*a) - above->pos + 1 && below->pos > ft_stacksize(b) - below->pos + 1)
+				if (above->pos > stacksize(*a) - above->pos + 1 && \
+						below->pos > stacksize(b) - below->pos + 1)
 				{
-					if (ft_stacksize(b) - below->pos > ft_stacksize(*a) - above->pos)
-				       	{
+					if (stacksize(b) - below->pos > stacksize(*a) - above->pos)
+					{
 						while ((*a)->index != above->index)
 							rrr(a, &b, cnt_moves);
 						while (b->index != below->index)
-							rrb(*a, &b, cnt_moves);
+							rrb(&b, cnt_moves);
 					}
 					else
 					{
 						while (b->index != below->index)
 							rrr(a, &b, cnt_moves);
 						while ((*a)->index != above->index)
-							rra(a, b, cnt_moves);	
+							rra(a, cnt_moves);
 					}
 				}
-				else if (above->pos <= ft_stacksize(*a) - above->pos + 1 && below->pos <= ft_stacksize(b) - below->pos + 1)
+				else if (above->pos <= stacksize(*a) - above->pos + 1 && \
+						below->pos <= stacksize(b) - below->pos + 1)
 				{
 					if (below->pos > above->pos)
 					{
 						while ((*a)->index != above->index)
 							rr(a, &b, cnt_moves);
 						while (b->index != below->index)
-							rb(*a, &b, cnt_moves);
+							rb(&b, cnt_moves);
 					}
 					else
 					{
 						while (b->index != below->index)
 							rr(a, &b, cnt_moves);
 						while ((*a)->index != above->index)
-							ra(a, b, cnt_moves);
+							ra(a, cnt_moves);
 					}
 				}
-				else if(above->pos > ft_stacksize(*a) - above->pos + 1 && below->pos <= ft_stacksize(b) - below->pos + 1)
+				else if (above->pos > stacksize(*a) - above->pos + 1 && \
+						below->pos <= stacksize(b) - below->pos + 1)
 				{
 					while ((*a)->index != above->index)
-						rra(a, b, cnt_moves);
+						rra(a, cnt_moves);
 					while (b->index != below->index)
-						rb(*a, &b, cnt_moves);
+						rb(&b, cnt_moves);
 				}
 				else
 				{
 					while ((*a)->index != above->index)
-						ra(a, b, cnt_moves);
+						ra(a, cnt_moves);
 					while (b->index != below->index)
-						rrb(*a, &b, cnt_moves);
+						rrb(&b, cnt_moves);
 				}
 				pb(a, &b, cnt_moves);
-			}	
+			}
 		}
 	}
 	if (!sorted(*a))
@@ -233,17 +242,17 @@ void	push_swap(t_stack **a, int *cnt_moves)
 		tmp = *a;
 		while (tmp->index != 1)
 			tmp = tmp->next;
-		if (tmp->pos > ft_stacksize(*a) - tmp->pos + 1)
+		if (tmp->pos > stacksize(*a) - tmp->pos + 1)
 		{
-			i = ft_stacksize(*a) - tmp->pos;
+			i = stacksize(*a) - tmp->pos;
 			while ((i--) >= 0)
-				rra(a, b, cnt_moves);
+				rra(a, cnt_moves);
 		}
 		else
 		{
 			i = tmp->pos;
 			while ((i--) != 1)
-				ra(a, b, cnt_moves);
+				ra(a, cnt_moves);
 		}
 	}
 }
