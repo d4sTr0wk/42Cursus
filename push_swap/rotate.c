@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	ra(t_stack **a)
+void	ra(t_stack **a, t_stack *b, int *cnt_moves)
 {
 	t_stack	*tmp;
 	t_stack *iterator;
@@ -25,10 +25,11 @@ void	ra(t_stack **a)
 	iterator->next = tmp;
 	tmp->next = NULL;
 	assign_positions(a);
-	ft_printf("ra\n");
+	ft_printf("%i: Exec ra:\n", (*cnt_moves)++);
+	show_stack(*a, b);
 }
 
-void	rb(t_stack **b)
+void	rb(t_stack *a, t_stack **b, int *cnt_moves)
 {
 	t_stack	*tmp;
 	t_stack *iterator;
@@ -41,11 +42,12 @@ void	rb(t_stack **b)
 	iterator->next = tmp;
 	tmp->next = NULL;
 	assign_positions(b);
-	ft_printf("ra\n");
+	ft_printf("%i: Exec ra:\n", (*cnt_moves)++);
+	show_stack(a, *b);
 }
 
-void	rr(t_stack **a, t_stack **b)
+void	rr(t_stack **a, t_stack **b, int *cnt_moves)
 {
-	ra(a);
-	rb(b);
+	ra(a, *b, cnt_moves);
+	rb(*a, b, cnt_moves);
 }

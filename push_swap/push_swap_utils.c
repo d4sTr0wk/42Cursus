@@ -50,12 +50,9 @@ static int	connected(t_stack *stack, int greatest, int lowest)
 
 int	partially_sorted(t_stack *stack)
 {
-	t_stack	*tmp;
-
-	tmp = stack;
 	while (stack->next)
 	{
-		if ((stack->index != (stack->next->index - 1)) && (!connected(stack, stack->index, stack->next->index)))
+		if ((stack->index > stack->next->index && !connected(stack, stack->index, stack->next->index)) || (stack->index < stack->next->index && stack->next->next && connected(stack, stack->next->index, stack->index)))
 			return (0);
 		stack = stack->next;
 	}
@@ -64,9 +61,6 @@ int	partially_sorted(t_stack *stack)
 
 int	sorted(t_stack *stack)
 {
-	int	tam;
-
-	tam = ft_stacksize(stack);
 	while (stack->next)
 	{
 		if (stack->index != stack->pos)
@@ -76,14 +70,28 @@ int	sorted(t_stack *stack)
 	return (1);
 }
 
-void	show_stack(t_stack *stack)
+void	show_stack(t_stack *a, t_stack *b)
 {
-	while (stack)
+	while (a || b)
 	{
-		ft_printf("%i\n", stack->value);
-		stack = stack->next;
+		if (a)
+		{
+			ft_printf("%i", a->value);
+			a = a->next;
+		}
+		else
+			ft_printf(" ");
+		ft_printf(" ");
+		if (b)
+		{
+			ft_printf("%i", b->value);
+			b = b->next;
+		}
+		else
+			ft_printf(" ");
+		ft_printf("\n");
 	}
-	ft_printf("-\na\n");
+	ft_printf("- -\na b\n\n");
 }
 
 int     ft_atoi(const char *nptr, int *error)

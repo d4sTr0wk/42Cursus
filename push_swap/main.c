@@ -37,17 +37,16 @@ static int	initialize_args(int argc, char **argv, t_stack **a)
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
+	int	cnt_moves;
 
 	a = NULL;
+	cnt_moves = 1;
 	if (initialize_args(argc, argv, &a))
 	{
 		ft_printf("Error\n");
 		exit(-1);
 	}
-	show_stack(a);
-	push_swap(&a);
-	ft_printf("\n\nRESULTADO:\n");
-	show_stack(a);
-
-	exit(0);
+	ft_printf("Init a and b:\n");
+	push_swap(&a, &cnt_moves);
+	return (0);
 }

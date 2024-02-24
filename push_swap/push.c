@@ -12,11 +12,11 @@
 
 #include "push_swap.h"
 
-void	pa(t_stack **b, t_stack **a)
+void	pa(t_stack **a, t_stack **b, int *cnt_moves)
 {
 	t_stack *tmp;
 
-	if (b)
+	if (*b)
 	{
 		tmp = (*b)->next;
 		ft_stackadd_front(a, *b);
@@ -24,14 +24,15 @@ void	pa(t_stack **b, t_stack **a)
 	}
 	assign_positions(a);
 	assign_positions(b);
-	ft_printf("pa\n");
+	ft_printf("%i: Exec pa:\n", (*cnt_moves)++);
+	show_stack(*a, *b);
 }
 
-void	pb(t_stack **a, t_stack **b)
+void	pb(t_stack **a, t_stack **b, int *cnt_moves)
 {
 	t_stack *tmp;
 
-	if (a)
+	if (*a)
 	{
 		tmp = (*a)->next;
 		ft_stackadd_front(b, *a);
@@ -39,5 +40,6 @@ void	pb(t_stack **a, t_stack **b)
 	}
 	assign_positions(a);
 	assign_positions(b);
-	ft_printf("pb\n");
+	ft_printf("%i: Exec pb:\n", (*cnt_moves)++);
+	show_stack(*a, *b);
 }
