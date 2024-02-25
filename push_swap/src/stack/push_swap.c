@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:29:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/25 15:46:26 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/25 20:49:35 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,57 +107,17 @@ void	next_move(t_stack **cands, t_stack **sol, int conf)
 	t_stack	*below;
 
 	calc_cand(*cands, *sol, &above, &below, conf);
-	if (below->pos > stacksize(*sol) - below->pos + 1 && \
-			above->pos > stacksize(*cands) - above->pos + 1)
-	{
-		if (stacksize(*cands) - above->index > stacksize(*sol) - below->index)
-		{
-			while ((*sol)->index != below->index)
-				rrr(sol, cands);
-			while ((*cands)->index != above->index)
-				rrb(cands);
-		}
-		else
-		{
-			while ((*cands)->index != above->index)
-				rrr(sol, cands);
-			while ((*sol)->index != below->index)
-				rra(sol);
-		}
-	}
-	else if (below->pos <= stacksize(*sol) - below->pos + 1 && \
-			above->pos <= stacksize(*cands) - above->pos + 1)
-	{
-		if (above->pos > below->pos)
-		{
-			while ((*sol)->index != below->index)
-				rr(sol, cands);
-			while ((*cands)->index != above->index)
-				rb(cands);
-		}
-		else
-		{
-			while ((*cands)->index != above->index)
-				rr(sol, cands);
-			while ((*sol)->index != below->index)
-				ra(sol);
-		}
-	}
-	else if (below->pos > stacksize(*sol) - below->pos + 1 && \
-			above->pos <= stacksize(*cands) - above->pos + 1)
-	{
-		while ((*sol)->index != below->index)
-			rra(sol);
-		while ((*cands)->index != above->index)
-			rb(cands);
-	}
+	if (above->pos > stacksize(*cands) - above->pos + 1 && \
+			below->pos > stacksize(*sol) - below->pos + 1)
+		both_dwn(cands, sol, above, below);
+	else if (above->pos <= stacksize(*cands) - above->pos + 1 && \
+			below->pos <= stacksize(*sol) - below->pos + 1)
+		both_up(cands, sol, above, below);
+	else if (above->pos <= stacksize(*cands) - above->pos + 1 && \
+			below->pos > stacksize(*sol) - below->pos + 1)
+		up_down(cands, sol, above, below);
 	else
-	{
-		while ((*sol)->index != below->index)
-			ra(sol);
-		while ((*cands)->index != above->index)
-			rrb(cands);
-	}
+		down_up(cands, sol, above, below);
 	if (conf)
 		pa(sol, cands);
 	else
@@ -167,7 +127,7 @@ void	next_move(t_stack **cands, t_stack **sol, int conf)
 void	sort_stack(t_stack **a)
 {
 	t_stack	*tmp;
-	int	i;
+	int		i;
 
 	if (!sorted(*a))
 	{

@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/25 15:44:40 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/25 20:51:58 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ void		calc_cand(t_stack *candidates, t_stack *solution, t_stack **above, t_stack
 void		next_move(t_stack **cands, t_stack **sol, int conf);
 void		sort_stack(t_stack **a);
 void		push_swap(t_stack **a, t_stack **b);
+
+// next_move_utils.c
+void		both_dwn(t_stack **cands, t_stack **sol, t_stack *ab, t_stack *bel);
+void		both_up(t_stack **cands, t_stack **sol, t_stack *ab, t_stack *bel);
+void		up_down(t_stack **cands, t_stack **sol, t_stack *ab, t_stack *bel);
+void		down_up(t_stack **cands, t_stack **sol, t_stack *ab, t_stack *bel);
 
 // swap.c
 void		sa(t_stack **a);

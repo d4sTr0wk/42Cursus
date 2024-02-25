@@ -6,7 +6,7 @@
 #    By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/28 18:22:03 by maxgarci          #+#    #+#              #
-#    Updated: 2024/02/25 15:27:08 by maxgarci         ###   ########.fr        #
+#    Updated: 2024/02/25 20:55:30 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ FT_PRINTF_DIR = ft_printf
 FT_PRINTF = $(FT_PRINTF_DIR)/libftprintf.a
 INCLUDES = -I . -I include -I ft_printf
 
-COMMON_SRCS = src/stack/stack.c src/stack/push.c src/stack/swap.c src/stack/rotate.c src/stack/reverserotate.c src/stack/push_swap.c src/stack/push_swap_utils1.c src/stack/push_swap_utils2.c
+COMMON_SRCS = src/stack/stack.c src/stack/push.c src/stack/swap.c src/stack/rotate.c src/stack/reverserotate.c src/stack/push_swap.c src/stack/next_move_utils.c src/stack/push_swap_utils1.c src/stack/push_swap_utils2.c
 PUSH_SWAP_SRCS = $(COMMON_SRCS) src/main.c
 PUSH_SWAP_OBJS = $(PUSH_SWAP_SRCS:.c=.o)
 
