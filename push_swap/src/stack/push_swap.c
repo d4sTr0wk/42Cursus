@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:29:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/24 13:56:52 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/25 15:37:23 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	calc_cand(t_stack *candidates, t_stack *solution, t_stack **above, t_stack 
 			if (tmp_sol->pos > stacksize(solution) - tmp_sol->pos + 1 && \
 				tmp_cand->pos > stacksize(candidates) - tmp_cand->pos + 1)
 			{
-				if (stacksize(candidates) > stacksize(solution))
+				if (stacksize(candidates) - tmp_cand->pos > stacksize(solution) - tmp_sol->pos)
 					moves += stacksize(candidates) - tmp_cand->pos + 1;
 				else
 					moves += stacksize(solution) - tmp_sol->pos + 1;
@@ -101,140 +101,91 @@ void	calc_cand(t_stack *candidates, t_stack *solution, t_stack **above, t_stack 
 	}
 }
 
-void	push_swap(t_stack **a, int *cnt_moves)
+void	next_move(t_stack **cands, t_stack **sol, int conf)
 {
-	t_stack	*b;
-	t_stack	*tmp;
 	t_stack	*above;
 	t_stack	*below;
-	int		i;
 
-	b = NULL;
-	while (!partially_sorted(*a) || b)
+	calc_cand(*cands, *sol, &above, &below, conf);
+	if (below->pos > stacksize(*sol) - below->pos + 1 && \
+			above->pos > stacksize(*cands) - above->pos + 1)
 	{
-		if (stacksize(*a) <= 3 && !partially_sorted(*a))
-			sa(a, cnt_moves);
-		else if (partially_sorted(*a) && b)
+		if (stacksize(*cands) - above->index > stacksize(*sol) - below->index)
 		{
-			calc_cand(b, *a, &above, &below, 1);
-			if (below->pos > stacksize(*a) - below->pos + 1 && \
-					above->pos > stacksize(b) - above->pos + 1)
-			{
-				if (stacksize(b) - above->index > stacksize(*a) - below->index)
-				{
-					while ((*a)->index != below->index)
-						rrr(a, &b, cnt_moves);
-					while (b->index != above->index)
-						rrb(&b, cnt_moves);
-				}
-				else
-				{
-					while (b->index != above->index)
-						rrr(a, &b, cnt_moves);
-					while ((*a)->index != below->index)
-						rra(a, cnt_moves);
-				}
-			}
-			else if (below->pos <= stacksize(*a) - below->pos + 1 && \
-					above->pos <= stacksize(b) - above->pos + 1)
-			{
-				if (above->pos > below->pos)
-				{
-					while ((*a)->index != below->index)
-						rr(a, &b, cnt_moves);
-					while (b->index != above->index)
-						rb(&b, cnt_moves);
-				}
-				else
-				{
-					while (b->index != above->index)
-						rr(a, &b, cnt_moves);
-					while ((*a)->index != below->index)
-						ra(a, cnt_moves);
-				}
-			}
-			else if (below->pos > stacksize(*a) - below->pos + 1 && \
-					above->pos <= stacksize(b) - above->pos + 1)
-			{
-				while ((*a)->index != below->index)
-					rra(a, cnt_moves);
-				while (b->index != above->index)
-					rb(&b, cnt_moves);
-			}
-			else
-			{
-				while ((*a)->index != below->index)
-					ra(a, cnt_moves);
-				while (b->index != above->index)
-					rrb(&b, cnt_moves);
-			}
-			pa(a, &b, cnt_moves);
+			while ((*sol)->index != below->index)
+				rrr(sol, cands);
+			while ((*cands)->index != above->index)
+				rrb(cands);
 		}
 		else
 		{
-			if (!b)
+			while ((*cands)->index != above->index)
+				rrr(sol, cands);
+			while ((*sol)->index != below->index)
+				rra(sol);
+		}
+	}
+	else if (below->pos <= stacksize(*sol) - below->pos + 1 && \
+			above->pos <= stacksize(*cands) - above->pos + 1)
+	{
+		if (above->pos > below->pos)
+		{
+			while ((*sol)->index != below->index)
+				rr(sol, cands);
+			while ((*cands)->index != above->index)
+				rb(cands);
+		}
+		else
+		{
+			while ((*cands)->index != above->index)
+				rr(sol, cands);
+			while ((*sol)->index != below->index)
+				ra(sol);
+		}
+	}
+	else if (below->pos > stacksize(*sol) - below->pos + 1 && \
+			above->pos <= stacksize(*cands) - above->pos + 1)
+	{
+		while ((*sol)->index != below->index)
+			rra(sol);
+		while ((*cands)->index != above->index)
+			rb(cands);
+	}
+	else
+	{
+		while ((*sol)->index != below->index)
+			ra(sol);
+		while ((*cands)->index != above->index)
+			rrb(cands);
+	}
+	if (conf)
+		pa(sol, cands);
+	else
+		pb(cands, sol);
+}
+
+void	push_swap(t_stack **a, t_stack **b)
+{
+	t_stack	*tmp;
+	int		i;
+
+	while (!partially_sorted(*a) || *b)
+	{
+		if (stacksize(*a) <= 3 && !partially_sorted(*a))
+			sa(a);
+		else if (partially_sorted(*a) && *b)
+			next_move(b, a, 1);
+		else
+		{
+			if (!(*b))
 			{
-				pb(a, &b, cnt_moves);
-				pb(a, &b, cnt_moves);
-				if (b->index < b->next->index)
-					sb(&b, cnt_moves);
+				pb(a, b);
+				pb(a, b);
+				if ((*b)->index < (*b)->next->index)
+					sb(b);
 			}
 			else
-			{
-				calc_cand(*a, b, &above, &below, 0);
-				if (above->pos > stacksize(*a) - above->pos + 1 && \
-						below->pos > stacksize(b) - below->pos + 1)
-				{
-					if (stacksize(b) - below->pos > stacksize(*a) - above->pos)
-					{
-						while ((*a)->index != above->index)
-							rrr(a, &b, cnt_moves);
-						while (b->index != below->index)
-							rrb(&b, cnt_moves);
-					}
-					else
-					{
-						while (b->index != below->index)
-							rrr(a, &b, cnt_moves);
-						while ((*a)->index != above->index)
-							rra(a, cnt_moves);
-					}
-				}
-				else if (above->pos <= stacksize(*a) - above->pos + 1 && \
-						below->pos <= stacksize(b) - below->pos + 1)
-				{
-					if (below->pos > above->pos)
-					{
-						while ((*a)->index != above->index)
-							rr(a, &b, cnt_moves);
-						while (b->index != below->index)
-							rb(&b, cnt_moves);
-					}
-					else
-					{
-						while (b->index != below->index)
-							rr(a, &b, cnt_moves);
-						while ((*a)->index != above->index)
-							ra(a, cnt_moves);
-					}
-				}
-				else if (above->pos > stacksize(*a) - above->pos + 1 && \
-						below->pos <= stacksize(b) - below->pos + 1)
-				{
-					while ((*a)->index != above->index)
-						rra(a, cnt_moves);
-					while (b->index != below->index)
-						rb(&b, cnt_moves);
-				}
-				else
-				{
-					while ((*a)->index != above->index)
-						ra(a, cnt_moves);
-					while (b->index != below->index)
-						rrb(&b, cnt_moves);
-				}
-				pb(a, &b, cnt_moves);
-			}
+				next_move(a, b, 0);
 		}
 	}
 	if (!sorted(*a))
@@ -246,13 +197,13 @@ void	push_swap(t_stack **a, int *cnt_moves)
 		{
 			i = stacksize(*a) - tmp->pos;
 			while ((i--) >= 0)
-				rra(a, cnt_moves);
+				rra(a);
 		}
 		else
 		{
 			i = tmp->pos;
 			while ((i--) != 1)
-				ra(a, cnt_moves);
+				ra(a);
 		}
 	}
 }
