@@ -6,11 +6,11 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:25:42 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/24 13:43:31 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/25 10:43:47 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "include/include.h"
 
 static int	initialize_args(int argc, char **argv, t_stack **a)
 {
