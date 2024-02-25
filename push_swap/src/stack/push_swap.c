@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:29:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/25 15:37:23 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/25 15:46:26 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,11 +164,34 @@ void	next_move(t_stack **cands, t_stack **sol, int conf)
 		pb(cands, sol);
 }
 
-void	push_swap(t_stack **a, t_stack **b)
+void	sort_stack(t_stack **a)
 {
 	t_stack	*tmp;
-	int		i;
+	int	i;
 
+	if (!sorted(*a))
+	{
+		tmp = *a;
+		while (tmp->index != 1)
+			tmp = tmp->next;
+		if (tmp->pos > stacksize(*a) - tmp->pos + 1)
+		{
+			i = stacksize(*a) - tmp->pos;
+			while ((i--) >= 0)
+				rra(a);
+		}
+		else
+		{
+			i = tmp->pos;
+			while ((i--) != 1)
+				ra(a);
+		}
+	}
+}
+
+
+void	push_swap(t_stack **a, t_stack **b)
+{
 	while (!partially_sorted(*a) || *b)
 	{
 		if (stacksize(*a) <= 3 && !partially_sorted(*a))
@@ -188,22 +211,5 @@ void	push_swap(t_stack **a, t_stack **b)
 				next_move(a, b, 0);
 		}
 	}
-	if (!sorted(*a))
-	{
-		tmp = *a;
-		while (tmp->index != 1)
-			tmp = tmp->next;
-		if (tmp->pos > stacksize(*a) - tmp->pos + 1)
-		{
-			i = stacksize(*a) - tmp->pos;
-			while ((i--) >= 0)
-				rra(a);
-		}
-		else
-		{
-			i = tmp->pos;
-			while ((i--) != 1)
-				ra(a);
-		}
-	}
+	sort_stack(a);
 }
