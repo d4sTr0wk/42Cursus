@@ -1,49 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reverserotate.c                                    :+:      :+:    :+:   */
+/*   rotate.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/29 17:45:41 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/24 14:32:32 by maxgarci         ###   ########.fr       */
+/*   Created: 2024/01/29 17:42:53 by maxgarci          #+#    #+#             */
+/*   Updated: 2024/02/25 14:38:28 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	rra(t_stack **a, int *cnt_moves)
+void	ra(t_stack **a)
 {
 	t_stack	*tmp;
+	t_stack	*iterator;
 
 	tmp = *a;
-	while (tmp->next->next)
-		tmp = tmp->next;
-	tmp->next->next = *a;
-	*a = tmp->next;
+	iterator = tmp->next;
+	*a = iterator;
+	while (iterator->next)
+		iterator = iterator->next;
+	iterator->next = tmp;
 	tmp->next = NULL;
 	assign_positions(a);
-	ft_printf("rra\n");
-	(*cnt_moves)++;
+	ft_printf("ra\n");
 }
 
-void	rrb(t_stack **b, int *cnt_moves)
+void	rb(t_stack **b)
 {
 	t_stack	*tmp;
+	t_stack	*iterator;
 
 	tmp = *b;
-	while (tmp->next->next)
-		tmp = tmp->next;
-	tmp->next->next = *b;
-	*b = tmp->next;
+	iterator = tmp->next;
+	*b = iterator;
+	while (iterator->next)
+		iterator = iterator->next;
+	iterator->next = tmp;
 	tmp->next = NULL;
 	assign_positions(b);
-	ft_printf("rrb\n");
-	(*cnt_moves)++;
+	ft_printf("rb\n");
 }
 
-void	rrr(t_stack **a, t_stack **b, int *cnt_moves)
+void	rr(t_stack **a, t_stack **b)
 {
-	rra(a, cnt_moves);
-	rrb(b, cnt_moves);
+	ra(a);
+	rb(b);
 }

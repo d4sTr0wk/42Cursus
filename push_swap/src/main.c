@@ -6,11 +6,11 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:25:42 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/24 13:43:31 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/25 15:38:31 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "include/include.h"
 
 static int	initialize_args(int argc, char **argv, t_stack **a)
 {
@@ -37,15 +37,16 @@ static int	initialize_args(int argc, char **argv, t_stack **a)
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
-	int		cnt_moves;
+	t_stack	*b;
 
 	a = NULL;
-	cnt_moves = 1;
+	b = NULL;
 	if (initialize_args(argc, argv, &a))
 	{
 		ft_printf("Error\n");
 		exit(-1);
 	}
-	push_swap(&a, &cnt_moves);
+	push_swap(&a, &b);
+	show_stack(a, b);
 	return (0);
 }
