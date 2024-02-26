@@ -6,15 +6,15 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:29:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/25 20:49:35 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:50:22 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	get_below(int above_index, t_stack **tmp_sol)
+void	get_below(int above_index, t_stk **tmp_sol)
 {
-	t_stack	*tmp;
+	t_stk	*tmp;
 	int		check;
 
 	tmp = *tmp_sol;
@@ -41,80 +41,83 @@ void	get_below(int above_index, t_stack **tmp_sol)
 	}
 }
 
-void	calc_cand(t_stack *candidates, t_stack *solution, t_stack **above, t_stack **below, int conf)
+int	calc_mvs(int cands, int sol, t_stk *t_sol, t_stk *t_cand)
+{
+	int	moves;
+
+	moves = 0;
+	if (t_sol->pos > sol - t_sol->pos + 1 && \
+		t_cand->pos > cands - t_cand->pos + 1)
+	{
+		if (cands - t_cand->pos > sol - t_sol->pos)
+			moves += cands - t_cand->pos + 1;
+		else
+			moves += sol - t_sol->pos + 1;
+	}
+	else if (t_sol->pos <= sol - t_sol->pos + 1 && \
+		t_cand->pos <= cands - t_cand->pos + 1)
+	{
+		if (t_cand->pos > t_sol->pos)
+			moves += t_cand->pos - 1;
+		else
+			moves += t_sol->pos - 1;
+	}
+	else if (t_sol->pos > sol - t_sol->pos + 1 && \
+			t_cand->pos <= cands - t_cand->pos + 1)
+		moves += t_cand->pos + sol - t_sol->pos;
+	else
+		moves += t_sol->pos + cands - t_cand->pos;
+	return (moves + 1);
+}
+
+void	calc_cand(t_stk *cands, t_stk *sol, t_stk **above, t_stk **below, int conf)
 {
 	int		moves;
 	int		min_moves;
 	int		i;
-	t_stack	*tmp_cand;
-	t_stack	*tmp_sol;
+	t_stk	*t_cand;
+	t_stk	*t_sol;
 
-	if (stacksize(candidates) > stacksize(solution))
-		min_moves = stacksize(candidates) + 1;
+	if (stksize(cands) > stksize(sol))
+		min_moves = stksize(cands) + 1;
 	else
-		min_moves = stacksize(solution) + 1;
+		min_moves = stksize(sol) + 1;
 	i = 0;
-	while (++i <= stacksize(candidates))
+	while (++i <= stksize(cands))
 	{
 		moves = 0;
-		tmp_cand = candidates;
-		while (tmp_cand->pos != i)
-			tmp_cand = tmp_cand->next;
-		tmp_sol = solution;
-		while (tmp_sol->next && tmp_cand->index < tmp_sol->index && !conf)
-			tmp_sol = tmp_sol->next;
+		t_cand = cands;
+		while (t_cand->pos != i)
+			t_cand = t_cand->next;
+		t_sol = sol;
+		while (t_sol->next && t_cand->index < t_sol->index && !conf)
+			t_sol = t_sol->next;
 		if (conf)
-			get_below(tmp_cand->index, &tmp_sol);
-		if (!tmp_sol->next)
-			moves += 2;
-		else
-		{
-			if (tmp_sol->pos > stacksize(solution) - tmp_sol->pos + 1 && \
-				tmp_cand->pos > stacksize(candidates) - tmp_cand->pos + 1)
-			{
-				if (stacksize(candidates) - tmp_cand->pos > stacksize(solution) - tmp_sol->pos)
-					moves += stacksize(candidates) - tmp_cand->pos + 1;
-				else
-					moves += stacksize(solution) - tmp_sol->pos + 1;
-			}
-			else if (tmp_sol->pos <= stacksize(solution) - tmp_sol->pos + 1 && \
-				tmp_cand->pos <= stacksize(candidates) - tmp_cand->pos + 1)
-			{
-				if (tmp_cand->pos > tmp_sol->pos)
-					moves += tmp_cand->pos - 1;
-				else
-					moves += tmp_sol->pos - 1;
-			}
-			else if (tmp_sol->pos > stacksize(solution) - tmp_sol->pos + 1 && \
-					tmp_cand->pos <= stacksize(candidates) - tmp_cand->pos + 1)
-				moves += tmp_cand->pos + stacksize(solution) - tmp_sol->pos;
-			else
-				moves += tmp_sol->pos + stacksize(candidates) - tmp_cand->pos;
-			moves += 1;
-		}
+			get_below(t_cand->index, &t_sol);
+		moves += calc_mvs(stksize(cands), stksize(sol), t_cand, t_sol);
 		if (moves < min_moves)
 		{
 			min_moves = moves;
-			*above = tmp_cand;
-			*below = tmp_sol;
+			*above = t_cand;
+			*below = t_sol;
 		}
 	}
 }
 
-void	next_move(t_stack **cands, t_stack **sol, int conf)
+void	next_move(t_stk **cands, t_stk **sol, int conf)
 {
-	t_stack	*above;
-	t_stack	*below;
+	t_stk	*above;
+	t_stk	*below;
 
 	calc_cand(*cands, *sol, &above, &below, conf);
-	if (above->pos > stacksize(*cands) - above->pos + 1 && \
-			below->pos > stacksize(*sol) - below->pos + 1)
+	if (above->pos > stksize(*cands) - above->pos + 1 && \
+			below->pos > stksize(*sol) - below->pos + 1)
 		both_dwn(cands, sol, above, below);
-	else if (above->pos <= stacksize(*cands) - above->pos + 1 && \
-			below->pos <= stacksize(*sol) - below->pos + 1)
+	else if (above->pos <= stksize(*cands) - above->pos + 1 && \
+			below->pos <= stksize(*sol) - below->pos + 1)
 		both_up(cands, sol, above, below);
-	else if (above->pos <= stacksize(*cands) - above->pos + 1 && \
-			below->pos > stacksize(*sol) - below->pos + 1)
+	else if (above->pos <= stksize(*cands) - above->pos + 1 && \
+			below->pos > stksize(*sol) - below->pos + 1)
 		up_down(cands, sol, above, below);
 	else
 		down_up(cands, sol, above, below);
@@ -124,9 +127,9 @@ void	next_move(t_stack **cands, t_stack **sol, int conf)
 		pb(cands, sol);
 }
 
-void	sort_stack(t_stack **a)
+void	sort_stk(t_stk **a)
 {
-	t_stack	*tmp;
+	t_stk	*tmp;
 	int		i;
 
 	if (!sorted(*a))
@@ -134,9 +137,9 @@ void	sort_stack(t_stack **a)
 		tmp = *a;
 		while (tmp->index != 1)
 			tmp = tmp->next;
-		if (tmp->pos > stacksize(*a) - tmp->pos + 1)
+		if (tmp->pos > stksize(*a) - tmp->pos + 1)
 		{
-			i = stacksize(*a) - tmp->pos;
+			i = stksize(*a) - tmp->pos;
 			while ((i--) >= 0)
 				rra(a);
 		}
@@ -149,12 +152,11 @@ void	sort_stack(t_stack **a)
 	}
 }
 
-
-void	push_swap(t_stack **a, t_stack **b)
+void	push_swap(t_stk **a, t_stk **b)
 {
 	while (!partially_sorted(*a) || *b)
 	{
-		if (stacksize(*a) <= 3 && !partially_sorted(*a))
+		if (stksize(*a) <= 3 && !partially_sorted(*a))
 			sa(a);
 		else if (partially_sorted(*a) && *b)
 			next_move(b, a, 1);
@@ -171,5 +173,5 @@ void	push_swap(t_stack **a, t_stack **b)
 				next_move(a, b, 0);
 		}
 	}
-	sort_stack(a);
+	sort_stk(a);
 }

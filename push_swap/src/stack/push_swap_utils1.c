@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap_utils.c                                  :+:      :+:    :+:   */
+/*   push_swap_utils1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:11:19 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/24 14:07:35 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:16:31 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	assign_index(t_stack **stack)
+void	assign_index(t_stk **stack)
 {
 	int		cnt;
-	t_stack	*tmp1;
-	t_stack	*tmp2;
+	t_stk	*tmp1;
+	t_stk	*tmp2;
 
 	tmp1 = *stack;
 	while (tmp1)
@@ -34,9 +34,9 @@ void	assign_index(t_stack **stack)
 	}
 }
 
-void	assign_positions(t_stack **stack)
+void	assign_positions(t_stk **stack)
 {
-	t_stack	*tmp;
+	t_stk	*tmp;
 	int		i;
 
 	i = 1;
@@ -48,9 +48,9 @@ void	assign_positions(t_stack **stack)
 	}
 }
 
-static int	connected(t_stack *stack, int greatest, int lowest)
+static int	connected(t_stk *stack, int greatest, int lowest)
 {
-	t_stack	*tmp;
+	t_stk	*tmp;
 
 	tmp = stack;
 	while (tmp)
@@ -62,21 +62,24 @@ static int	connected(t_stack *stack, int greatest, int lowest)
 	return (1);
 }
 
-int	partially_sorted(t_stack *stack)
+int	partially_sorted(t_stk *stack)
 {
-	while (stack->next)
+	t_stk	*tmp;
+
+	tmp = stack;
+	while (stack)
 	{
-		if ((stack->index > stack->next->index && !connected(stack,
-					stack->index, stack->next->index))
-			|| (stack->index < stack->next->index && stack->next->next
-				&& connected(stack, stack->next->index, stack->index)))
+		if ((stack->next && stack->index > stack->next->index && \
+			!connected(tmp, stack->index, stack->next->index)) || \
+			(!stack->next && tmp->index < stack->index && \
+			 !connected(tmp, stack->index, tmp->index)))
 			return (0);
 		stack = stack->next;
 	}
 	return (1);
 }
 
-int	sorted(t_stack *stack)
+int	sorted(t_stk *stack)
 {
 	while (stack->next)
 	{

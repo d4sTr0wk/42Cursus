@@ -6,15 +6,15 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:45:41 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/25 14:38:08 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:18:21 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	rra(t_stack **a)
+void	rra(t_stk **a)
 {
-	t_stack	*tmp;
+	t_stk	*tmp;
 
 	tmp = *a;
 	while (tmp->next->next)
@@ -26,9 +26,9 @@ void	rra(t_stack **a)
 	ft_printf("rra\n");
 }
 
-void	rrb(t_stack **b)
+void	rrb(t_stk **b)
 {
-	t_stack	*tmp;
+	t_stk	*tmp;
 
 	tmp = *b;
 	while (tmp->next->next)
@@ -40,7 +40,7 @@ void	rrb(t_stack **b)
 	ft_printf("rrb\n");
 }
 
-void	rrr(t_stack **a, t_stack **b)
+void	rrr(t_stk **a, t_stk **b)
 {
 	rra(a);
 	rrb(b);

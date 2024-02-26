@@ -6,13 +6,13 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 11:22:12 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/24 13:43:06 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:28:13 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	stacksize(t_stack *stack)
+int	stksize(t_stk *stack)
 {
 	int	cnt;
 
@@ -25,7 +25,7 @@ int	stacksize(t_stack *stack)
 	return (cnt);
 }
 
-t_stack	*stacklast(t_stack *stack)
+t_stk	*stacklast(t_stk *stack)
 {
 	if (!stack)
 		return (NULL);
@@ -34,11 +34,11 @@ t_stack	*stacklast(t_stack *stack)
 	return (stack);
 }
 
-t_stack	*stacknew(int value, int pos)
+t_stk	*stacknew(int value, int pos)
 {
-	t_stack	*stack;
+	t_stk	*stack;
 
-	stack = (t_stack *)malloc(sizeof(t_stack));
+	stack = (t_stk *)malloc(sizeof(t_stk));
 	if (!stack)
 		return (NULL);
 	stack->value = value;
@@ -48,9 +48,9 @@ t_stack	*stacknew(int value, int pos)
 	return (stack);
 }
 
-void	stackadd_back(t_stack **stack, t_stack *new)
+void	stackadd_back(t_stk **stack, t_stk *new)
 {
-	t_stack	*tmp;
+	t_stk	*tmp;
 
 	if (!(*stack))
 		*stack = new;
@@ -63,7 +63,7 @@ void	stackadd_back(t_stack **stack, t_stack *new)
 	}
 }
 
-void	stackadd_front(t_stack **stack, t_stack *new)
+void	stackadd_front(t_stk **stack, t_stk *new)
 {
 	if (stack && new)
 	{

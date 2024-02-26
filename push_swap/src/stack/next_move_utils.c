@@ -6,15 +6,15 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 19:59:03 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/25 20:49:51 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:29:13 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	both_dwn(t_stack **cands, t_stack **sol, t_stack *above, t_stack *below)
+void	both_dwn(t_stk **cands, t_stk **sol, t_stk *above, t_stk *below)
 {
-	if (stacksize(*cands) - above->index > stacksize(*sol) - below->index)
+	if (stksize(*cands) - above->index > stksize(*sol) - below->index)
 	{
 		while ((*sol)->index != below->index)
 			rrr(sol, cands);
@@ -30,7 +30,7 @@ void	both_dwn(t_stack **cands, t_stack **sol, t_stack *above, t_stack *below)
 	}
 }
 
-void	both_up(t_stack **cands, t_stack **sol, t_stack *above, t_stack *below)
+void	both_up(t_stk **cands, t_stk **sol, t_stk *above, t_stk *below)
 {
 	if (above->pos > below->pos)
 	{
@@ -48,7 +48,7 @@ void	both_up(t_stack **cands, t_stack **sol, t_stack *above, t_stack *below)
 	}
 }
 
-void	up_down(t_stack **cands, t_stack **sol, t_stack *above, t_stack *below)
+void	up_down(t_stk **cands, t_stk **sol, t_stk *above, t_stk *below)
 {
 	while ((*sol)->index != below->index)
 		rra(sol);
@@ -56,7 +56,7 @@ void	up_down(t_stack **cands, t_stack **sol, t_stack *above, t_stack *below)
 		rb(cands);
 }
 
-void	down_up(t_stack **cands, t_stack **sol, t_stack *above, t_stack *below)
+void	down_up(t_stk **cands, t_stk **sol, t_stk *above, t_stk *below)
 {
 	while ((*sol)->index != below->index)
 		ra(sol);

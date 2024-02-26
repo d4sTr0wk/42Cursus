@@ -6,16 +6,16 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:42:53 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/25 14:38:28 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:18:31 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	ra(t_stack **a)
+void	ra(t_stk **a)
 {
-	t_stack	*tmp;
-	t_stack	*iterator;
+	t_stk	*tmp;
+	t_stk	*iterator;
 
 	tmp = *a;
 	iterator = tmp->next;
@@ -28,10 +28,10 @@ void	ra(t_stack **a)
 	ft_printf("ra\n");
 }
 
-void	rb(t_stack **b)
+void	rb(t_stk **b)
 {
-	t_stack	*tmp;
-	t_stack	*iterator;
+	t_stk	*tmp;
+	t_stk	*iterator;
 
 	tmp = *b;
 	iterator = tmp->next;
@@ -44,7 +44,7 @@ void	rb(t_stack **b)
 	ft_printf("rb\n");
 }
 
-void	rr(t_stack **a, t_stack **b)
+void	rr(t_stk **a, t_stk **b)
 {
 	ra(a);
 	rb(b);

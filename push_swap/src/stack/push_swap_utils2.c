@@ -6,13 +6,13 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:05:16 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/24 14:06:17 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:18:11 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	show_stack(t_stack *a, t_stack *b)
+void	show_stack(t_stk *a, t_stk *b)
 {
 	while (a || b)
 	{

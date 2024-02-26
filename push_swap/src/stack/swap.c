@@ -6,15 +6,15 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 14:06:50 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/25 14:35:22 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:18:54 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	sa(t_stack **a)
+void	sa(t_stk **a)
 {
-	t_stack	*tmp;
+	t_stk	*tmp;
 
 	tmp = (*a)->next;
 	(*a)->next = (*a)->next->next;
@@ -24,9 +24,9 @@ void	sa(t_stack **a)
 	ft_printf("sa\n");
 }
 
-void	sb(t_stack **b)
+void	sb(t_stk **b)
 {
-	t_stack	*tmp;
+	t_stk	*tmp;
 
 	tmp = (*b)->next;
 	(*b)->next = (*b)->next->next;
