@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 11:22:12 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/26 14:28:13 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:10:47 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_stk	*stacknew(int value, int pos)
 	stack->value = value;
 	stack->index = 0;
 	stack->pos = pos;
+	stack->stk_id = 'a';
 	stack->next = NULL;
 	return (stack);
 }

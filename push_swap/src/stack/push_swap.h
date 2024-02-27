@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/26 14:33:52 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:19:35 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_stack
 	int				value;
 	int				index;
 	int				pos;
+	char				stk_id;
 	struct s_stack	*next;
 }	t_stk;
 
@@ -33,8 +34,8 @@ int		main(int argc, char **argv);
 
 // push_swap.c
 void	get_below(int above_index, t_stk **tmp_sol);
-void	calc_cand(t_stk *cands, t_stk *sol, t_stk **above, t_stk **below, int conf);
-void	next_move(t_stk **cands, t_stk **sol, int conf);
+void	calc_cand(t_stk *cands, t_stk *sol, t_stk **above, t_stk **below);
+void	next_move(t_stk **cands, t_stk **sol);
 void	sort_stk(t_stk **a);
 void	push_swap(t_stk **a, t_stk **b);
 
