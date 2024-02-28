@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 11:22:12 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/27 19:10:47 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/28 09:02:31 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,6 @@ int	stksize(t_stk *stack)
 		stack = stack->next;
 	}
 	return (cnt);
-}
-
-t_stk	*stacklast(t_stk *stack)
-{
-	if (!stack)
-		return (NULL);
-	while (stack->next)
-		stack = stack->next;
-	return (stack);
 }
 
 t_stk	*stacknew(int value, int pos)

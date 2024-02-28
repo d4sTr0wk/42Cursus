@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:25:42 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/26 14:51:41 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/28 08:56:40 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,18 @@ static int	initialize_args(int argc, char **argv, t_stk **a)
 	return (0);
 }
 
+void	free_stack(t_stk **a)
+{
+	t_stk	*tmp;
+
+	while (*a)
+	{
+		tmp = *a;
+		*a = (*a)->next;
+		free(tmp);
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_stk	*a;
@@ -48,5 +60,6 @@ int	main(int argc, char **argv)
 	}
 	push_swap(&a, &b);
 	show_stack(a, b);
+	free_stack(&a);
 	return (0);
 }

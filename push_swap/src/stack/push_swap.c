@@ -6,42 +6,13 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:29:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/27 19:22:57 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/28 09:00:26 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	get_below(int above_index, t_stk **tmp_sol)
-{
-	t_stk	*tmp;
-	int		check;
-
-	tmp = *tmp_sol;
-	check = 0;
-	while (tmp)
-	{
-		if (((above_index < tmp->index && tmp->stk_id == 'a') || (above_index > tmp->index && tmp->stk_id == 'b'))&& \
-				(!check || (check && ((tmp->index < (*tmp_sol)->index && tmp->stk_id == 'a') || (tmp->index > (*tmp_sol)->index && tmp->stk_id == 'b')))))
-		{
-			check = 1;
-			*tmp_sol = tmp;
-		}
-		tmp = tmp->next;
-	}
-	if (!check)
-	{
-		tmp = *tmp_sol;
-		while (tmp)
-		{
-			if ((tmp->index < (*tmp_sol)->index && tmp->stk_id == 'a') || (tmp->index > (*tmp_sol)->index && tmp->stk_id == 'b'))
-				*tmp_sol = tmp;
-			tmp = tmp->next;
-		}
-	}
-}
-
-int	calc_mvs(int cands, int sol, t_stk *t_cand, t_stk *t_sol)
+static int	calc_mvs(int cands, int sol, t_stk *t_cand, t_stk *t_sol)
 {
 	int	moves;
 
@@ -70,7 +41,7 @@ int	calc_mvs(int cands, int sol, t_stk *t_cand, t_stk *t_sol)
 	return (moves + 1);
 }
 
-void	calc_cand(t_stk *cands, t_stk *sol, t_stk **above, t_stk **below)
+static void	calc_cand(t_stk *cands, t_stk *sol, t_stk **above, t_stk **below)
 {
 	int		moves;
 	int		min_moves;
@@ -97,7 +68,7 @@ void	calc_cand(t_stk *cands, t_stk *sol, t_stk **above, t_stk **below)
 	}
 }
 
-void	next_move(t_stk **cands, t_stk **sol)
+static void	next_move(t_stk **cands, t_stk **sol)
 {
 	t_stk	*above;
 	t_stk	*below;
@@ -120,7 +91,7 @@ void	next_move(t_stk **cands, t_stk **sol)
 		pb(cands, sol);
 }
 
-void	sort_stk(t_stk **a)
+static void	sort_stk(t_stk **a)
 {
 	t_stk	*tmp;
 	int		i;

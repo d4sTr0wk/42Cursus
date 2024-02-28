@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:11:19 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/26 15:16:31 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/28 08:10:27 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	partially_sorted(t_stk *stack)
 		if ((stack->next && stack->index > stack->next->index && \
 			!connected(tmp, stack->index, stack->next->index)) || \
 			(!stack->next && tmp->index < stack->index && \
-			 !connected(tmp, stack->index, tmp->index)))
+			!connected(tmp, stack->index, tmp->index)))
 			return (0);
 		stack = stack->next;
 	}

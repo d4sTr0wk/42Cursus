@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/27 19:19:35 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/02/28 09:08:02 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,14 @@ typedef struct s_stack
 	int				value;
 	int				index;
 	int				pos;
-	char				stk_id;
+	char			stk_id;
 	struct s_stack	*next;
 }	t_stk;
-
-t_stk	*stacklast(t_stk *stack);
-t_stk	*stacknew(int value, int pos);
 
 // main.c
 int		main(int argc, char **argv);
 
 // push_swap.c
-void	get_below(int above_index, t_stk **tmp_sol);
-void	calc_cand(t_stk *cands, t_stk *sol, t_stk **above, t_stk **below);
-void	next_move(t_stk **cands, t_stk **sol);
-void	sort_stk(t_stk **a);
 void	push_swap(t_stk **a, t_stk **b);
 
 // next_move_utils.c
@@ -70,11 +63,14 @@ int		partially_sorted(t_stk *stack);
 int		sorted(t_stk *stack);
 
 //push_swap_utils2.c
-int		ft_atoi(const char *nptr, int *error);
 void	show_stack(t_stk *a, t_stk *b);
+int		ft_atoi(const char *nptr, int *error);
+void	lowest_greatest(int conf, t_stk **tmp_sol);
+void	get_below(int above_index, t_stk **tmp_sol);
 
 // stack.c
 int		stksize(t_stk *stack);
+t_stk	*stacknew(int value, int pos);
 void	stackadd_back(t_stk **stack, t_stk *new);
 void	stackadd_front(t_stk **stack, t_stk *new);
 
