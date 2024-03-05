@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/05 11:57:11 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:33:03 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ int		main(int argc, char **argv);
 
 // push_swap.c
 void	push_swap(t_stk **a, t_stk **b);
+
+// initialize_utils.c
+char	*ft_strdup(const char *s1);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	**ft_split(char const *s, char c);
+int	ft_split_count(char **tab);
 
 // next_move_utils.c
 void	both_dwn(t_stk **cands, t_stk **sol, t_stk *ab, t_stk *bel);

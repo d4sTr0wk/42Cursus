@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:25:42 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/05 11:51:14 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:28:25 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ static int	initialize_args(int argc, char **argv, t_stk **a)
 	error = 0;
 	if (argc < 2)
 		return (1);
+	if (argc == 2)
+	{
+		argv = ft_split(argv[1], ' ');
+		argc = ft_split_count(argv);
+	}
 	i = 1;
 	while (i < argc)
 	{
@@ -59,6 +64,7 @@ int	main(int argc, char **argv)
 		exit(-1);
 	}
 	push_swap(&a, &b);
+	show_stack(a, b);
 	free_stack(&a);
 	return (0);
 }
