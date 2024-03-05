@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/28 09:08:02 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:57:11 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,11 @@ void	pa(t_stk **a, t_stk **b);
 void	pb(t_stk **a, t_stk **b);
 
 // rotate.c
-void	ra(t_stk **a);
-void	rb(t_stk **b);
+void	rotate(t_stk **stk, int conf);
 void	rr(t_stk **a, t_stk **b);
 
 // reverserotate.c
-void	rra(t_stk **a);
-void	rrb(t_stk **b);
+void	revrot(t_stk **stk, int conf);
 void	rrr(t_stk **a, t_stk **b);
 
 // push_swap_utils1.c

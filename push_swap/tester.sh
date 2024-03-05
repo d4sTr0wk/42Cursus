@@ -1,39 +1,23 @@
-# Este es un programa tester que ejecutará una línea múliplles veces con argumentos diferentes para ver si el número que devuelve alguna vez supera un límite.
-
-# El programa que vamos a testear es el siguiente:
-
-# Path: programa.sh
-
 #!/bin/bash
 
-
-if [ $# -ne 3 ]; then
-    echo "Error: número de argumentos incorrecto"
+if [ $# -ne 4 ]; then
+    echo "Error: Invalid number of arguments"
     exit 1
 fi
 
 num_iteraciones=$1
-NUMS=$2
-num_acciones_limite=$3
-timeout_segundos=5
-tmp_file=$(mktemp)
+NUM1=$2
+NUM2=$3
+limite_acciones=$4
+timeout=5
 
-for ((i = 1; i <= num_iteraciones; i++)); do
-	numeros=$(src/tester $NUMS | awk '{for(i=1;i<=NF;i++) print $i}' | sort | uniq | shuf | tr '\n' ' ')
-	timeout $timeout_segundos ./push_swap $numeros > "$tmp_file" 2>/dev/null
-	time_res=$?
-	acciones=$(cat $tmp_file | echo "$(wc -l) - 100 - 3" | bc)
-	if [[ $time_res -eq 0 && $acciones -lt $num_acciones_limite ]]; then
-		echo -e "\e[32m$i: $acciones\e[0m"
-	else
-		if [[ $time_res -ne 0 ]]; then
-			echo -e "\e[33m$i: TIMEOUT_ERROR \n$numeros\e[0m"
-		else
-			echo -e "\e[31m$i: $acciones ERROR\n$numeros\e[0m"
-		fi
-		exit 1
-	fi
-	rm "$tmp_file"
+for i in $(seq 1 $num_iteraciones); do
+	nums=$(seq $NUM1 $NUM2 | shuf | tr '\n' ' ')
+	check_time=$(timeout $timeout ./push_swap $nums > /dev/null)
+    	if [[ $check_time -le $timeout && $(./push_swap $nums | wc -l) -le $limite_acciones ]];
+    	then
+		echo -e "\e[32mIteración $i: OK, $(./push_swap $nums | wc -l)\n\e[34m$nums\e[0m\n\e[0m"
+    	else
+		echo -e "\e[31mIteración $i: KO, $(./push_swap $nums | wc -l)\n$nums\n\e[0m"
+    	fi
 done
-
-exit 0

@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:25:42 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/28 08:56:40 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:51:14 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	main(int argc, char **argv)
 		exit(-1);
 	}
 	push_swap(&a, &b);
-	show_stack(a, b);
 	free_stack(&a);
 	return (0);
 }
