@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:26:42 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/05 15:33:32 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/03/05 17:33:53 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,3 @@ int	ft_split_count(char **tab)
 		i++;
 	return (i);
 }
-
-

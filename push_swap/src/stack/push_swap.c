@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:29:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/05 12:10:31 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/03/05 18:11:54 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,13 @@ static void	sort_stk(t_stk **a)
 		{
 			i = stksize(*a) - tmp->pos;
 			while ((i--) >= 0)
-				revrot(a, 1);
+				revrot(a, 0);
 		}
 		else
 		{
 			i = tmp->pos;
 			while ((i--) != 1)
-				rotate(a, 1);
+				rotate(a, 0);
 		}
 	}
 }
@@ -134,10 +134,7 @@ void	push_swap(t_stk **a, t_stk **b)
 					sb(b);
 			}
 			else
-			{
-				next_move(a, b); 
-				//ft_printf("siguiente movimiento\n");
-			}
+				next_move(a, b);
 		}
 	}
 	sort_stk(a);

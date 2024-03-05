@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:42:53 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/05 11:55:47 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/03/05 18:39:32 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,5 @@ void	rr(t_stk **a, t_stk **b)
 {
 	rotate(a, 1);
 	rotate(b, 1);
+	ft_printf("rr\n");
 }

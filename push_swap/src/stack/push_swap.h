@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/05 15:33:03 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/03/05 17:22:35 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	push_swap(t_stk **a, t_stk **b);
 char	*ft_strdup(const char *s1);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	**ft_split(char const *s, char c);
-int	ft_split_count(char **tab);
+int		ft_split_count(char **tab);
 
 // next_move_utils.c
 void	both_dwn(t_stk **cands, t_stk **sol, t_stk *ab, t_stk *bel);
@@ -75,7 +75,7 @@ void	get_below(int above_index, t_stk **tmp_sol);
 // stack.c
 int		stksize(t_stk *stack);
 t_stk	*stacknew(int value, int pos);
-void	stackadd_back(t_stk **stack, t_stk *new);
+int		stackadd_back(t_stk **stack, t_stk *new);
 void	stackadd_front(t_stk **stack, t_stk *new);
 
 #endif

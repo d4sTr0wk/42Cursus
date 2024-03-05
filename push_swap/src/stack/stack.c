@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 11:22:12 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/28 09:02:31 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/03/05 17:21:56 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_stk	*stacknew(int value, int pos)
 	return (stack);
 }
 
-void	stackadd_back(t_stk **stack, t_stk *new)
+int	stackadd_back(t_stk **stack, t_stk *new)
 {
 	t_stk	*tmp;
 
@@ -50,9 +50,22 @@ void	stackadd_back(t_stk **stack, t_stk *new)
 	{
 		tmp = *stack;
 		while (tmp->next)
+		{
+			if (tmp->value == new->value)
+			{
+				free(new);
+				return (1);
+			}
 			tmp = tmp->next;
+		}
+		if (tmp->value == new->value)
+		{
+			free(new);
+			return (1);
+		}
 		tmp->next = new;
 	}
+	return (0);
 }
 
 void	stackadd_front(t_stk **stack, t_stk *new)
