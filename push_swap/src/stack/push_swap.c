@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:29:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/05 18:11:54 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/03/17 16:47:12 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ static void	next_move(t_stk **cands, t_stk **sol)
 static void	sort_stk(t_stk **a)
 {
 	t_stk	*tmp;
-	int		i;
 
 	if (!sorted(*a))
 	{
@@ -103,14 +102,12 @@ static void	sort_stk(t_stk **a)
 			tmp = tmp->next;
 		if (tmp->pos > stksize(*a) - tmp->pos + 1)
 		{
-			i = stksize(*a) - tmp->pos;
-			while ((i--) >= 0)
+			while ((*a)->index != 1)
 				revrot(a, 0);
 		}
 		else
 		{
-			i = tmp->pos;
-			while ((i--) != 1)
+			while ((*a)->index != 1)
 				rotate(a, 0);
 		}
 	}
