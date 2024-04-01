@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 23:19:20 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/04/01 19:26:15 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:56:52 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    sendSignal(int pid, unsigned char character)
 
     i = CHAR_BIT;
     
-    while (--i > 0)
+    while (i-- > 0)
     {
         if ((character >> i ) & 1)
             err = kill(pid, SIGUSR1);
@@ -38,8 +38,8 @@ void    sendMessage(int pid, char *message)
 {
     int i;
 
-    i = 0;
-    while (message[i] != '\0')
+    i = -1;
+    while (message[++i] != '\0')
         sendSignal(pid, message[i]);
     if (kill(pid, '\0'))
     {

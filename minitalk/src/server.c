@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 23:21:08 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/04/01 19:20:57 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:58:23 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	sig_handler(int signum)
 		else
 			ft_putchar_fd(character, 1);
 		character = 0;
-		bit_index = 1;
+		bit_index = 0;
 	}
 	else
 		character <<= 1;
@@ -42,6 +42,7 @@ int	main(void)
 	pid = getpid();
 	ft_putstr_fd("Server PID: ", 1);
 	ft_putnbr_fd(pid, 1);
+	ft_putchar_fd('\n', 1);
 
 	while (1)
 		pause();
