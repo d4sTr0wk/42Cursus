@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/30 23:21:08 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/31 16:05:08 by maxgarci         ###   ########.fr       */
+/*   Created: 2024/03/31 13:49:34 by maxgarci          #+#    #+#             */
+/*   Updated: 2024/03/31 16:09:19 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#ifndef MINITALK_H
+# define MINITALK_H
 
-int	main(void)
-{
-	int	pid;
+# include <signal.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include "../include.h"
 
-	pid = getpid();
-	ft_putstr_fd("Server PID: ", 1);
-	ft_putnbr_fd(pid, 1);
-}
+
+#endif

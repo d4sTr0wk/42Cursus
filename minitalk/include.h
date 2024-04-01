@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   include.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/30 23:21:08 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/31 16:05:08 by maxgarci         ###   ########.fr       */
+/*   Created: 2024/03/31 16:10:11 by maxgarci          #+#    #+#             */
+/*   Updated: 2024/03/31 16:25:00 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#ifndef INCLUDE_H
+# define INCLUDE_H
 
-int	main(void)
-{
-	int	pid;
+# include "libft/libft.h"
+# include "src/minitalk.h"
 
-	pid = getpid();
-	ft_putstr_fd("Server PID: ", 1);
-	ft_putnbr_fd(pid, 1);
-}
+#endif
