@@ -6,12 +6,12 @@
 #    By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/19 19:17:40 by maxgarci          #+#    #+#              #
-#    Updated: 2024/03/30 23:35:13 by maxgarci         ###   ########.fr        #
+#    Updated: 2024/04/01 17:22:46 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Archivos fuente
-SRCS = ft_putstr_fd.c ft_putnbr_fd.c ft_putchar_fd.c
+SRCS = ft_putstr_fd.c ft_putnbr_fd.c ft_putchar_fd.c ft_atoi.c
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
 

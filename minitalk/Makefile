@@ -6,16 +6,17 @@
 #    By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 16:38:43 by maxgarci          #+#    #+#              #
-#    Updated: 2024/04/01 12:42:16 by maxgarci         ###   ########.fr        #
+#    Updated: 2024/04/01 19:20:07 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minitalk
 
-MINITALK_SRCS = src/server.c \
-		 src/client.c
+SERVER_SRCS = src/server.c
+CLIENT_SRCS = src/client.c
 
-MINITALK_OBJS = $(MINITALK_SRCS:.c=.o)
+SERVER_OBJS = $(SERVER_SRCS:.c=.o)
+CLIENT_OBJS = $(CLIENT_SRCS:.c=.o)
 
 INCLUDES = -I . -I libft
 LIBFT_DIR = libft
@@ -31,17 +32,17 @@ $(NAME): server client
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-server: $(MINITALK_OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(INCLUDES) $(MINITALK_OBJS) $(LIBFT) -o $@
+server: $(SERVER_OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(INCLUDES) $(SERVER_OBJS) $(LIBFT) -o $@
 
-client: $(MINITALK_OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(INCLUDES) $(MINITALK_OBJS) $(LIBFT) -o $@
+client: $(CLIENT_OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(INCLUDES) $(CLIENT_OBJS) $(LIBFT) -o $@
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
 clean:
-	rm -f $(MINITALK_OBJS)
+	rm -f $(SERVER_OBJS) $(CLIENT_OBJS)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
