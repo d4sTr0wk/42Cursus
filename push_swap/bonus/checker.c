@@ -28,9 +28,7 @@ static int	initialize_args(int argc, char **argv, t_stk **a)
 {
 	int	i;
 	int	arg;
-	int	error;
-
-	error = 0;
+	
 	if (argc < 2)
 		return (1);
 	if (argc == 2)
@@ -43,14 +41,71 @@ static int	initialize_args(int argc, char **argv, t_stk **a)
 		i = 1;
 	while (i < argc)
 	{
-		arg = ft_atoi(argv[i], &error);
-		if ((arg == 0 && error == 1) || stackadd_back(a, stacknew(arg, i)))
+		arg = ft_atoi(argv[i]);
+		if (stackadd_back(a, stacknew(arg, i)))
 			return (1);
 		i++;
 	}
 	assign_index(a);
 	return (0);
 }
+
+static int ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
+}
+
+void	check(t_stk **a, t_stk **b)
+{
+	char	*line;
+
+	do	
+	{
+		line = get_next_line(0);
+		if (ft_strcmp(line, "sa") == 0)
+			sa(a);
+		else if (ft_strcmp(line, "sb\n") == 0)
+			sb(b);
+		else if (ft_strcmp(line, "pa\n") == 0)
+			pa(a, b);
+		else if (ft_strcmp(line, "pb\n") == 0)
+			pb(b, a);
+		else if (ft_strcmp(line, "ra\n") == 0)
+			rotate(a, 0);
+		else if (ft_strcmp(line, "rb\n") == 0)
+			rotate(b, 0);
+		else if (ft_strcmp(line, "rr\n") == 0)
+			rr(a, b);
+		else if (ft_strcmp(line, "rra\n") == 0)
+			revrot(a, 0);
+		else if (ft_strcmp(line, "rrb\n") == 0)
+			revrot(b, 0);
+		else if (ft_strcmp(line, "rrr\n") == 0)
+			rrr(a, b);
+		else if (ft_strcmp(line, "\n") == 0)
+		{
+			free(line);
+			break;
+		}
+		else
+		{
+			ft_printf("Error\n");
+			free(line);
+			break ;
+		}
+		free(line);
+	} while(1);
+	
+	if (sorted(*a) && !*b)
+		ft_printf("OK\n");
+	else
+		ft_printf("KO\n");
+} 
 
 int	main(int argc, char **argv)
 {

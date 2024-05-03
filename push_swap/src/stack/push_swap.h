@@ -68,7 +68,6 @@ int		sorted(t_stk *stack);
 
 //push_swap_utils2.c
 void	show_stack(t_stk *a, t_stk *b);
-int		ft_atoi(const char *nptr, int *error);
 void	lowest_greatest(int conf, t_stk **tmp_sol);
 void	get_below(int above_index, t_stk **tmp_sol);
 

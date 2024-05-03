@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   include.h                                          :+:      :+:    :+:   */
+/*   ft_lstadd_front_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/25 10:31:09 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/25 11:08:57 by maxgarci         ###   ########.fr       */
+/*   Created: 2023/10/05 19:39:26 by maxgarci          #+#    #+#             */
+/*   Updated: 2023/11/22 21:42:08 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INCLUDE_H
-# define INCLUDE_H
+#include "libft.h"
 
-# include "../src/stack/push_swap.h"
-# include "ft_printf/ft_printf.h"
-# include "libft/libft.h"
-# include "bonus/get_next_line/get_next_line.h"
-
-#endif
+void	ft_lstadd_front(t_list **lst, t_list *new)
+{
+	if (lst && new)
+	{
+		new->next = *lst;
+		*lst = new;
+	}
+}

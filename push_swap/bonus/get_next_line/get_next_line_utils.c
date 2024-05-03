@@ -12,16 +12,15 @@
 
 #include "get_next_line.h"
 
-int	ft_strlen(const char *str)
+static size_t	ft_strlen(const char *s)
 {
-	int	cnt;
+	size_t	i;
 
-	cnt = 0;
-	if (str == NULL)
-		return (0);
-	while (*(str + (cnt)) != '\0')
-		++cnt;
-	return (cnt);
+	i = 0;
+	if (s)
+		while (s[i] != '\0')
+			i++;
+	return (i);
 }
 
 void	ft_strcpy(char **dst, const char *src)

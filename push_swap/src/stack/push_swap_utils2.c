@@ -36,34 +36,6 @@ void	show_stack(t_stk *a, t_stk *b)
 	ft_printf("- -\na b\n\n");
 }
 
-int	ft_atoi(const char *nptr, int *error)
-{
-	long	num;
-	int		sign;
-	int		i;
-
-	i = 0;
-	while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == ' ')
-		++i;
-	sign = 1;
-	if (nptr[i] == '+' || nptr[i] == '-')
-		if (nptr[i++] == '-')
-			sign = -1;
-	num = 0;
-	while (nptr[i] >= '0' && nptr[i] <= '9')
-	{
-		num *= 10;
-		num += nptr[i] - '0';
-		++i;
-	}
-	if (nptr[i] != '\0')
-	{
-		num = 0;
-		*error = 1;
-	}
-	return ((int)(num * sign));
-}
-
 void	lowest_greatest(int conf, t_stk **tmp_sol)
 {
 	t_stk	*tmp;

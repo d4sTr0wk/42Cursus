@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   include.h                                          :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/25 10:31:09 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/25 11:08:57 by maxgarci         ###   ########.fr       */
+/*   Created: 2023/09/19 19:07:31 by maxgarci          #+#    #+#             */
+/*   Updated: 2023/09/19 19:47:46 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INCLUDE_H
-# define INCLUDE_H
-
-# include "../src/stack/push_swap.h"
-# include "ft_printf/ft_printf.h"
-# include "libft/libft.h"
-# include "bonus/get_next_line/get_next_line.h"
-
-#endif
+int	ft_isdigit(int c)
+{
+	return ('0' <= c && c <= '9');
+}

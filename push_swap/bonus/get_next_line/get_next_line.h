@@ -24,7 +24,6 @@
 
 char	*get_next_line(int fd);
 char	*read_file(char **stat_buf, char *buf, int fd);
-int		ft_strlen(const char *str);
 void	ft_strcpy(char **dst, const char *src);
 int		strjoin_buf(char **stat_buf, char *buf, ssize_t read_bytes);
 int		newline(char **stat_buf, char **ln, int point_nl_seek, int look_for_nl);

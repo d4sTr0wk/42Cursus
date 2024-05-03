@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   include.h                                          :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/25 10:31:09 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/25 11:08:57 by maxgarci         ###   ########.fr       */
+/*   Created: 2023/09/20 11:33:48 by maxgarci          #+#    #+#             */
+/*   Updated: 2023/10/04 21:31:23 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INCLUDE_H
-# define INCLUDE_H
+#include "libft.h"
 
-# include "../src/stack/push_swap.h"
-# include "ft_printf/ft_printf.h"
-# include "libft/libft.h"
-# include "bonus/get_next_line/get_next_line.h"
-
-#endif
+void	ft_bzero(void *s, size_t n)
+{
+	ft_memset(s, 0, n);
+}

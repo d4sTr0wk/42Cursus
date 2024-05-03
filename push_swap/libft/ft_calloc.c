@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   include.h                                          :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/25 10:31:09 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/25 11:08:57 by maxgarci         ###   ########.fr       */
+/*   Created: 2023/09/24 00:34:01 by maxgarci          #+#    #+#             */
+/*   Updated: 2023/09/29 16:51:07 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INCLUDE_H
-# define INCLUDE_H
+#include "libft.h"
 
-# include "../src/stack/push_swap.h"
-# include "ft_printf/ft_printf.h"
-# include "libft/libft.h"
-# include "bonus/get_next_line/get_next_line.h"
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*ptr;
 
-#endif
+	ptr = (void *)malloc(count * size);
+	if (ptr == NULL)
+		return (NULL);
+	ft_bzero(ptr, size * count);
+	return (ptr);
+}
