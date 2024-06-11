@@ -1,3 +1,1 @@
-```
-Queda arreglar el problema de introducir números que sobrepasen los límites del tipo int.
-```
+Arreglé algunos casos base con errores de control. Quedan más.

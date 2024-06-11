@@ -6,11 +6,35 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:25:42 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/17 17:00:25 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/06/11 13:41:07 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/include.h"
+
+static void	check_args(char **args, int argc, int *error)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < argc)
+	{
+		j = 0;
+		if (args[i][j] == '-')
+			j++;
+		while (args[i][j])
+		{
+			if (!ft_isdigit(args[i][j]))
+			{
+				*error = 1;
+				return ;
+			}
+			j++;
+		}
+		i++;
+	}
+}
 
 static void	free_stack(t_stk **a)
 {
@@ -24,20 +48,7 @@ static void	free_stack(t_stk **a)
 	}
 }
 
-static void	free_args(char **args, int argc)
-{
-	int	i;
-
-	i = 0;
-	while (i < argc)
-	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
-}
-
-static int	initialize_args(int *argc, char **argv, t_stk **a)
+static int	initialize_args(int argc, char **argv, t_stk **a)
 {
 	int	i;
 	int	arg;
@@ -45,30 +56,31 @@ static int	initialize_args(int *argc, char **argv, t_stk **a)
 	char	**args;
 
 	error = 0;
-	if (*argc < 2)
+	if (argc < 2)
 		return (1);
-	if (*argc == 2)
+	if (argc == 2)
 	{
+		if (argv[1][0] == '\0')
+			return (1);
 		args = ft_split(argv[1], ' ');
-		*argc = ft_split_count(args);
-		i = 0;
-		error = -1;
+		argc = ft_split_count(args);
 	}
 	else
 	{
-		args = argv;
-		i = 1;
+		args = argv + 1;
+		argc -= 1;
 	}
-	while (i < *argc)
+	check_args(args, argc, &error);
+	i = 0;
+	while (i < argc && error != 1)
 	{
 		arg = ft_atoi(args[i]);
-		if ((arg == 0 && error == 1) || stackadd_back(a, stacknew(arg, i)))
-			return (1);
+		stackadd_back(a, stacknew(arg, i));
 		i++;
 	}
+	if (error == 1)
+		return (1);
 	assign_index(a);
-	if (error == -1)
-		free_args(args, *argc);
 	return (0);
 }
 
@@ -79,7 +91,7 @@ int	main(int argc, char **argv)
 
 	a = NULL;
 	b = NULL;
-	if (initialize_args(&argc, argv, &a) || argc == 0)
+	if (argc == 0 || initialize_args(argc, argv, &a))
 	{
 		write(2, "Error", 5);
 		free_stack(&a);
