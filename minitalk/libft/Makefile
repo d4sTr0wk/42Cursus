@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 # Archivos fuente
-SRCS = ft_putstr_fd.c ft_putnbr_fd.c ft_putchar_fd.c ft_atoi.c
+SRCS = ft_putstr_fd.c ft_putnbr_fd.c ft_putchar_fd.c ft_atoi.c ft_strlen.c
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
 

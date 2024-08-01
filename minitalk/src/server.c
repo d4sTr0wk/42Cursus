@@ -34,17 +34,15 @@ void	sig_handler(int signum)
 
 int	main(void)
 {
+	int pid;
+	
 	signal(SIGUSR1, sig_handler);
 	signal(SIGUSR2, sig_handler);
-	
-	int	pid;
-
 	pid = getpid();
-	ft_putstr_fd("Server PID: ", 1);
+	ft_putstr_fd(GREEN "Server PID: " RESET, 1);
 	ft_putnbr_fd(pid, 1);
 	ft_putchar_fd('\n', 1);
-
 	while (1)
-		pause();
+		;
 	return (0);
 }

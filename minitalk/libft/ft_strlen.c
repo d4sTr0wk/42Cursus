@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   include.h                                          :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/31 16:10:11 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/31 16:25:00 by maxgarci         ###   ########.fr       */
+/*   Created: 2023/09/19 20:08:38 by maxgarci          #+#    #+#             */
+/*   Updated: 2023/09/29 17:02:09 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INCLUDE_H
-# define INCLUDE_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include "src/minitalk.h"
-# include "bonus/minitalk_bonus.h"
+size_t	ft_strlen(const char *str)
+{
+	int	cnt;
 
-# define RED "\033[0;31m"
-# define GREEN "\033[0;32m"
-# define YELLOW "\033[0;33m"
-# define RESET "\033[0m"
-
-#endif
+	cnt = 0;
+	while (*(str + (cnt)) != '\0')
+		++cnt;
+	return ((size_t)cnt);
+}

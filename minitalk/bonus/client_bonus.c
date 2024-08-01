@@ -6,27 +6,37 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 23:19:20 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/07/08 18:21:11 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/07/26 18:52:52 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk_bonus.h"
+#include "minitalk.h"
 
-void	sig_handler(int signum, siginfo_t *info, void *)
+void	sig_handler(int signum, siginfo_t *info, void *ucontext)
 {
+	static int	count = 0;
+
+	(void)info;
+	(void)ucontext;
 	if (signum == SIGUSR2)
+		count++;
+	else if (signum == SIGUSR1)
 	{
-		exit(1);	
+		if (count != 8)
+			ft_putstr_fd(RED "Error: Message not received\n" RESET, 2);
+		else
+			ft_putstr_fd(GREEN "Message received\n" RESET, 1);
+		count = 0;
+		exit(0);
 	}
 }
 
-void    send_signal(int pid, unsigned char character)
+static void	send_signal(int pid, unsigned char character)
 {
     int i;
     int err;
 
     i = CHAR_BIT;
-    
     while (i-- > 0)
     {
         if ((character >> i ) & 1)
@@ -35,44 +45,46 @@ void    send_signal(int pid, unsigned char character)
             err = kill(pid, SIGUSR2);
         if (err == -1)
         {
-            ft_putstr_fd("Error: sendSignal", 2);
+            ft_putstr_fd(RED "Error: send_signal" RESET, 2);
             return ;
         }
-        usleep(42);
+        usleep(100);
     }
 }
 
-int    send_message(int pid, char *message)
+static void	send_message(int pid, char *message)
 {
     int i;
 
     i = -1;
     while (message[++i] != '\0')
-        sendSignal(pid, message[i]);
-    if (kill(pid, '\0'))
-    {
-        ft_putstr_fd("Error: sendMessage", 2);
-        return ;
-    }
+	{
+        send_signal(pid, message[i]);
+	}
+	send_signal(pid, '\0');
 }
 
 int	main(int argc, char **argv)
 {
-    char    *message;
-	int     pid;
+    char    			*message;
+	int     			pid;
+	struct sigaction	sa;
 	
-	signal(SIGUSR1, sig_handler); 
-    if (argc != 3)
+	if (argc != 3)
     {
-        ft_putstr_fd("Error with arguments\n", 2);
+        ft_putstr_fd(RED "Error with arguments\n" RESET, 2);
         return (1);
     }
-    pid = ft_atoi(argv[1]);
-    message = argv[2];
-    if (sendMessage(pid, message) == 1)
+	sa.sa_sigaction = sig_handler;
+	sigemptyset(&(sa.sa_mask));
+	sa.sa_flags = SA_SIGINFO;
+	if (sigaction(SIGUSR1, &sa, NULL) || sigaction(SIGUSR2, &sa, NULL))
 	{
-		ft_putstr_fd("client_bonus: sendMessage error", 1);
+		ft_putstr_fd(RED "client_bonus: sigaction error" RESET, 2);
 		return (1);
 	}
+    pid = ft_atoi(argv[1]);
+    message = argv[2];
+    send_message(pid, message);
 	return (0);
 }
