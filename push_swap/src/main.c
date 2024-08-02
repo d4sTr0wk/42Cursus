@@ -75,7 +75,8 @@ static int	initialize_args(int argc, char **argv, t_stk **a)
 	while (i < argc && error != 1)
 	{
 		arg = ft_atoi(args[i]);
-		stackadd_back(a, stacknew(arg, i));
+		if (stackadd_back(a, stacknew(arg, i)))
+			return (1);
 		i++;
 	}
 	if (error == 1)
