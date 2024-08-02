@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 23:19:20 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/07/26 18:52:52 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:01:23 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ void	sig_handler(int signum, siginfo_t *info, void *ucontext)
 		count++;
 	else if (signum == SIGUSR1)
 	{
-		if (count != 8)
+		if (count != 7)
+		{
+			ft_putnbr_fd(count, 2);	
 			ft_putstr_fd(RED "Error: Message not received\n" RESET, 2);
+		}
 		else
 			ft_putstr_fd(GREEN "Message received\n" RESET, 1);
 		count = 0;
-		exit(0);
 	}
 }
 
@@ -37,6 +39,12 @@ static void	send_signal(int pid, unsigned char character)
     int err;
 
     i = CHAR_BIT;
+	ft_putstr_fd(YELLOW, 1);
+	if (character == '\0')
+		ft_putstr_fd("\\0", 1);
+	else
+		ft_putchar_fd(character, 1);
+	ft_putstr_fd(": " RESET, 1);
     while (i-- > 0)
     {
         if ((character >> i ) & 1)
