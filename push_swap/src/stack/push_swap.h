@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/05 17:22:35 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/05 19:27:25 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include "../../include/include.h"
+
+# define INT_MAX 2147483647
+# define INT_MIN -2147483648
 
 typedef struct s_stack
 {
