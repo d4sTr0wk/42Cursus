@@ -6,18 +6,19 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:25:42 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/08/06 19:54:12 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:55:06 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/include.h"
 
-static void	check_args(char **args, int argc, int *error)
+static int	check_args(char **args, int argc)
 {
-	int	i;
-	int	j;
-	int	sign;
-	long num;
+	int		i;
+	int		j;
+	int		sign;
+	long	num;
+	int		error;
 
 	i = 0;
 	while (i < argc && !*error)
@@ -28,16 +29,16 @@ static void	check_args(char **args, int argc, int *error)
 		if (args[i][j] == '-')
 		{
 			j++;
-			*error = 1;
+			error = 1;
 			sign = -1;
 		}
 		while (args[i][j])
 		{
 			num *= 10;
-			*error = 0;
+			error = 0;
 			if (!ft_isdigit(args[i][j]))
 			{
-				*error = 1;
+				error = 1;
 				return ;
 			}
 			num += args[i][j] - '0';
@@ -45,9 +46,10 @@ static void	check_args(char **args, int argc, int *error)
 		}
 		num *= sign;
 		if (num > INT_MAX || num < INT_MIN)
-			*error = 1;
+			error = 1;
 		i++;
 	}
+	return (error);
 }
 
 static void	free_stack(t_stk **a)
@@ -64,13 +66,10 @@ static void	free_stack(t_stk **a)
 
 static int	initialize_args(int argc, char **argv, t_stk **a)
 {
-	int	i;
-	int	arg;
-	int	error;
-	int	free_args;
+	int		i;
+	int		free_args;
 	char	**args;
 
-	error = 0;
 	if (argc < 2)
 		return (1);
 	if (argc == 2)
@@ -87,14 +86,12 @@ static int	initialize_args(int argc, char **argv, t_stk **a)
 		argc -= 1;
 		free_args = 0;
 	}
-	check_args(args, argc, &error);
 	i = 0;
-	if (error)
+	if (check_args(args, argc))
 		return (1);
 	while (i < argc)
 	{
-		arg = ft_atoi(args[i]);
-		if (stackadd_back(a, stacknew(arg, i)))
+		if (stackadd_back(a, stacknew(ft_atoi(args[i]), i)))
 			return (1);
 		i++;
 	}

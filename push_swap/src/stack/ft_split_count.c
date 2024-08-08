@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_split_count.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/29 16:52:46 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/11/22 21:38:54 by maxgarci         ###   ########.fr       */
+/*   Created: 2024/03/05 15:26:42 by maxgarci          #+#    #+#             */
+/*   Updated: 2024/08/07 20:04:53 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 
-char	*ft_strdup(const char *s1)
+int	ft_split_count(char **tab)
 {
-	char	*str;
-	int		i;
+	int	i;
 
 	i = 0;
-	while (s1[i])
+	while (tab[i])
 		i++;
-	str = (char *)malloc(sizeof(char) * (i + 1));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+	return (i);
 }
