@@ -6,33 +6,11 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:11:19 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/28 08:10:27 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:37:28 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	assign_index(t_stk **stack)
-{
-	int		cnt;
-	t_stk	*tmp1;
-	t_stk	*tmp2;
-
-	tmp1 = *stack;
-	while (tmp1)
-	{
-		cnt = 1;
-		tmp2 = *stack;
-		while (tmp2)
-		{
-			if (tmp1->value > tmp2->value)
-				cnt++;
-			tmp2 = tmp2->next;
-		}
-		tmp1->index = cnt;
-		tmp1 = tmp1->next;
-	}
-}
 
 void	assign_positions(t_stk **stack)
 {

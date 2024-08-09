@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/08/05 19:27:25 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:35:54 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int		main(int argc, char **argv);
 // push_swap.c
 void	push_swap(t_stk **a, t_stk **b);
 
-// initialize_utils.c
-char	*ft_strdup(const char *s1);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	**ft_split(char const *s, char c);
-int		ft_split_count(char **tab);
+// check_args.c
+int		check_args(char **args, int argc);
+
+// initialize_args.c
+int		initialize_args(int argc, char **argv, t_stk **a);
 
 // next_move_utils.c
 void	both_dwn(t_stk **cands, t_stk **sol, t_stk *ab, t_stk *bel);
@@ -64,7 +64,6 @@ void	revrot(t_stk **stk, int conf);
 void	rrr(t_stk **a, t_stk **b);
 
 // push_swap_utils1.c
-void	assign_index(t_stk **stack);
 void	assign_positions(t_stk **stack);
 int		partially_sorted(t_stk *stack);
 int		sorted(t_stk *stack);
