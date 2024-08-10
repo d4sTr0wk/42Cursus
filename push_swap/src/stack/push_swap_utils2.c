@@ -6,11 +6,23 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:05:16 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/28 08:59:46 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/10 20:01:55 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	free_stack(t_stk **a)
+{
+	t_stk	*tmp;
+
+	while (*a)
+	{
+		tmp = *a;
+		*a = (*a)->next;
+		free(tmp);
+	}
+}
 
 void	show_stack(t_stk *a, t_stk *b)
 {

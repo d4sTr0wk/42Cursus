@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/08/09 12:35:54 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/10 20:02:28 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int		partially_sorted(t_stk *stack);
 int		sorted(t_stk *stack);
 
 //push_swap_utils2.c
+void	free_stack(t_stk **a);
 void	show_stack(t_stk *a, t_stk *b);
 void	lowest_greatest(int conf, t_stk **tmp_sol);
 void	get_below(int above_index, t_stk **tmp_sol);

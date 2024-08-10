@@ -6,11 +6,17 @@
 #    By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/28 18:22:03 by maxgarci          #+#    #+#              #
-#    Updated: 2024/08/08 19:54:09 by maxgarci         ###   ########.fr        #
+#    Updated: 2024/08/10 21:35:43 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+RED = \033[0;31m
+GREEN = \033[0;32m
+YELLOW = \033[0;33m
+RESTORE = \033[0m
+
 NAME = push_swap
+
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 LIBFT_DIR = libft
@@ -33,27 +39,48 @@ all: $(NAME)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(NAME): $(PUSH_SWAP_OBJS) $(FT_PRINTF) $(LIBFT)
+	@echo "$(YELLOW)Compiling $<...$(RESTORE)"
 	$(CC) $(CFLAGS) $(INCLUDES) $(PUSH_SWAP_OBJS) $(FT_PRINTF) $(LIBFT) -o $(NAME)
+	@echo "$(GREEN)$< compiled!$(RESTORE)"
 
 $(FT_PRINTF):
+	@echo "$(YELLOW)Compiling ft_printf...$(RESTORE)"
 	@$(MAKE) -C $(FT_PRINTF_DIR)
+	@echo "$(GREEN)Ft_printf compiled!$(RESTORE)"
 
 $(LIBFT):
+	@echo "$(YELLOW)Compiling libft...$(RESTORE)"
 	@$(MAKE) -C $(LIBFT_DIR)
+	@echo "$(GREEN)Libft compiled!$(RESTORE)"
 
 clean:
-	rm -f $(PUSH_SWAP_OBJS) $(BONUS_OBJS)
+	@echo "$(RED)Cleaning...$(RESTORE)"	
+	rm -rf $(PUSH_SWAP_OBJS)
+	rm -rf $(BONUS_OBJS)
 	@$(MAKE) -C $(FT_PRINTF_DIR) clean
 	@$(MAKE) -C $(LIBFT_DIR) clean
+	@echo "$(GREEN)Cleaned!$(RESTORE)"
 
 fclean: clean
-	rm -f $(NAME)
+	@echo "$(RED)Full cleaning...$(RESTORE)"
+	rm -rf $(NAME)
+	rm -rf checker
 	@$(MAKE) -C $(FT_PRINTF_DIR) fclean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@echo "$(GREEN)Full cleaned!$(RESTORE)"
 
 re: fclean all
 
 bonus: $(BONUS_OBJS) $(FT_PRINTF) $(LIBFT)
-	 $(CC) $(CFLAGS) $(INCLUDES) $(BONUS_OBJS) $(FT_PRINTF) $(LIBFT) -o checker
+	@echo "$(YELLOW)Compiling bonus...$(RESTORE)"
+	$(CC) $(CFLAGS) $(INCLUDES) $(BONUS_OBJS) $(FT_PRINTF) $(LIBFT) -o checker
+	@echo "$(GREEN)Bonus compiled!$(RESTORE)"
+
+clean_bonus:
+	@echo "$(RED)Cleaning bonus...$(RESTORE)"
+	rm -f $(BONUS_OBJS) 
+	@$(MAKE) -C $(LIBFT_DIR) clean
+	@$(MAKE) -C $(FT_PRINTF_DIR) clean
+	@echo "$(GREEN)Bonus cleaned!$(RESTORE)"
 
 .PHONY: clean fclean all re bonus

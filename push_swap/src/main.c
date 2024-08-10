@@ -6,23 +6,11 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:25:42 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/08/08 19:30:50 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/10 20:02:42 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/include.h"
-
-static void	free_stack(t_stk **a)
-{
-	t_stk	*tmp;
-
-	while (*a)
-	{
-		tmp = *a;
-		*a = (*a)->next;
-		free(tmp);
-	}
-}
 
 int	main(int argc, char **argv)
 {
