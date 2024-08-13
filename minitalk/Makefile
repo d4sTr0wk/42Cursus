@@ -6,7 +6,7 @@
 #    By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 16:38:43 by maxgarci          #+#    #+#              #
-#    Updated: 2024/04/01 19:20:07 by maxgarci         ###   ########.fr        #
+#    Updated: 2024/08/13 15:43:24 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,8 @@ INCLUDES = -I . -I libft -I bonus -I src
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CC = cc
+CFLAGS = -Wall -Wextra -Werror 
 
 all: $(NAME)
 
@@ -47,12 +47,12 @@ $(NAME): server client
 
 server: $(SERVER_OBJS) $(LIBFT)
 	@echo "$(YELLOW)Compiling server...$(RESTORE)"
-	$(CC) $(CFLAGS) $(INCLUDES) $(SERVER_OBJS) $(LIBFT) -o $@
+	$(CC) $(CFLAGS) -O1 $(INCLUDES) $(SERVER_OBJS) $(LIBFT) -o $@
 	@echo "$(GREEN)Server compiled!$(RESTORE)"
 
 client: $(CLIENT_OBJS) $(LIBFT)
 	@echo "$(YELLOW)Compiling client...$(RESTORE)"
-	$(CC) $(CFLAGS) $(INCLUDES) $(CLIENT_OBJS) $(LIBFT) -o $@
+	$(CC) $(CFLAGS) -O3 $(INCLUDES) $(CLIENT_OBJS) $(LIBFT) -o $@
 	@echo "$(GREEN)Client compiled!$(RESTORE)"
 
 $(LIBFT):
@@ -62,29 +62,19 @@ $(LIBFT):
 
 clean:
 	@echo "$(RED)Cleaning...$(RESTORE)"
-	rm -f $(SERVER_OBJS) $(CLIENT_OBJS)
+	rm -rf $(SERVER_OBJS) $(CLIENT_OBJS)
+	rm -rf $(SERVER_BONUS_OBJS) $(CLIENT_BONUS_OBJS)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 	@echo "$(GREEN)Cleaned!$(RESTORE)"
 
 fclean: clean
 	@echo "$(RED)Full cleaning...$(RESTORE)"
-	rm -f server client
+	rm -rf server client
+	rm -rf server_bonus client_bonus
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@echo "$(GREEN)Full cleaned!$(RESTORE)"
 
 bonus: server_bonus client_bonus
-
-clean_bonus:
-	@echo "$(RED)Cleaning bonus...$(RESTORE)"
-	rm -f $(SERVER_BONUS_OBJS) $(CLIENT_BONUS_OBJS)
-	@$(MAKE) -C $(LIBFT_DIR) clean
-	@echo "$(GREEN)Bonus cleaned!$(RESTORE)"
-
-fclean_bonus: clean_bonus
-	@echo "$(RED)Full cleaning bonus...$(RESTORE)"
-	rm -f server_bonus client_bonus
-	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@echo "$(GREEN)Full bonus cleaned!$(RESTORE)"
 
 server_bonus: $(SERVER_BONUS_OBJS) $(LIBFT)
 	@echo "$(YELLOW)Compiling server_bonus...$(RESTORE)"
@@ -98,6 +88,4 @@ client_bonus: $(CLIENT_BONUS_OBJS) $(LIBFT)
 
 re: fclean all
 
-re_bonus: fclean_bonus bonus
-
-.PHONY: all clean fclean re bonus clean_bonus fclean_bonus re_bonus server client server_bonus client_bonus
+.PHONY: all clean fclean re bonus clean_bonus fclean_bonus re_bonus 
