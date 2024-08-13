@@ -6,7 +6,7 @@
 #    By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/28 18:22:03 by maxgarci          #+#    #+#              #
-#    Updated: 2024/08/10 21:35:43 by maxgarci         ###   ########.fr        #
+#    Updated: 2024/08/13 15:48:36 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,12 +75,5 @@ bonus: $(BONUS_OBJS) $(FT_PRINTF) $(LIBFT)
 	@echo "$(YELLOW)Compiling bonus...$(RESTORE)"
 	$(CC) $(CFLAGS) $(INCLUDES) $(BONUS_OBJS) $(FT_PRINTF) $(LIBFT) -o checker
 	@echo "$(GREEN)Bonus compiled!$(RESTORE)"
-
-clean_bonus:
-	@echo "$(RED)Cleaning bonus...$(RESTORE)"
-	rm -f $(BONUS_OBJS) 
-	@$(MAKE) -C $(LIBFT_DIR) clean
-	@$(MAKE) -C $(FT_PRINTF_DIR) clean
-	@echo "$(GREEN)Bonus cleaned!$(RESTORE)"
 
 .PHONY: clean fclean all re bonus
