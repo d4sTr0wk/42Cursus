@@ -6,13 +6,13 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:42:53 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/05 18:39:32 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:15:04 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	rotate(t_stk **stk, int conf)
+void	rotate(t_stk **stk, int echo)
 {
 	t_stk	*tmp;
 	t_stk	*iterator;
@@ -25,15 +25,16 @@ void	rotate(t_stk **stk, int conf)
 	iterator->next = tmp;
 	tmp->next = NULL;
 	assign_positions(stk);
-	if ((*stk)->stk_id == 'a' && conf == 0)
+	if ((*stk)->stk_id == 'a' && echo)
 		ft_printf("ra\n");
-	else if ((*stk)->stk_id == 'b' && conf == 0)
+	else if ((*stk)->stk_id == 'b' && echo)
 		ft_printf("rb\n");
 }
 
-void	rr(t_stk **a, t_stk **b)
+void	rr(t_stk **a, t_stk **b, int echo)
 {
-	rotate(a, 1);
-	rotate(b, 1);
-	ft_printf("rr\n");
+	rotate(a, MUTE);
+	rotate(b, MUTE);
+	if (echo)
+		ft_printf("rr\n");
 }

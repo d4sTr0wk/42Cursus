@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/08/10 20:02:28 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:14:31 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
+# define ECHO 1
+# define MUTE 0
 
 typedef struct s_stack
 {
@@ -48,20 +50,20 @@ void	up_down(t_stk **cands, t_stk **sol, t_stk *ab, t_stk *bel);
 void	down_up(t_stk **cands, t_stk **sol, t_stk *ab, t_stk *bel);
 
 // swap.c
-void	sa(t_stk **a);
-void	sb(t_stk **b);
+void	sa(t_stk **a, int echo);
+void	sb(t_stk **b, int echo);
 
 // push.c
-void	pa(t_stk **a, t_stk **b);
-void	pb(t_stk **a, t_stk **b);
+void	pa(t_stk **a, t_stk **b, int echo);
+void	pb(t_stk **a, t_stk **b, int echo);
 
 // rotate.c
-void	rotate(t_stk **stk, int conf);
-void	rr(t_stk **a, t_stk **b);
+void	rotate(t_stk **stk, int echo);
+void	rr(t_stk **a, t_stk **b, int echo);
 
 // reverserotate.c
-void	revrot(t_stk **stk, int conf);
-void	rrr(t_stk **a, t_stk **b);
+void	revrot(t_stk **stk, int echo);
+void	rrr(t_stk **a, t_stk **b, int echo);
 
 // push_swap_utils1.c
 void	assign_positions(t_stk **stack);

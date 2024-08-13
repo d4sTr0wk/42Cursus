@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:29:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/17 16:47:12 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:37:23 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ static void	next_move(t_stk **cands, t_stk **sol)
 	else
 		down_up(cands, sol, above, below);
 	if ((*cands)->stk_id == 'b')
-		pa(sol, cands);
+		pa(sol, cands, ECHO);
 	else
-		pb(cands, sol);
+		pb(cands, sol, ECHO);
 }
 
 static void	sort_stk(t_stk **a)
@@ -100,15 +100,15 @@ static void	sort_stk(t_stk **a)
 		tmp = *a;
 		while (tmp->index != 1)
 			tmp = tmp->next;
-		if (tmp->pos > stksize(*a) - tmp->pos + 1)
+		if (tmp->pos < stksize(*a) - tmp->pos)
 		{
 			while ((*a)->index != 1)
-				revrot(a, 0);
+				rotate(a, ECHO);
 		}
 		else
 		{
 			while ((*a)->index != 1)
-				rotate(a, 0);
+				revrot(a, ECHO);
 		}
 	}
 }
@@ -118,17 +118,17 @@ void	push_swap(t_stk **a, t_stk **b)
 	while (!partially_sorted(*a) || *b)
 	{
 		if (stksize(*a) <= 3 && !partially_sorted(*a))
-			sa(a);
+			sa(a, ECHO);
 		else if (partially_sorted(*a) && *b)
 			next_move(b, a);
 		else
 		{
 			if (!(*b))
 			{
-				pb(a, b);
-				pb(a, b);
+				pb(a, b, ECHO);
+				pb(a, b, ECHO);
 				if ((*b)->index < (*b)->next->index)
-					sb(b);
+					sb(b, ECHO);
 			}
 			else
 				next_move(a, b);

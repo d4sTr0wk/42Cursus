@@ -6,13 +6,13 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:37:58 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/02/27 19:12:29 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:08:21 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	pa(t_stk **a, t_stk **b)
+void	pa(t_stk **a, t_stk **b, int echo)
 {
 	t_stk	*tmp;
 
@@ -25,10 +25,11 @@ void	pa(t_stk **a, t_stk **b)
 	}
 	assign_positions(a);
 	assign_positions(b);
-	ft_printf("pa\n");
+	if (echo)
+		ft_printf("pa\n");
 }
 
-void	pb(t_stk **a, t_stk **b)
+void	pb(t_stk **a, t_stk **b, int echo)
 {
 	t_stk	*tmp;
 
@@ -41,5 +42,6 @@ void	pb(t_stk **a, t_stk **b)
 	}
 	assign_positions(a);
 	assign_positions(b);
-	ft_printf("pb\n");
+	if (echo)
+		ft_printf("pb\n");
 }

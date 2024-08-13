@@ -6,13 +6,13 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:45:41 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/05 11:55:21 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:15:44 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	revrot(t_stk **stk, int conf)
+void	revrot(t_stk **stk, int echo)
 {
 	t_stk	*tmp;
 
@@ -23,15 +23,16 @@ void	revrot(t_stk **stk, int conf)
 	*stk = tmp->next;
 	tmp->next = NULL;
 	assign_positions(stk);
-	if ((*stk)->stk_id == 'a' && conf == 0)
+	if ((*stk)->stk_id == 'a' && echo)
 		ft_printf("rra\n");
-	else if ((*stk)->stk_id == 'b' && conf == 0)
+	else if ((*stk)->stk_id == 'b' && echo)
 		ft_printf("rrb\n");
 }
 
-void	rrr(t_stk **a, t_stk **b)
+void	rrr(t_stk **a, t_stk **b, int echo)
 {
-	revrot(a, 1);
-	revrot(b, 1);
-	ft_printf("rrr\n");
+	revrot(a, MUTE);
+	revrot(b, MUTE);
+	if (echo)
+		ft_printf("rrr\n");
 }

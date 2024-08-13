@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 19:59:03 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/03/05 12:10:07 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:19:12 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ void	both_dwn(t_stk **cands, t_stk **sol, t_stk *above, t_stk *below)
 	if (stksize(*cands) - above->pos > stksize(*sol) - below->pos)
 	{
 		while ((*sol)->index != below->index)
-			rrr(sol, cands);
+			rrr(sol, cands, ECHO);
 		while ((*cands)->index != above->index)
-			revrot(cands, 0);
+			revrot(cands, ECHO);
 	}
 	else
 	{
 		while ((*cands)->index != above->index)
-			rrr(sol, cands);
+			rrr(sol, cands, ECHO);
 		while ((*sol)->index != below->index)
-			revrot(sol, 0);
+			revrot(sol, ECHO);
 	}
 }
 
@@ -35,31 +35,31 @@ void	both_up(t_stk **cands, t_stk **sol, t_stk *above, t_stk *below)
 	if (above->pos > below->pos)
 	{
 		while ((*sol)->index != below->index)
-			rr(sol, cands);
+			rr(sol, cands, ECHO);
 		while ((*cands)->index != above->index)
-			rotate(cands, 0);
+			rotate(cands, ECHO);
 	}
 	else
 	{
 		while ((*cands)->index != above->index)
-			rr(sol, cands);
+			rr(sol, cands, ECHO);
 		while ((*sol)->index != below->index)
-			rotate(sol, 0);
+			rotate(sol, ECHO);
 	}
 }
 
 void	up_down(t_stk **cands, t_stk **sol, t_stk *above, t_stk *below)
 {
 	while ((*sol)->index != below->index)
-		revrot(sol, 0);
+		revrot(sol, ECHO);
 	while ((*cands)->index != above->index)
-		rotate(cands, 0);
+		rotate(cands, ECHO);
 }
 
 void	down_up(t_stk **cands, t_stk **sol, t_stk *above, t_stk *below)
 {
 	while ((*sol)->index != below->index)
-		rotate(sol, 0);
+		rotate(sol, ECHO);
 	while ((*cands)->index != above->index)
-		revrot(cands, 0);
+		revrot(cands, ECHO);
 }

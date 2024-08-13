@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 12:49:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/08/05 19:11:29 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:57:15 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_atoi(const char *str)
 {
-	int	i;
-	long num;
-	int	sign;
+	int		i;
+	int		sign;
+	long	num;
 
 	i = 0;
 	num = 0;
