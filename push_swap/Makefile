@@ -6,7 +6,7 @@
 #    By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/28 18:22:03 by maxgarci          #+#    #+#              #
-#    Updated: 2024/08/13 15:48:36 by maxgarci         ###   ########.fr        #
+#    Updated: 2024/08/18 20:13:32 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ RESTORE = \033[0m
 
 NAME = push_swap
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 FT_PRINTF_DIR = ft_printf
@@ -27,7 +27,7 @@ GET_NEXT_LINE_DIR = bonus/get_next_line
 GET_NEXT_LINE = $(GET_NEXT_LINE_DIR)/
 INCLUDES = -I . -I include -I ft_printf -I bonus/get_next_line
 
-COMMON_SRCS = src/stack/check_args.c src/stack/initialize_args.c src/stack/stack.c src/stack/push.c src/stack/swap.c src/stack/rotate.c src/stack/reverserotate.c src/stack/push_swap.c src/stack/next_move_utils.c src/stack/push_swap_utils1.c src/stack/push_swap_utils2.c
+COMMON_SRCS = src/stack/check_args.c src/stack/initialize_args.c src/stack/initialize_args_utils.c src/stack/stack.c src/stack/push.c src/stack/swap.c src/stack/rotate.c src/stack/reverserotate.c src/stack/push_swap.c src/stack/next_move_utils.c src/stack/push_swap_utils1.c src/stack/push_swap_utils2.c
 PUSH_SWAP_SRCS = $(COMMON_SRCS) src/main.c
 PUSH_SWAP_OBJS = $(PUSH_SWAP_SRCS:.c=.o)
 BONUS_SRCS = $(COMMON_SRCS) bonus/checker.c bonus/get_next_line/get_next_line.c bonus/get_next_line/get_next_line_utils.c

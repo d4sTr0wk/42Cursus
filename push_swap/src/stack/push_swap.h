@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 23:20:55 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/08/13 16:14:31 by maxgarci         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:11:42 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ int		check_args(char **args, int argc);
 
 // initialize_args.c
 int		initialize_args(int argc, char **argv, t_stk **a);
+
+// initialize_args_utils.c
+void	assign_index(t_stk **stack);
+int		ft_split_count(char **tab);
+void	free_args(char **args, int argc);
+char	**create_args(int *argc, char **argv, int *args_splitted);
+int		add_elems_stk(t_stk **a, int argc, char **args);
 
 // next_move_utils.c
 void	both_dwn(t_stk **cands, t_stk **sol, t_stk *ab, t_stk *bel);
