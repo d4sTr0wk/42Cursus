@@ -1,75 +1,67 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/28 18:22:03 by maxgarci          #+#    #+#              #
-#    Updated: 2024/08/19 23:14:07 by maxgarci         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME	= fractol
+OS		= $(shell uname)
 
-RED = \033[0;31m
-GREEN = \033[0;32m
-YELLOW = \033[0;33m
-RESTORE = \033[0m
+# directories
+SRCDIR	= ./srcs
+INCDIR	= ./includes
+OBJDIR	= ./objs
 
-NAME = fractol
+# src / obj files
+SRC		= main.c \
+		  hook.c \
+		  tools.c \
+		  julia.c \
+		  burningship.c \
+		  mandelbrot.c \
+		$(addprefix fractals/,$(shell ls $(SRCDIR)/fractals | grep -E ".+\.c"))
 
-CC = cc
-CFLAGS = -Wall -Wextra -g -ldl -lglfw -pthread -lm -lX11 -lXext
-LIBFT_DIR = libft
-LIBFT = $(LIBFT_DIR)/libft.a
-FT_PRINTF_DIR = ft_printf
-FT_PRINTF = $(FT_PRINTF_DIR)/libftprintf.a
-MINILIBX_DIR = minilibx-linux
-MINILIBX = $(MINILIBX_DIR)/libmlx_Linux.a
-INCLUDES = -I . -I include -I libft -I ft_printf -I minilibx-linux
+OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
-FRACTOL_SRCS = src/main.c
-FRACTOL_OBJS = $(FRACTOL_SRCS:.c=.o)
+# compiler
+CC		= cc
+CFLAGS	= -Wall -Wextra -Werror -g
 
-all: $(NAME)
 
-%.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+# mlx library
+MLX		= ./minilibx-linux/
+MLX_LNK	= -L $(MLX) -l mlx -lXext -lX11
 
-$(NAME): $(FRACTOL_OBJS) $(FT_PRINTF) $(LIBFT) $(MINILIBX)
-	@echo "$(YELLOW)Compiling $@...$(RESTORE)"
-	$(CC) $(CFLAGS) $(INCLUDES) $^ -o $@ 
-	@echo "$(GREEN)$@ compiled!$(RESTORE)"
+MLX_INC	= -I $(MLX)
+MLX_LIB	= $(addprefix $(MLX),mlx.a)
 
-$(FT_PRINTF):
-	@echo "$(YELLOW)Compiling ft_printf...$(RESTORE)"
-	@$(MAKE) -C $(FT_PRINTF_DIR)
-	@echo "$(GREEN)Ft_printf compiled!$(RESTORE)"
+# ft library
+FT		= ./libft/
+FT_LIB	= $(addprefix $(FT),libft.a)
+FT_INC	= -I ./libft
+FT_LNK	= -L ./libft -l ft -l pthread
 
-$(LIBFT):
-	@echo "$(YELLOW)Compiling libft...$(RESTORE)"
-	@$(MAKE) -C $(LIBFT_DIR)
-	@echo "$(GREEN)Libft compiled!$(RESTORE)"
+all: obj $(FT_LIB) $(MLX_LIB) $(NAME)
 
-$(MINILIBX):
-	@echo "$(YELLOW)Compiling minilibx...$(RESTORE)"
-	@$(MAKE) -C $(MINILIBX_DIR)
-	@echo "$(GREEN)Minilibx compiled!$(RESTORE)"
+obj:
+	mkdir -p $(OBJDIR)
+	mkdir -p $(OBJDIR)/fractals
+
+$(OBJDIR)/%.o:$(SRCDIR)/%.c
+	$(CC) $(CFLAGS) $(MLX_INC) $(FT_INC) -I $(INCDIR) -o $@ -c $<
+
+$(FT_LIB):
+	@make -C $(FT)
+
+$(MLX_LIB):
+	@make -C $(MLX)
+
+$(NAME): $(OBJ)
+	$(CC) $(OBJ) $(MLX_LNK) $(FT_LNK) -lm -o $(NAME)
 
 clean:
-	@echo "$(RED)Cleaning...$(RESTORE)"	
-	rm -rf $(FRACTOL_OBJS)
-	@$(MAKE) -C $(FT_PRINTF_DIR) clean
-	@$(MAKE) -C $(LIBFT_DIR) clean
-	@$(MAKE) -C $(MINILIBX_DIR) clean
-	@echo "$(GREEN)Cleaned!$(RESTORE)"
+	rm -rf $(OBJDIR)
+	make -C $(FT) clean
+	make -C $(MLX) clean
 
 fclean: clean
-	@echo "$(RED)Full cleaning...$(RESTORE)"
 	rm -rf $(NAME)
-	@$(MAKE) -C $(FT_PRINTF_DIR) fclean
-	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@echo "$(GREEN)Full cleaned!$(RESTORE)"
+	make -C $(FT) fclean
 
 re: fclean all
 
-.PHONY: clean fclean all re bonus
+.PHONY: all clean fclean re
