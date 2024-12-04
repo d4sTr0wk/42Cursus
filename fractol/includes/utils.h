@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 11:29:06 by tglandai          #+#    #+#             */
-/*   Updated: 2016/11/08 12:49:28 by tglandai         ###   ########.fr       */
+/*   Created: 2024/12/04 10:27:32 by maxgarci          #+#    #+#             */
+/*   Updated: 2024/12/04 10:27:33 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef UTILS_H
+# define UTILS_H
 
-void	ft_putendl(char const *s)
-{
-	if (!s)
-		return ;
-	ft_putstr(s);
-	write(1, "\n", 1);
-}
+# include "fractal.h"
+
+void	error_message(char *text, int mode);
+void	ft_strlower(char *str);
+void	print(char *str, int fd);
+void	show_help(void);
+
+#endif  /* UTILS_H */

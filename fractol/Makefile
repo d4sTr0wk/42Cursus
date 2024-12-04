@@ -1,66 +1,111 @@
-NAME	= fractol
-OS		= $(shell uname)
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/12/04 10:27:39 by maxgarci          #+#    #+#              #
+#    Updated: 2024/12/04 10:27:40 by maxgarci         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-# directories
-SRCDIR	= ./srcs
-INCDIR	= ./includes
-OBJDIR	= ./objs
+# Colors
+RESET			= "\033[0m"
+BLACK    		= "\033[30m"    # Black
+RED      		= "\033[31m"    # Red
+GREEN    		= "\033[32m"    # Green
+YELLOW   		= "\033[33m"    # Yellow
+BLUE     		= "\033[34m"    # Blue
+MAGENTA  		= "\033[35m"    # Magenta
+CYAN     		= "\033[36m"    # Cyan
+WHITE    		= "\033[37m"    # White
 
-# src / obj files
-SRC		= main.c \
-		  hook.c \
-		  tools.c \
-		  julia.c \
-		  burningship.c \
-		  mandelbrot.c \
-		$(addprefix fractals/,$(shell ls $(SRCDIR)/fractals | grep -E ".+\.c"))
+# Compiler
+NAME			= fractol
+CC				= cc
+CFLAGS			= -Wall -Wextra -Werror -g
+OS				= $(shell uname)
+MAKE			= make -sC
+MKDIR			= mkdir -p
+RM				= rm -rf
 
-OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
+# Libs
+LIBFT_DIR		= libft
+LIBFT			= $(LIBFT_DIR)/libft.a
+LINKER  	    = -lft -L $(LIBFT_DIR)
 
-# compiler
-CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -g
+# Includes
+INCLUDES_DIR 	= includes
+INCLUDES_FLAG 	= -I$(INCLUDES_DIR) \
+				  -I$(LIBFT_DIR) \
+
+INCLUDES		= $(wildcard $(INCLUDES_DIR)/*.h) \
+				  $(LIBFT_DIR)/libft.h \
+
+# Sources
+SRCS_DIR		= srcs/
+SRC_FILES		= main.c \
+				  utils.c \
+				  events.c \
+				  render.c \
+			 	  fractals.c \
+				  mandelbox.c \
+				  make_engine.c \
+
+SRCS			= $(addprefix $(SRCS_DIR), $(SRC_FILES))
+
+# Objects
+OBJS_DIR		= objs/
+OBJ_FILES		= $(SRC_FILES:.c=.o)
+OBJS			= $(addprefix $(OBJS_DIR), $(OBJ_FILES))
+
+# Platform-dependent compilation
+ifeq ($(OS), Linux)
+	MLX_DIR			= mlx_linux
+	MLX				= $(MLX_DIR)/libmlx.a
+	LINKER			+= -lmlx -lm -lz -lXext -lX11 -L $(MLX_DIR)
+	INCLUDES_FLAG	+= -I$(MLX_DIR)
+else
+	MLX_DIR			= mlx_macos
+	MLX				= $(MLX_DIR)/libmlx.a
+	LINKER			+= -lmlx -lm -framework OpenGl -framework Appkit -L $(MLX_DIR)
+	INCLUDES_FLAG	+= -I$(MLX_DIR)
+endif
 
 
-# mlx library
-MLX		= ./minilibx-linux/
-MLX_LNK	= -L $(MLX) -l mlx -lXext -lX11
+all : $(LIBFT) $(MLX) $(OBJS_DIR) $(NAME)
 
-MLX_INC	= -I $(MLX)
-MLX_LIB	= $(addprefix $(MLX),mlx.a)
+$(LIBFT) :
+	@echo $(CYAN) " - Making libft..." $(RESET)
+	@$(MAKE) $(LIBFT_DIR)
+	@echo $(YELLOW) " - Made libft!" $(RESET)
 
-# ft library
-FT		= ./libft/
-FT_LIB	= $(addprefix $(FT),libft.a)
-FT_INC	= -I ./libft
-FT_LNK	= -L ./libft -l ft -l pthread
+$(MLX) :
+	@echo $(CYAN) " - Making mlx..." $(RESET)
+	@$(MAKE) $(MLX_DIR)
+	@echo $(YELLOW) " - Made mlx!" $(RESET)
 
-all: obj $(FT_LIB) $(MLX_LIB) $(NAME)
+$(OBJS_DIR) :
+	@$(MKDIR) $(OBJS_DIR)
 
-obj:
-	mkdir -p $(OBJDIR)
-	mkdir -p $(OBJDIR)/fractals
+$(NAME) : $(OBJS) Makefile
+	@echo $(GREEN) " - Compiling $(NAME)..." $(RESET)
+	@$(CC) $(CFLAGS) $(OBJS) $(LINKER) -o $(NAME)
+	@echo $(YELLOW) " - Compiling FINISHED" $(RESET)
 
-$(OBJDIR)/%.o:$(SRCDIR)/%.c
-	$(CC) $(CFLAGS) $(MLX_INC) $(FT_INC) -I $(INCDIR) -o $@ -c $<
+$(OBJS_DIR)%.o : $(SRCS_DIR)%.c $(INCLUDES)
+	@$(CC) $(CFLAGS) $(INCLUDES_FLAG) -c $< -o $@
 
-$(FT_LIB):
-	@make -C $(FT)
+clean :
+	@$(RM) $(OBJS_DIR)
+	@echo $(RED) " - Cleaned!" $(RESET)
 
-$(MLX_LIB):
-	@make -C $(MLX)
-
-$(NAME): $(OBJ)
-	$(CC) $(OBJ) $(MLX_LNK) $(FT_LNK) -lm -o $(NAME)
-
-clean:
-	rm -rf $(OBJDIR)
-	make -C $(FT) clean
-	make -C $(MLX) clean
-
-fclean: clean
-	rm -rf $(NAME)
-	make -C $(FT) fclean
+fclean : clean
+	@$(RM) $(NAME)
+	@$(MAKE) $(MLX_DIR) clean
+	@$(MAKE) $(LIBFT_DIR) fclean
+	@echo $(RED) " - Full Cleaned!" $(RESET)
 
 re: fclean all
 
