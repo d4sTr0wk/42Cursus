@@ -3,110 +3,92 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+         #
+#    By: maxgarci <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/12/04 10:27:39 by maxgarci          #+#    #+#              #
-#    Updated: 2024/12/04 10:27:40 by maxgarci         ###   ########.fr        #
+#    Created: 2024/12/22 19:21:20 by maxgarci          #+#    #+#              #
+#    Updated: 2024/12/22 21:22:49 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Colors
-RESET			= "\033[0m"
-BLACK    		= "\033[30m"    # Black
-RED      		= "\033[31m"    # Red
-GREEN    		= "\033[32m"    # Green
-YELLOW   		= "\033[33m"    # Yellow
-BLUE     		= "\033[34m"    # Blue
-MAGENTA  		= "\033[35m"    # Magenta
-CYAN     		= "\033[36m"    # Cyan
-WHITE    		= "\033[37m"    # White
+# Program name
+NAME = fractol
 
 # Compiler
-NAME			= fractol
-CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -g
-OS				= $(shell uname)
-MAKE			= make -sC
-MKDIR			= mkdir -p
-RM				= rm -rf
+CC = cc
+CFLAGS = -Werror -Wextra -Wall
+MLX_FLAGS = -lXext -lX11 -lm
 
-# Libs
-LIBFT_DIR		= libft
-LIBFT			= $(LIBFT_DIR)/libft.a
-LINKER  	    = -lft -L $(LIBFT_DIR)
+# Minilibx
+MLX_PATH = minilibx-linux/
+MLX_NAME = libmlx.a
+MLX = $(MLX_PATH)$(MLX_NAME)
+
+# libft
+LIBFT_PATH = libft/
+LIBFT_NAME = libft.a
+LIBFT = $(LIBFT_PATH)$(LIBFT_NAME)
+
+# ft_printf
+FT_PRINTF_PATH = ft_printf/
+FT_PRINTF_NAME = libftprintf.a
+FT_PRINTF = $(FT_PRINTF_PATH)$(FT_PRINTF_NAME)
 
 # Includes
-INCLUDES_DIR 	= includes
-INCLUDES_FLAG 	= -I$(INCLUDES_DIR) \
-				  -I$(LIBFT_DIR) \
-
-INCLUDES		= $(wildcard $(INCLUDES_DIR)/*.h) \
-				  $(LIBFT_DIR)/libft.h \
+INC	= -I ./includes/\
+	  -I ./libft/\
+	  -I ./minilibx-linux/
 
 # Sources
-SRCS_DIR		= srcs/
-SRC_FILES		= main.c \
-				  utils.c \
-				  events.c \
-				  render.c \
-			 	  fractals.c \
-				  mandelbox.c \
-				  make_engine.c \
-
-SRCS			= $(addprefix $(SRCS_DIR), $(SRC_FILES))
+SRC_PATH = src/
+SRC = main.c
+SRCS = $(addprefix $(SRC_PATH), $(SRC))
 
 # Objects
-OBJS_DIR		= objs/
-OBJ_FILES		= $(SRC_FILES:.c=.o)
-OBJS			= $(addprefix $(OBJS_DIR), $(OBJ_FILES))
+OBJ_PATH = obj/
+OBJ = $(SRC:.c=.o)
+OBJS = $(addprefix $(OBJ_PATH), $(OBJ))
 
-# Platform-dependent compilation
-ifeq ($(OS), Linux)
-	MLX_DIR			= mlx_linux
-	MLX				= $(MLX_DIR)/libmlx.a
-	LINKER			+= -lmlx -lm -lz -lXext -lX11 -L $(MLX_DIR)
-	INCLUDES_FLAG	+= -I$(MLX_DIR)
-else
-	MLX_DIR			= mlx_macos
-	MLX				= $(MLX_DIR)/libmlx.a
-	LINKER			+= -lmlx -lm -framework OpenGl -framework Appkit -L $(MLX_DIR)
-	INCLUDES_FLAG	+= -I$(MLX_DIR)
-endif
+all: $(MLX) $(LIBFT) $(FT_PRINTF) $(NAME)
 
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
-all : $(LIBFT) $(MLX) $(OBJS_DIR) $(NAME)
+$(OBJ_PATH):
+	@mkdir -p $(OBJ_PATH)
+	@mkdir $(OBJ_PATH)fractal_sets/
 
-$(LIBFT) :
-	@echo $(CYAN) " - Making libft..." $(RESET)
-	@$(MAKE) $(LIBFT_DIR)
-	@echo $(YELLOW) " - Made libft!" $(RESET)
+$(OBJS): $(OBJ_PATH)
 
-$(MLX) :
-	@echo $(CYAN) " - Making mlx..." $(RESET)
-	@$(MAKE) $(MLX_DIR)
-	@echo $(YELLOW) " - Made mlx!" $(RESET)
+$(NAME): $(OBJS)
+	@echo "Compiling fractol . . ."
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MLX) $(LIBFT) $(FT_PRINTF) $(INC) $(MLX_FLAGS)
 
-$(OBJS_DIR) :
-	@$(MKDIR) $(OBJS_DIR)
+$(MLX):
+	@echo "Making MinilibX . . ."
+	@make -sC $(MLX_PATH)
 
-$(NAME) : $(OBJS) Makefile
-	@echo $(GREEN) " - Compiling $(NAME)..." $(RESET)
-	@$(CC) $(CFLAGS) $(OBJS) $(LINKER) -o $(NAME)
-	@echo $(YELLOW) " - Compiling FINISHED" $(RESET)
+$(LIBFT):
+	@echo "Making libft . . ."
+	@make -sC $(LIBFT_PATH)
 
-$(OBJS_DIR)%.o : $(SRCS_DIR)%.c $(INCLUDES)
-	@$(CC) $(CFLAGS) $(INCLUDES_FLAG) -c $< -o $@
+$(FT_PRINTF):
+	@echo "Making ft_printf . . ."
+	@make -sC $(FT_PRINTF_PATH)
 
-clean :
-	@$(RM) $(OBJS_DIR)
-	@echo $(RED) " - Cleaned!" $(RESET)
+clean:
+	@echo "Removing .o object files . . ."
+	@make clean -sC $(MLX_PATH)
+	@make clean -sC $(LIBFT_PATH)
+	@make clean -sC $(FT_PRINTF_PATH)
+	@rm -rf $(OBJ_PATH)
 
-fclean : clean
-	@$(RM) $(NAME)
-	@$(MAKE) $(MLX_DIR) clean
-	@$(MAKE) $(LIBFT_DIR) fclean
-	@echo $(RED) " - Full Cleaned!" $(RESET)
+fclean: clean
+	@echo "Cleaning project . . ."
+	@rm -f $(MLX)
+	@rm -f $(LIBFT)
+	@rm -f $(FT_PRINTF)
+	@rm -f $(NAME)
 
-re: fclean all
+re: clean all
 
-.PHONY: all clean fclean re
+.PHONY: all re clean

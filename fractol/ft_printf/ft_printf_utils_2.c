@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   events.h                                           :+:      :+:    :+:   */
+/*   ft_printf_utils_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 10:26:40 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/12/04 10:26:42 by maxgarci         ###   ########.fr       */
+/*   Created: 2024/01/23 20:09:51 by maxgarci          #+#    #+#             */
+/*   Updated: 2024/01/23 20:46:00 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EVENTS_H
-# define EVENTS_H
+#include "ft_printf.h"
 
-# include "fractal.h"
+int	ft_putptr(unsigned long long ptr)
+{
+	return (write(1, "0x", 2) + ft_puthex('p', ptr));
+}
 
-int	on_destroy_event(t_engine *engine);
-int	on_mouse_hook_event(int key, int x, int y, t_engine *engine);
-int	on_key_hook_event(int key, t_engine *engine);
-int	on_mousemove_event(int x, int y, t_engine *engine);
+size_t	ft_strlen(const char *str)
+{
+	int	cnt;
 
-#endif  /* EVENTS_H */
+	cnt = 0;
+	while (*(str + (cnt)) != '\0')
+		++cnt;
+	return ((size_t)cnt);
+}
