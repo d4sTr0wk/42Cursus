@@ -3,92 +3,93 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maxgarci <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/12/22 19:21:20 by maxgarci          #+#    #+#              #
-#    Updated: 2024/12/22 21:22:49 by maxgarci         ###   ########.fr        #
+#    Created: 2024/12/28 11:00:33 by maxgarci          #+#    #+#              #
+#    Updated: 2024/12/28 14:00:33 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Program name
+RED = \033[0;31m
+GREEN = \033[0;32m
+YELLOW = \033[0;33m
+RESTORE = \033[0;0m
+
 NAME = fractol
 
-# Compiler
 CC = cc
-CFLAGS = -Werror -Wextra -Wall
-MLX_FLAGS = -lXext -lX11 -lm
+CFLAGS = -g -Werror -Wextra -Wall
+LIBRARIES =-lXext -lX11 -lm 
 
-# Minilibx
+LIBFT_PATH = libft
+LIBFT = $(LIBFT_PATH)/libft.a
+
 MLX_PATH = minilibx-linux/
-MLX_NAME = libmlx.a
-MLX = $(MLX_PATH)$(MLX_NAME)
+MLX = $(MLX_PATH)/libmlx.a
 
-# libft
-LIBFT_PATH = libft/
-LIBFT_NAME = libft.a
-LIBFT = $(LIBFT_PATH)$(LIBFT_NAME)
+INCLUDES = -I include -I libft -I minilibx-linux
+LIBRARIES = -lXext -lX11 -lm
 
-# ft_printf
-FT_PRINTF_PATH = ft_printf/
-FT_PRINTF_NAME = libftprintf.a
-FT_PRINTF = $(FT_PRINTF_PATH)$(FT_PRINTF_NAME)
-
-# Includes
-INC	= -I ./includes/\
-	  -I ./libft/\
-	  -I ./minilibx-linux/
-
-# Sources
 SRC_PATH = src/
-SRC = main.c
-SRCS = $(addprefix $(SRC_PATH), $(SRC))
+SRC =	fractol.c \
+		initialization.c \
+		utils.c \
+		events.c \
+		draw_fractol.c \
+		color.c \
+		parse_args.c \
+		help.c \
+		ecuations/mandelbrot.c \
+		ecuations/julia.c \
+		ecuations/burning_ship.c \
+		color_schemes/color_interpolated.c \
+		color_schemes/color_special.c \
+		color_schemes/color_striped.c
 
-# Objects
+COMMON_SRCS = $(addprefix $(SRC_PATH), $(SRC))
+
 OBJ_PATH = obj/
-OBJ = $(SRC:.c=.o)
+OBJ	= $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJ_PATH), $(OBJ))
 
-all: $(MLX) $(LIBFT) $(FT_PRINTF) $(NAME)
+all: $(MLX) $(LIBFT) $(NAME)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
-
-$(OBJ_PATH):
-	@mkdir -p $(OBJ_PATH)
-	@mkdir $(OBJ_PATH)fractal_sets/
+	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 
 $(OBJS): $(OBJ_PATH)
 
-$(NAME): $(OBJS)
-	@echo "Compiling fractol . . ."
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MLX) $(LIBFT) $(FT_PRINTF) $(INC) $(MLX_FLAGS)
+$(OBJ_PATH):
+	@mkdir $(OBJ_PATH)
+	@mkdir $(OBJ_PATH)ecuations/
+	@mkdir $(OBJ_PATH)color_schemes/
 
 $(MLX):
-	@echo "Making MinilibX . . ."
-	@make -sC $(MLX_PATH)
+	@echo "MiniLibX being created . . ."
+	@make -C $(MLX_PATH)
 
 $(LIBFT):
-	@echo "Making libft . . ."
-	@make -sC $(LIBFT_PATH)
+	@echo "Libft being created . . ."
+	@make -C $(LIBFT_PATH)
 
-$(FT_PRINTF):
-	@echo "Making ft_printf . . ."
-	@make -sC $(FT_PRINTF_PATH)
+$(NAME): $(OBJS)
+	@echo "Fractol being created . . ."
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MLX) $(LIBFT) $(INCLUDES) $(LIBRARIES) 
+	@echo "Fractol ready!✅"
+
+bonus: all
 
 clean:
-	@echo "Removing .o object files . . ."
-	@make clean -sC $(MLX_PATH)
-	@make clean -sC $(LIBFT_PATH)
-	@make clean -sC $(FT_PRINTF_PATH)
+	@echo "Removing .o object files..."
 	@rm -rf $(OBJ_PATH)
+	@make clean -C $(MLX_PATH)
+	@make clean -C $(LIBFT_PATH)
 
 fclean: clean
-	@echo "Cleaning project . . ."
-	@rm -f $(MLX)
-	@rm -f $(LIBFT)
-	@rm -f $(FT_PRINTF)
+	@echo "Removing fractol..."
 	@rm -f $(NAME)
+	@make fclean -C $(LIBFT_PATH)
 
-re: clean all
+re: fclean all
 
-.PHONY: all re clean
+.PHONY: all re clean fclean
