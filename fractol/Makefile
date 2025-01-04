@@ -6,7 +6,7 @@
 #    By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/28 11:00:33 by maxgarci          #+#    #+#              #
-#    Updated: 2024/12/28 14:00:33 by maxgarci         ###   ########.fr        #
+#    Updated: 2025/01/04 19:18:32 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ RESTORE = \033[0;0m
 NAME = fractol
 
 CC = cc
-CFLAGS = -g -Werror -Wextra -Wall
+CFLAGS = -Werror -Wextra -Wall
 LIBRARIES =-lXext -lX11 -lm 
 
 LIBFT_PATH = libft
@@ -33,18 +33,15 @@ LIBRARIES = -lXext -lX11 -lm
 SRC_PATH = src/
 SRC =	fractol.c \
 		initialization.c \
+		color.c \
 		utils.c \
 		events.c \
 		draw_fractol.c \
-		color.c \
 		parse_args.c \
 		help.c \
 		ecuations/mandelbrot.c \
 		ecuations/julia.c \
 		ecuations/burning_ship.c \
-		color_schemes/color_interpolated.c \
-		color_schemes/color_special.c \
-		color_schemes/color_striped.c
 
 COMMON_SRCS = $(addprefix $(SRC_PATH), $(SRC))
 

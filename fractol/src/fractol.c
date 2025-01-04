@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 11:45:33 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/12/28 15:13:14 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/01/04 18:31:46 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,12 @@ static void	get_set(t_fractol *fractol, char **av)
 		help(fractol);
 }
 
-/* get_julia_starting_values:
-*	Checks whether starting values were provided at program launch
-*	for the Julia set. If not, default Julia values are assigned.
-*	If values were provided, parses them, returning an error message
-*	if the values are not valid.
-*/
 static void	get_julia_starting_values(t_fractol *fractol, int ac, char **av)
 {
 	if (fractol->set != JULIA || ac == 2)
 	{
-		fractol->kr = -0.766667;
-		fractol->ki = -0.090000;
+		fractol->kr = -0.7;
+		fractol->ki = 0;
 		return ;
 	}
 	if (ac == 3)

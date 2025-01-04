@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 11:37:06 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/12/28 16:45:14 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/01/04 19:11:49 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,59 +51,19 @@ void	get_complex_layout(t_fractol *fractol)
 		fractol->min_r = -2.0;
 		fractol->max_r = 2.0;
 		fractol->min_i = -2.0;
-		fractol->max_i = fractol->min_i + (fractol->max_r - fractol->min_r) * HEIGHT / WIDTH;
+		fractol->max_i = fractol->min_i + \
+			(fractol->max_r - fractol->min_r) * HEIGHT / WIDTH;
 	}
 	else
 	{
 		fractol->min_r = -2.0;
 		fractol->max_r = 1.0;
 		fractol->max_i = -1.5;
-		fractol->min_i = fractol->max_i + (fractol->max_r - fractol->min_r) * HEIGHT / WIDTH;
+		fractol->min_i = fractol->max_i + \
+			(fractol->max_r - fractol->min_r) * HEIGHT / WIDTH;
 	}
 }
 
-/* init_img:
-*	Initializes an MLX image and a color palette. The color palette will
-*	be used to store every shade of color for every iteration number,
-*	and the color of each pixel will be stored in the image, which will
-*	then be displayed in the program window.
-*/
-static void	init_img(t_fractol *fractol)
-{
-	int		pixel_bits;
-	int		line_bytes;
-	int		endian;
-	char	*buffer;
-
-	fractol->palette = ft_calloc((MAX_ITERATIONS + 1), sizeof(int));
-	if (!(fractol->palette))
-		clean_exit(msg("error initializing color scheme.", "", 1), fractol);
-	fractol->image = mlx_new_image(fractol->mlx, WIDTH, HEIGHT);
-	if (!(fractol->image))
-		clean_exit(msg("image creation error.", "", 1), fractol);
-	buffer = mlx_get_data_addr(fractol->image, &pixel_bits, &line_bytes, &endian);
-	fractol->buffer = buffer;
-}
-
-/* reinit_image:
-*	Cleanly reinitializes the MLX image if the color palette or 
-*	fractal type is modified at runtime.
-*/
-void	reinit_img(t_fractol *fractol)
-{
-	if (fractol->mlx && fractol->image)
-		mlx_destroy_image(fractol->mlx, fractol->image);
-	if (fractol->palette)
-		free(fractol->palette);
-	if (fractol->buffer)
-		fractol->buffer = NULL;
-	init_img(fractol);
-}
-
-/* init:
-*	Creates a new MLX instance, a new window and populates
-*	the fractol data structure with default values.
-*/
 void	init(t_fractol *fractol)
 {
 	fractol->mlx = mlx_init();

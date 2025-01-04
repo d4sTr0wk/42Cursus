@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 10:59:01 by maxgarci          #+#    #+#             */
-/*   Updated: 2024/12/28 14:13:40 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/01/04 18:49:06 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,5 @@
 # define MOUSE_WHEEL_BTN 3
 # define MOUSE_BTN 1
 # define MOUSE_BTN_2 3
-# define KEY_C 99
 
 #endif
