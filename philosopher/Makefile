@@ -6,24 +6,25 @@
 #    By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 10:31:34 by maxgarci          #+#    #+#              #
-#    Updated: 2025/02/05 12:06:02 by maxgarci         ###   ########.fr        #
+#    Updated: 2025/02/08 22:50:19 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-RED := \033[0;31m
-GREEN := \033[0;32m
-YELLOW := \033[0;33m
+RED := \033[0;91m
+GREEN := \033[0;92m
+YELLOW := \033[0;93m
+MAGENTA = \033[35;1m
 RESTORE := \033[0;0m
 
 NAME		:= philo
 
 CC			:= cc
-CFLAGS		:= -Werror -Wextra -Wall
+CFLAGS		:= -g -Werror -Wextra -Wall
 INCLUDES	:= -I./include
 
 MAIN		:= main.c
 SRC_PATH	:= src/
-SRC			:= print_error.c ft_strlen.c
+SRC			:= print_error.c libft_utils.c
 
 SRCS		:= $(addprefix $(SRC_PATH), $(SRC))
 
@@ -43,7 +44,16 @@ $(OBJS): $(OBJ_PATH)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(OBJS) -o $(NAME)
-	@echo "$(MAGENTA)$(ITALIC)Minishell compiled!$(RESET)"
+	@echo "$(MAGENTA)$(ITALIC)Minishell compiled!✅$(RESET)"
 
+clean:
+	@echo "$(YELLOW)Removing .o object files...$(RESET)"
+	@rm -rf $(OBJ_PATH)
+
+fclean: clean
+	@echo "$(YELLOW)Removing fractol...$(RESET)"
+	@rm -f $(NAME)
+
+re: fclean all
 
 .PHONY: all clean fclean re
