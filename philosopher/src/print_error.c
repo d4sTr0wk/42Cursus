@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:26:17 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/02/08 22:47:00 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/03/09 12:37:40 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static char *error_messages[] = {
 	"number_of_philosophers is not valid",
 	"time_to_die is not valid",
 	"time_to_eat is not valid",
-	"time_to_sleep is not valid"
+	"time_to_sleep is not valid",
+	"ntimes_eat is not valid"
 };
 
 static void	help_panel()
