@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:40:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/03/09 20:56:27 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/03/10 11:54:02 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,16 @@
 # define FN_SUCESSED 0
 # define FN_FAILED 1
 
-# define TIME_THINKING_MS 10
+# define TIME_THINKING_US 10000
 
-# define RESET   "\033[0m"
-# define RED     "\033[31m"
-# define GREEN   "\033[32m"
-# define YELLOW  "\033[93m"
-# define BLUE    "\033[34m"
-# define MAGENTA "\033[35m"
-# define CYAN    "\033[36m"
+# define RESET   "\e[0;0m"
+# define RED     "\e[0;31m"
+# define GREEN   "\e[0;32m"
+# define YELLOW  "\e[0;93m"
+# define BLUE    "\e[0;34m"
+# define MAGENTA "\e[0;35m"
+# define CYAN    "\e[0;36m"
+# define GREY	"\e[0;127m"
 
 /*******************
 *		ENUM

@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:14:39 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/03/09 22:06:11 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/03/10 11:59:40 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ static int	args_are_valid(int argc, char **args __attribute__((unused)), t_args 
 	arguments->nphilosophers = ft_atoi(args[1]);
 	if (arguments->nphilosophers <= 0)
 		return (print_error(INVALID_NPHIL));
-	arguments->time_to_die = ft_atoi(args[2]);
+	arguments->time_to_die = ft_atoi(args[2]) * 1000;
 	if (arguments->time_to_die <= 0)
 		return (print_error(INVALID_TIME_2_DIE));
-	arguments->time_to_eat = ft_atoi(args[3]);
+	arguments->time_to_eat = ft_atoi(args[3]) * 1000;
 	if (arguments->time_to_eat <= 0)
 		return (print_error(INVALID_TIME_2_EAT));
-	arguments->time_to_sleep = ft_atoi(args[4]);
+	arguments->time_to_sleep = ft_atoi(args[4]) * 1000;
 	if (arguments->time_to_sleep <= 0)
 		return (print_error(INVALID_TIME_2_SLEEP));
 	if (argc == 6)
@@ -62,20 +62,20 @@ void	*run_philo(void *arg)
 	gettimeofday(&data->last_meal_time, NULL);
 	while (data->args->simulation_active && ((data->cnt_meals == -1) || --data->cnt_meals))
 	{
-		printf(CYAN "🤔%ldms %d has taken a fork\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
-		usleep(TIME_THINKING_MS);
+		printf(BLUE "%ld %d is thinking\n", (long)(((now.tv_sec * 1000) + (now.tv_usec / 1e3)) - ((init_time.tv_sec * 1000) + (init_time.tv_usec / 1e3))), data->id);
+		usleep(TIME_THINKING_US);
 		pthread_mutex_lock(&data->forks[left_fork]);
-		printf(RESET "%ldms %d has taken a fork\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
+		printf(RESET "%ld %d has taken fork %d\n", (long)(((now.tv_sec * 1000) + (now.tv_usec / 1e3)) - ((init_time.tv_sec * 1000) + (init_time.tv_usec / 1e3))), data->id, left_fork);
 		pthread_mutex_lock(&data->forks[right_fork]);
-		printf(RESET "%ldms %d has taken a fork\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
+		printf(RESET "%ld %d has taken fork %d\n", (long)(((now.tv_sec * 1000) + (now.tv_usec / 1e3)) - ((init_time.tv_sec * 1000) + (init_time.tv_usec / 1e3))), data->id, right_fork);
 		if (data->cnt_meals < data->args->ntimes_eat || data->cnt_meals == -1)
 		{
 			gettimeofday(&now, NULL);
-			time_passed = (now.tv_sec - data->last_meal_time.tv_sec) * 1000000 + (now.tv_usec - data->last_meal_time.tv_usec);
-			printf(RESET "Time passed since last meal: now %ld s %ld ms last_meal %ld s %ld ms, difference %ld\n", (long)now.tv_sec, (long)now.tv_usec, (long)data->last_meal_time.tv_sec, (long)data->last_meal_time.tv_usec, time_passed);
+			time_passed = (long)(((now.tv_sec * 1000000) + now.tv_usec) - ((data->last_meal_time.tv_sec * 1000000) + data->last_meal_time.tv_usec));
+			printf(RESET "Time passed since last meal: now %ld s %ld ms last_meal %ld s %ld us, difference %ld\n", (long)now.tv_sec, (long)now.tv_usec, (long)data->last_meal_time.tv_sec, (long)data->last_meal_time.tv_usec, time_passed);
 			if (time_passed > data->args->time_to_die)
 			{
-				printf(RED "☠️ %ldms %d died\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
+				printf(RED "☠️ %ld %d died\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
 				pthread_mutex_lock(data->mutex_simulation);
 				data->args->simulation_active = 0;
 				pthread_mutex_unlock(data->mutex_simulation);
@@ -83,11 +83,11 @@ void	*run_philo(void *arg)
 			}
 		}
 		gettimeofday(&data->last_meal_time, NULL);
-		printf(RED "😋%ldms %d is eating\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
+		printf(GREEN "%ld %d is eating\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
 		usleep(data->args->time_to_eat);
 		pthread_mutex_unlock(&data->forks[left_fork]);
 		pthread_mutex_unlock(&data->forks[right_fork]);
-		printf(MAGENTA "😴%ldms %d goes to sleep\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
+		printf(GREY "%ld %d is sleeping\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
 		usleep(data->args->time_to_sleep);
 	}
 	free(data);
