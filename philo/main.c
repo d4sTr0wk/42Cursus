@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:14:39 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/03/10 11:59:40 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/03/11 10:38:22 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,18 @@ void	*run_philo(void *arg)
 	left_fork = data->id;
 	right_fork = (data->id + 1) % data->args->nphilosophers;
 	gettimeofday(&init_time, NULL);
-	gettimeofday(&now, NULL);
 	gettimeofday(&data->last_meal_time, NULL);
 	while (data->args->simulation_active && ((data->cnt_meals == -1) || --data->cnt_meals))
 	{
+		gettimeofday(&now, NULL);
 		printf(BLUE "%ld %d is thinking\n", (long)(((now.tv_sec * 1000) + (now.tv_usec / 1e3)) - ((init_time.tv_sec * 1000) + (init_time.tv_usec / 1e3))), data->id);
 		usleep(TIME_THINKING_US);
+		gettimeofday(&now, NULL);
 		pthread_mutex_lock(&data->forks[left_fork]);
+		gettimeofday(&now, NULL);
 		printf(RESET "%ld %d has taken fork %d\n", (long)(((now.tv_sec * 1000) + (now.tv_usec / 1e3)) - ((init_time.tv_sec * 1000) + (init_time.tv_usec / 1e3))), data->id, left_fork);
 		pthread_mutex_lock(&data->forks[right_fork]);
+		gettimeofday(&now, NULL);
 		printf(RESET "%ld %d has taken fork %d\n", (long)(((now.tv_sec * 1000) + (now.tv_usec / 1e3)) - ((init_time.tv_sec * 1000) + (init_time.tv_usec / 1e3))), data->id, right_fork);
 		if (data->cnt_meals < data->args->ntimes_eat || data->cnt_meals == -1)
 		{
@@ -83,11 +86,13 @@ void	*run_philo(void *arg)
 			}
 		}
 		gettimeofday(&data->last_meal_time, NULL);
+		gettimeofday(&now, NULL);
 		printf(GREEN "%ld %d is eating\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
 		usleep(data->args->time_to_eat);
 		pthread_mutex_unlock(&data->forks[left_fork]);
 		pthread_mutex_unlock(&data->forks[right_fork]);
-		printf(GREY "%ld %d is sleeping\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
+		gettimeofday(&now, NULL);
+		printf(MAGENTA "%ld %d is sleeping\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
 		usleep(data->args->time_to_sleep);
 	}
 	free(data);

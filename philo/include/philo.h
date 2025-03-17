@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:40:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/03/10 11:54:02 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/03/11 10:18:41 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define FN_SUCESSED 0
 # define FN_FAILED 1
 
-# define TIME_THINKING_US 10000
+# define TIME_THINKING_US 5000
 
 # define RESET   "\e[0;0m"
 # define RED     "\e[0;31m"
