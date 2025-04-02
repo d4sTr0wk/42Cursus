@@ -6,7 +6,7 @@
 #    By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 10:31:34 by maxgarci          #+#    #+#              #
-#    Updated: 2025/02/08 22:50:19 by maxgarci         ###   ########.fr        #
+#    Updated: 2025/04/02 14:14:30 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,13 +34,11 @@ OBJS		:= $(addprefix $(OBJ_PATH), $(OBJ))
 
 all: $(NAME)
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c | $(OBJ_PATH)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(OBJ_PATH):
 	@mkdir -p $@
-
-$(OBJS): $(OBJ_PATH)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(OBJS) -o $(NAME)
