@@ -6,7 +6,7 @@
 /*   By: ybouhaik <ybouhaik@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:27:15 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/04/20 13:06:10 by ybouhaik         ###   ########.fr       */
+/*   Updated: 2025/04/26 18:04:53 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*load_variable(t_node *tmp, char **strings, int last_status, int *pos)
 		return (strings[1]);
 	i = -1;
 	while (var_value[++i] != '\0')
-		strings[1] = strjoin_char(strings[1], var_value[i], '\0');
+		strings[1] = strjoin_char(strings[1], var_value[i]);
 	free(var_value);
 	*pos = var_end_pos - 1;
 	return (strings[1]);

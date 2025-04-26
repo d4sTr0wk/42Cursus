@@ -6,7 +6,7 @@
 /*   By: ybouhaik <ybouhaik@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 18:36:52 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/04/20 14:28:51 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/04/26 18:24:26 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -569,7 +569,7 @@ char					*expand_variable(t_node *tmp, char *str, int arr[3]);
 
 int						find_var_delimeter(char *str, int pos);
 
-char					*strjoin_char(char *s1, char c, char terminator);
+char					*strjoin_char(char *s1, char c);
 
 /**
  * @brief Assings args of the commands by expanding variables

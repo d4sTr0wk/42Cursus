@@ -6,13 +6,13 @@
 /*   By: ybouhaik <ybouhaik@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:09:35 by ybouhaik          #+#    #+#             */
-/*   Updated: 2025/04/20 12:55:20 by ybouhaik         ###   ########.fr       */
+/*   Updated: 2025/04/26 18:43:00 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*strjoin_char(char *s1, char c, char terminator)
+char	*strjoin_char(char *s1, char c)
 {
 	size_t	len1;
 	size_t	i;
@@ -26,7 +26,7 @@ char	*strjoin_char(char *s1, char c, char terminator)
 	while (++i < len1)
 		new_str[i] = s1[i];
 	new_str[i] = c;
-	new_str[i + 1] = terminator;
+	new_str[i + 1] = '\0';
 	return (free(s1), new_str);
 }
 
@@ -99,7 +99,7 @@ static char	*process_str(t_node *tmp, char *str, int last_status)
 			new_arg = load_variable(tmp, (char *[]){str, new_arg}, last_status,
 					&pos);
 		else
-			new_arg = strjoin_char(new_arg, str[pos], '\0');
+			new_arg = strjoin_char(new_arg, str[pos]);
 	}
 	return (new_arg);
 }
@@ -126,6 +126,13 @@ int	expand_commands(t_node **head)
 				return (FN_FAILURE);
 			free(tmp->content->args[i]);
 			tmp->content->args[i] = ft_strdup(expanded);
+			if (i == 0)
+			{
+				tmp->content->command = malloc(sizeof(char) * (strlen(tmp->content->args[0]) + 1));
+				if (!tmp->content->command)
+					return (perror(ENO_MEM_ERROR), FN_FAILURE);
+				strcpy(tmp->content->command, tmp->content->args[0]);
+			}
 			free(expanded);
 		}
 		tmp = tmp->next;
