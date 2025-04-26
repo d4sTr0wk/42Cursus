@@ -6,7 +6,7 @@
 #    By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 10:31:34 by maxgarci          #+#    #+#              #
-#    Updated: 2025/04/02 14:14:30 by maxgarci         ###   ########.fr        #
+#    Updated: 2025/04/25 16:51:56 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ $(OBJ_PATH):
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(OBJS) -o $(NAME)
-	@echo "$(MAGENTA)$(ITALIC)Minishell compiled!✅$(RESET)"
+	@echo "$(MAGENTA)$(ITALIC)Philosophers compiled!✅$(RESET)"
 
 clean:
 	@echo "$(YELLOW)Removing .o object files...$(RESET)"

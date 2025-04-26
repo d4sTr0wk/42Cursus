@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:14:39 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/04/02 16:15:30 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/04/25 17:54:28 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	args_are_valid(int argc, char **args __attribute__((unused)), t_args 
 	if (argc <= 4 || argc > 6)
 		return (print_error(ARGS_NUM_ERROR));
 	arguments->nphilosophers = ft_atoi(args[1]);
-	if (arguments->nphilosophers <= 1)
+	if (arguments->nphilosophers <= 1 || arguments->nphilosophers >= 200)
 		return (print_error(INVALID_NPHIL));
 	arguments->time_to_die = ft_atoi(args[2]) * MILLI_TO_MICRO;
 	if (arguments->time_to_die <= 0)
@@ -41,6 +41,7 @@ static int	args_are_valid(int argc, char **args __attribute__((unused)), t_args 
 	else
 		arguments->ntimes_eat = -1;
 	arguments->simulation_active = 1;
+	arguments->turn = 0;
 	return (FN_SUCESSED);
 }
 
@@ -71,6 +72,7 @@ void	*run_philo(void *arg)
 		pthread_mutex_lock(&data->forks[right_fork]);
 		gettimeofday(&now, NULL);
 		printf(RESET "%ld %d has taken fork %d\n", (long)(((now.tv_sec * 1000) + (now.tv_usec / 1e3)) - ((init_time.tv_sec * 1000) + (init_time.tv_usec / 1e3))), data->id, right_fork);
+
         // check for inanition
         gettimeofday(&now, NULL);
         time_passed = (long)(((now.tv_sec * 1000000) + now.tv_usec) - ((data->last_meal_time.tv_sec * 1000000) + data->last_meal_time.tv_usec));
@@ -108,7 +110,11 @@ void	init_philosophers_forks(t_args *args, pthread_t *philosophers, pthread_mute
 	forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * args->nphilosophers);
 	if (!philosophers || !forks)
 	{
-		perror("Allocating memory error");
+		if (philosophers)
+			free(philosophers);
+		if (forks)
+			free(forks);
+		ft_putstr_fd(2, "Allocating memory error");
 		return ;
 	}
 	i = 0;
@@ -121,7 +127,9 @@ void	init_philosophers_forks(t_args *args, pthread_t *philosophers, pthread_mute
 		data = (t_philo_data *)malloc(sizeof(t_philo_data));
 		if (!data)
 		{
-			perror("Allocating memory error");
+			free(philosophers);
+			free(forks);
+			ft_putstr_fd(2, "Allocating memory error");
 			return ;
 		}
 		data->forks = forks;
@@ -132,11 +140,15 @@ void	init_philosophers_forks(t_args *args, pthread_t *philosophers, pthread_mute
 		pthread_detach(philosophers[i++]);
 	}
 	while (args->simulation_active)
-		usleep(args->time_to_die);		
+		usleep(1000);
 	i = 0;
 	while (i < args->nphilosophers)
 		pthread_mutex_destroy(forks + (i++));
 	printf(YELLOW "Simulation has finished!\n" RESET);
+	free(philosophers);
+	free(forks);
+	pthread_mutex_destroy(mutex_simulation);
+	exit(0);
 }
 
 int main(int argc, char **argv) 
