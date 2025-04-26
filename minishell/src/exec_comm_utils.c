@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_comm_utils.c                               :+:      :+:    :+:   */
+/*   exec_comm_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:05:41 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/04/20 14:07:15 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:41:15 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ char	*get_path_list(char *command, t_env *env)
 			return (env->var);
 		env = env->next;
 	}
-	ft_putstr_fd(command, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd("path variable not found at env.\n", 2);
 	return (NULL);
 }
 
@@ -46,6 +43,12 @@ int	get_absolute_path(char *path_list, char *command, t_node *head)
 
 	if (!access((head)->content->command, X_OK))
 		return (FN_SUCCESS);
+	if (!path_list)
+	{
+		ft_putstr_fd(command, 2);
+		ft_putstr_fd(": command not found\n", 2);
+		return (FN_FAILURE);
+	}
 	pos = -1;
 	split = ft_split(path_list, ':');
 	while (split[++pos])
