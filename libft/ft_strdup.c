@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 16:52:46 by maxgarci          #+#    #+#             */
-/*   Updated: 2023/11/22 21:38:54 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/04/18 18:15:47 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strdup(const char *s1)
 	int		tam;
 
 	tam = ft_strlen(s1);
+	if (tam == -1)
+		write(2, "hola", 4);
 	if (tam == 0)
 	{
 		ptr = malloc(sizeof(char));

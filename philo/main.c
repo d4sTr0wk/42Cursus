@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:14:39 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/04/25 17:54:28 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:24:16 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,35 @@ static int	args_are_valid(int argc, char **args __attribute__((unused)), t_args 
 	else
 		arguments->ntimes_eat = -1;
 	arguments->simulation_active = 1;
-	arguments->turn = 0;
 	return (FN_SUCESSED);
+}
+
+int		am_i_dead(struct timeval now, struct timeval last_time, long time_to_die)
+{
+	long elapsed_time = (long)(((now.tv_sec * 1000000) + now.tv_usec) - ((last_time.tv_sec * 1000000) + last_time.tv_usec));
+	if (elapsed_time > time_to_die)
+		return (YES);
+	return (NO);
+}
+
+int		check_forks_freed(t_philo_data *data)
+{
+	pthread_mutex_lock(data->global_mutex);
+	if (!data->forks[data->left_fork].fork_taken && !data->forks[data->right_fork].fork_taken)
+	{
+		pthread_mutex_lock(&data->forks[data->left_fork].fork_mutex);
+		pthread_mutex_lock(&data->forks[data->right_fork].fork_mutex);
+		data->forks[data->left_fork].fork_taken = 1;
+		data->forks[data->right_fork].fork_taken = 1;
+		pthread_mutex_unlock(data->global_mutex);
+		return (FN_SUCESSED);
+	}
+	pthread_mutex_unlock(data->global_mutex);
+	return (FN_FAILED);
 }
 
 void	*run_philo(void *arg)
 {
-	int				left_fork;
-	int				right_fork;
 	long			time_passed;
 	t_philo_data	*data;
 	struct timeval	init_time;
@@ -56,8 +77,6 @@ void	*run_philo(void *arg)
 
 	data = (t_philo_data *)arg;
 	data->cnt_meals = data->args->ntimes_eat + 1;
-	left_fork = data->id;
-	right_fork = (data->id + 1) % data->args->nphilosophers;
 	gettimeofday(&init_time, NULL);
 	gettimeofday(&data->last_meal_time, NULL);
 	while (data->args->simulation_active && ((data->cnt_meals == -1) || --(data->cnt_meals)))
@@ -65,33 +84,33 @@ void	*run_philo(void *arg)
 		gettimeofday(&now, NULL);
 		printf(BLUE "%ld %d is thinking\n", (long)(((now.tv_sec * 1000) + (now.tv_usec / 1e3)) - ((init_time.tv_sec * 1000) + (init_time.tv_usec / 1e3))), data->id);
 		usleep(TIME_THINKING_US);
-		gettimeofday(&now, NULL);
-		pthread_mutex_lock(&data->forks[left_fork]);
-		gettimeofday(&now, NULL);
-		printf(RESET "%ld %d has taken fork %d\n", (long)(((now.tv_sec * 1000) + (now.tv_usec / 1e3)) - ((init_time.tv_sec * 1000) + (init_time.tv_usec / 1e3))), data->id, left_fork);
-		pthread_mutex_lock(&data->forks[right_fork]);
-		gettimeofday(&now, NULL);
-		printf(RESET "%ld %d has taken fork %d\n", (long)(((now.tv_sec * 1000) + (now.tv_usec / 1e3)) - ((init_time.tv_sec * 1000) + (init_time.tv_usec / 1e3))), data->id, right_fork);
 
-        // check for inanition
-        gettimeofday(&now, NULL);
-        time_passed = (long)(((now.tv_sec * 1000000) + now.tv_usec) - ((data->last_meal_time.tv_sec * 1000000) + data->last_meal_time.tv_usec));
-        printf(RESET "Time passed since last meal: now %ld s %ld ms last_meal %ld s %ld us, difference %ld\n", (long)now.tv_sec, (long)now.tv_usec, (long)data->last_meal_time.tv_sec, (long)data->last_meal_time.tv_usec, time_passed);
-        if (time_passed > data->args->time_to_die)
-        {
-            printf(RED "☠️ %ld %d died\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
-            pthread_mutex_lock(data->mutex_simulation);
-            data->args->simulation_active = 0;
-            pthread_mutex_unlock(data->mutex_simulation);
-            break;
-        }
+		while (check_forks_freed(data))
+		{
+			usleep(LITTLE_NAP);
+			gettimeofday(&now, NULL);
+			if (am_i_dead(now, data->last_meal_time, data->args->time_to_die))
+			{
+				pthread_mutex_lock(data->mutex_simulation);
+				data->args->simulation_active = 0;
+				pthread_mutex_unlock(data->mutex_simulation);
+				break;
+			}
+		}
+		gettimeofday(&now, NULL);
+		pthread_mutex_lock(&data->forks[data->left_fork]);
+		gettimeofday(&now, NULL);
+		printf(RESET "%ld %d has taken fork %d\n", (long)(((now.tv_sec * 1000) + (now.tv_usec / 1e3)) - ((init_time.tv_sec * 1000) + (init_time.tv_usec / 1e3))), data->id, data->left_fork);
+		pthread_mutex_lock(&data->forks[data->right_fork]);
+		gettimeofday(&now, NULL);
+		printf(RESET "%ld %d has taken fork %d\n", (long)(((now.tv_sec * 1000) + (now.tv_usec / 1e3)) - ((init_time.tv_sec * 1000) + (init_time.tv_usec / 1e3))), data->id, data->right_fork);
 
-		gettimeofday(&data->last_meal_time, NULL);
+        gettimeofday(&data->last_meal_time, NULL);
 		gettimeofday(&now, NULL);
 		printf(GREEN "%ld %d is eating\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
 		usleep(data->args->time_to_eat);
-		pthread_mutex_unlock(&data->forks[left_fork]);
-		pthread_mutex_unlock(&data->forks[right_fork]);
+		pthread_mutex_unlock(&data->forks[data->left_fork]);
+		pthread_mutex_unlock(&data->forks[data->right_fork]);
 		gettimeofday(&now, NULL);
 		printf(MAGENTA "%ld %d is sleeping\n", (long)(((now.tv_sec - init_time.tv_sec) * 1000) + (long)((now.tv_usec - init_time.tv_usec) / 1e3)), data->id);
 		usleep(data->args->time_to_sleep);
@@ -100,27 +119,28 @@ void	*run_philo(void *arg)
 	return (NULL);
 }
 
-void	init_philosophers_forks(t_args *args, pthread_t *philosophers, pthread_mutex_t *mutex_simulation)
+void	init_philosophers_forks(t_args *args, pthread_t *philosophers, pthread_mutex_t *mutex_simulation, pthread_mutex_t *global_mutex)
 {
 	int				i;
-	pthread_mutex_t	*forks;
+	t_fork			*forks;
 	t_philo_data	*data;
 
 	philosophers = (pthread_t *)malloc(sizeof(pthread_t) * args->nphilosophers);
-	forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * args->nphilosophers);
+	forks = (t_fork *)malloc(sizeof(t_fork) * args->nphilosophers);
 	if (!philosophers || !forks)
 	{
 		if (philosophers)
 			free(philosophers);
 		if (forks)
 			free(forks);
-		ft_putstr_fd(2, "Allocating memory error");
+		ft_putstr_fd("Allocating memory error", 2);
 		return ;
 	}
 	i = 0;
 	while (i < args->nphilosophers)
 		pthread_mutex_init(forks + (i++), NULL);
 	pthread_mutex_init(mutex_simulation, NULL);
+	pthread_mutex_init(global_mutex, NULL);
 	i = 0;
 	while (i < args->nphilosophers)
 	{
@@ -129,13 +149,16 @@ void	init_philosophers_forks(t_args *args, pthread_t *philosophers, pthread_mute
 		{
 			free(philosophers);
 			free(forks);
-			ft_putstr_fd(2, "Allocating memory error");
+			ft_putstr_fd("Allocating memory error", 2);
 			return ;
 		}
 		data->forks = forks;
 		data->args = args;
 		data->id = i;
+		data->left_fork = data->id;
+		data->right_fork = (data->id + 1) % data->args->nphilosophers;
 		data->mutex_simulation = mutex_simulation;
+		data->global_mutex = global_mutex;
 		pthread_create(philosophers + (i), NULL, run_philo, data);
 		pthread_detach(philosophers[i++]);
 	}
@@ -157,11 +180,12 @@ int main(int argc, char **argv)
 	t_args				arguments;
 	pthread_t			*philosophers;
 	pthread_mutex_t		mutex_simulation;
+	pthread_mutex_t		global_mutex;
 
 	valid_args = args_are_valid(argc, argv, &arguments);
 	philosophers = NULL;
 	if (!valid_args)
-		init_philosophers_forks(&arguments, philosophers, &mutex_simulation);
+		init_philosophers_forks(&arguments, philosophers, &mutex_simulation, &global_mutex);
 	else
 		return (valid_args);
 }

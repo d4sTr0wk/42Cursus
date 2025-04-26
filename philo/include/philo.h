@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:40:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/04/25 17:43:19 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:27:57 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,12 @@
 
 # define FN_SUCESSED 0
 # define FN_FAILED 1
+# define NO 0
+# define YES 1
 
 # define MILLI_TO_MICRO 1000
 # define TIME_THINKING_US 1000
+# define LITTLE_NAP 500
 
 # define RESET   "\e[0;0m"
 # define RED     "\e[0;31m"
@@ -68,21 +71,29 @@ enum	e_error_codes
 typedef struct s_args
 {
 	int				nphilosophers;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
 	int				ntimes_eat;
 	volatile int	simulation_active;
-	volatile int	turn;
 }	t_args;
+
+typedef struct s_fork
+{
+	int				fork_taken;
+	pthread_mutex_t	fork_mutex;
+}	t_fork;
 
 typedef struct s_philo_data
 {
 	int				id;
+	int				left_fork;
+	int				right_fork;
 	int				cnt_meals;
 	t_args			*args;
-	pthread_mutex_t	*forks;
+	t_fork			*forks;
 	pthread_mutex_t	*mutex_simulation;
+	pthread_mutex_t	*global_mutex;
 	struct timeval	last_meal_time;
 } t_philo_data;
 
