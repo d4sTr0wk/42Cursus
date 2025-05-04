@@ -1,5 +1,5 @@
-#ifndef CONTACT_HPP
-#define CONTACT_HPP
+#ifndef __CONTACT_H__
+#define __CONTACT_H__
 
 #include <string>
 
@@ -18,7 +18,13 @@ public:
   void setContact(const std::string &first_name, const std::string &last_name, 
                   const std::string &nickname, const std::string &phone, 
                   const std::string &darkest_secret);
+  
 
+  std::string getFirstName() const;
+  std::string getLastName() const;
+  std::string getNickname() const;
+  std::string getPhone() const;
+  std::string getDarkestSecret() const;
 };
 
 #endif
