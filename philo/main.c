@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:14:39 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/05 13:00:59 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:38:32 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,6 @@ void	*run_philo(void *arg)
 		}
 	}
 	free(data);
-	
 	return (NULL);
 }
 
@@ -226,9 +225,6 @@ void	init_philosophers(t_args *args, pthread_t **philosophers, pthread_mutex_t *
 		pthread_mutex_destroy(&args->simulation_mutex);
 		return ;
 	}
-
-	while (is_simulation_active(args))
-		usleep(1000);
 
 	i = -1;
 	while (++i < args->nphilosophers)
