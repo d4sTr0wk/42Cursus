@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:40:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/05 11:57:19 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:06:41 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@
 
 # define MILLI_TO_MICRO 1000
 # define INTERVAL_NAP 10000
-# define TIME_THINKING_US 1000
-# define LITTLE_NAP 500
+# define TIME_THINKING_US 1
+# define LITTLE_NAP 100
 
 # define RESET   "\e[0;0m"
 # define RED     "\e[0;31m"
