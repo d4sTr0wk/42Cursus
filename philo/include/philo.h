@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:40:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/04/26 15:27:57 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:57:19 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define YES 1
 
 # define MILLI_TO_MICRO 1000
+# define INTERVAL_NAP 10000
 # define TIME_THINKING_US 1000
 # define LITTLE_NAP 500
 
@@ -76,13 +77,8 @@ typedef struct s_args
 	long			time_to_sleep;
 	int				ntimes_eat;
 	volatile int	simulation_active;
+	pthread_mutex_t	simulation_mutex;
 }	t_args;
-
-typedef struct s_fork
-{
-	int				fork_taken;
-	pthread_mutex_t	fork_mutex;
-}	t_fork;
 
 typedef struct s_philo_data
 {
@@ -90,10 +86,10 @@ typedef struct s_philo_data
 	int				left_fork;
 	int				right_fork;
 	int				cnt_meals;
+	int				*forks_taken;
 	t_args			*args;
-	t_fork			*forks;
-	pthread_mutex_t	*mutex_simulation;
-	pthread_mutex_t	*global_mutex;
+	pthread_mutex_t	*echo_mutex;
+	pthread_mutex_t	*forks_mutex;
 	struct timeval	last_meal_time;
 } t_philo_data;
 
