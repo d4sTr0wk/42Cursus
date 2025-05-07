@@ -21,13 +21,13 @@ void	init_variables(t_philo_data **data, void *arg,
 	gettimeofday(&(*data)->last_meal_time, NULL);
 }
 
-static void	go_to_eat(t_philo_data *data, struct timeval *now,
+static int	go_to_eat(t_philo_data *data, struct timeval *now,
 	struct timeval *init_time)
 {
 	int	elapsed;
 
-	gettimeofday(now, NULL);
 	pthread_mutex_lock(data->echo_mutex);
+	gettimeofday(now, NULL);
 	printf(GREEN "%ld %d is eating\n",
 		(long)(((now->tv_sec - init_time->tv_sec) * 1000)
 			+ (long)((now->tv_usec - init_time->tv_usec) / 1e3)), data->id);
@@ -36,28 +36,30 @@ static void	go_to_eat(t_philo_data *data, struct timeval *now,
 	while (elapsed < data->args->time_to_eat)
 	{
 		if (is_simulation_active(data->args) == NO)
-			(free(data), exit(FN_FAILED));
-		gettimeofday(now, NULL);
+			return (free(data), FN_FAILED);
 		if (am_i_dead(now, &data->last_meal_time, &data->args->time_to_die)
 			&& data->args->simulation_active == YES)
-			(kill_philosopher(data, now, init_time), exit(FN_FAILED));
+			return (kill_philosopher(data, now, init_time), FN_FAILED);
 		usleep(INTERVAL_NAP);
 		elapsed += INTERVAL_NAP;
 	}
 	gettimeofday(&data->last_meal_time, NULL);
-	pthread_mutex_lock(data->forks_mutex);
+	pthread_mutex_lock(&data->forks_mutexes[data->left_fork]);
+	pthread_mutex_lock(&data->forks_mutexes[data->right_fork]);
 	data->forks_taken[data->left_fork] = 0;
 	data->forks_taken[data->right_fork] = 0;
-	pthread_mutex_unlock(data->forks_mutex);
+	pthread_mutex_unlock(&data->forks_mutexes[data->left_fork]);
+	pthread_mutex_unlock(&data->forks_mutexes[data->right_fork]);
+	return (FN_SUCESSED);
 }
 
-static void	go_to_sleep(t_philo_data *data, struct timeval *now,
+static int	go_to_sleep(t_philo_data *data, struct timeval *now,
 	struct timeval *init_time)
 {
 	int	elapsed;
 
-	gettimeofday(now, NULL);
 	pthread_mutex_lock(data->echo_mutex);
+	gettimeofday(now, NULL);
 	printf(MAGENTA "%ld %d is sleeping\n",
 		(long)(((now->tv_sec - init_time->tv_sec) * 1000)
 			+ (long)((now->tv_usec - init_time->tv_usec) / 1e3)),
@@ -67,38 +69,31 @@ static void	go_to_sleep(t_philo_data *data, struct timeval *now,
 	while (elapsed < data->args->time_to_sleep)
 	{
 		if (is_simulation_active(data->args) == NO)
-			(free(data), exit(FN_FAILED));
+			return (free(data), FN_FAILED);
 		gettimeofday(now, NULL);
 		if (am_i_dead(now, &data->last_meal_time, &data->args->time_to_die)
 			&& data->args->simulation_active == YES)
-		{
-			kill_philosopher(data, now, init_time);
-			exit(FN_FAILED);
-		}
+			return (kill_philosopher(data, now, init_time), FN_FAILED);
 		usleep(INTERVAL_NAP);
 		elapsed += INTERVAL_NAP;
 	}
+	return (FN_SUCESSED);
 }
 
-void	ask_for_forks(t_philo_data *data, struct timeval *now,
+static int	ask_for_forks(t_philo_data *data, struct timeval *now,
 	struct timeval *init_time)
 {
 	while (check_forks_freed(data, init_time, now))
 	{
 		if (is_simulation_active(data->args) == NO)
-		{
-			free(data);
-			exit(FN_FAILED);
-		}
+			return (free(data), FN_FAILED);
 		gettimeofday(now, NULL);
 		if (am_i_dead(now, &data->last_meal_time, &data->args->time_to_die)
 			&& data->args->simulation_active == YES)
-		{
-			kill_philosopher(data, now, init_time);
-			exit(FN_FAILED);
-		}
+			return (kill_philosopher(data, now, init_time), FN_FAILED);
 		usleep(LITTLE_NAP);
 	}
+	return (FN_SUCESSED);
 }
 
 void	*run_philo(void *arg)
@@ -112,16 +107,19 @@ void	*run_philo(void *arg)
 	while (is_simulation_active(data->args) && ((data->cnt_meals == -1)
 			|| --(data->cnt_meals)))
 	{
-		gettimeofday(&now, NULL);
 		pthread_mutex_lock(data->echo_mutex);
+		gettimeofday(&now, NULL);
 		printf(BLUE "%ld %d is thinking\n",
 			(long)(((now.tv_sec * 1000) + (now.tv_usec / 1e3))
 				- ((init_time.tv_sec * 1000) + (init_time.tv_usec / 1e3))),
 			data->id);
 		pthread_mutex_unlock(data->echo_mutex);
-		ask_for_forks(data, &now, &init_time);
-		go_to_eat(data, &now, &init_time);
-		go_to_sleep(data, &now, &init_time);
+		if (ask_for_forks(data, &now, &init_time))
+			return (NULL);
+		if (go_to_eat(data, &now, &init_time))
+			return (NULL);
+		if (go_to_sleep(data, &now, &init_time))
+			return (NULL);
 	}
 	free(data);
 	return (NULL);

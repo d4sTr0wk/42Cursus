@@ -17,6 +17,7 @@ int	am_i_dead(struct timeval *now, struct timeval *last_time,
 {
 	long	elapsed_time;
 
+	gettimeofday(now, NULL);
 	elapsed_time = (long)(((now->tv_sec * 1000000) + now->tv_usec)
 			- ((last_time->tv_sec * 1000000) + last_time->tv_usec));
 	if (elapsed_time > *time_to_die)
@@ -27,15 +28,17 @@ int	am_i_dead(struct timeval *now, struct timeval *last_time,
 int	check_forks_freed(t_philo_data *data, struct timeval *init_time,
 	struct timeval *now)
 {
-	pthread_mutex_lock(data->forks_mutex);
-	gettimeofday(now, NULL);
+	pthread_mutex_lock(&data->forks_mutexes[data->left_fork]);
+	pthread_mutex_lock(&data->forks_mutexes[data->right_fork]);
 	if (data->forks_taken[data->left_fork] == NO
 		&& data->forks_taken[data->right_fork] == NO)
 	{
 		data->forks_taken[data->left_fork] = YES;
 		data->forks_taken[data->right_fork] = YES;
+		pthread_mutex_unlock(&data->forks_mutexes[data->left_fork]);
+		pthread_mutex_unlock(&data->forks_mutexes[data->right_fork]);
 		pthread_mutex_lock(data->echo_mutex);
-		pthread_mutex_unlock(data->forks_mutex);
+		gettimeofday(now, NULL);
 		printf(RESET "%ld %d has taken fork %d\n",
 			(long)(((now->tv_sec * 1000) + (now->tv_usec / 1e3))
 				- ((init_time->tv_sec * 1000) + (init_time->tv_usec / 1e3))),
@@ -47,7 +50,8 @@ int	check_forks_freed(t_philo_data *data, struct timeval *init_time,
 		pthread_mutex_unlock(data->echo_mutex);
 		return (FN_SUCESSED);
 	}
-	pthread_mutex_unlock(data->forks_mutex);
+	pthread_mutex_unlock(&data->forks_mutexes[data->left_fork]);
+	pthread_mutex_unlock(&data->forks_mutexes[data->right_fork]);
 	return (FN_FAILED);
 }
 

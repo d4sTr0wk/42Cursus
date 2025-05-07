@@ -41,25 +41,38 @@ static int	args_are_valid(int argc, char **args __attribute__((unused)),
 	return (FN_SUCESSED);
 }
 
+static pthread_mutex_t	*init_forks(int nforks)
+{
+	pthread_mutex_t	*forks_mutex;
+
+	forks_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * nforks);
+	return (forks_mutex);
+}
+
 int	main(int argc, char **argv)
 {
 	int					valid_args;
 	t_args				arguments;
 	pthread_t			*philosophers;
 	pthread_mutex_t		echo_mutex;
-	pthread_mutex_t		forks_mutex;
+	pthread_mutex_t		*forks_mutexes;
 
 	valid_args = args_are_valid(argc, argv, &arguments);
 	philosophers = NULL;
 	if (!valid_args)
 	{
+		forks_mutexes = init_forks(arguments.nphilosophers);
+		if (forks_mutexes == NULL)
+			return (ft_putstr_fd("Failed allocating forks' mutexes!", 2),
+				FN_FAILED);
 		if (init_philosophers(&arguments, &philosophers, &echo_mutex,
-				&forks_mutex))
-			return (1);
+				forks_mutexes))
+			return (free(forks_mutexes), FN_FAILED);
 		if (!philosophers)
-			return (1);
+			return (free(forks_mutexes), FN_FAILED);
 	}
 	else
 		return (valid_args);
-	return (0);
+	free(forks_mutexes);
+	return (FN_SUCESSED);
 }

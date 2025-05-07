@@ -90,7 +90,7 @@ typedef struct s_philo_data
 	int				*forks_taken;
 	t_args			*args;
 	pthread_mutex_t	*echo_mutex;
-	pthread_mutex_t	*forks_mutex;
+	pthread_mutex_t	*forks_mutexes;
 	struct timeval	last_meal_time;
 }	t_philo_data;
 

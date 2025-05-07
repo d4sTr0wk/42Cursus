@@ -31,12 +31,38 @@ static int	create_philosophers(t_args *args, int *forks_taken,
 		data->left_fork = data->id;
 		data->right_fork = (data->id + 1) % data->args->nphilosophers;
 		data->echo_mutex = mutexes[0];
-		data->forks_mutex = mutexes[1];
+		data->forks_mutexes = mutexes[1];
 		if (pthread_create(&(*philosophers)[i], NULL, run_philo, data))
 			return (ft_putstr_fd("Error creating thread", 2),
 				free(data), i);
 	}
 	return (i);
+}
+
+static int	init_forks_mutexes(pthread_mutex_t *forks_mutexes, int nforks)
+{
+	int	i;
+
+	i = -1;
+	while (++i < nforks)
+	{
+		if (pthread_mutex_init(&forks_mutexes[i], NULL))
+		{
+			while (--i >= 0)
+				pthread_mutex_destroy(&forks_mutexes[i]);
+			return (FN_FAILED);
+		}
+	}
+	return (FN_SUCESSED);
+}
+
+static void	destroy_forks_mutexes(pthread_mutex_t *forks_mutexes, int nforks)
+{
+	int	i;
+
+	i = -1;
+	while (++i < nforks)
+		pthread_mutex_destroy(&forks_mutexes[i]);
 }
 
 static int	init_variables(t_args *args, pthread_t **philosophers,
@@ -56,8 +82,9 @@ static int	init_variables(t_args *args, pthread_t **philosophers,
 		ft_putstr_fd("Allocating memory error", 2);
 		return (FN_FAILED);
 	}
+	if (init_forks_mutexes(mutexes[1], args->nphilosophers))
+		return (free(*philosophers), free(*forks_taken), FN_FAILED);
 	if (pthread_mutex_init(mutexes[0], NULL)
-		|| pthread_mutex_init(mutexes[1], NULL)
 		|| pthread_mutex_init(&args->simulation_mutex, NULL))
 		return (free(*philosophers), free(*forks_taken), FN_FAILED);
 	i = -1;
@@ -89,16 +116,17 @@ int	init_philosophers(t_args *args, pthread_t **philosophers,
 	{
 		while (--i >= 0)
 			pthread_join((*philosophers)[i], NULL);
+		destroy_forks_mutexes(forks_mutex, args->nphilosophers);
 		return (free(*philosophers), free(forks_taken),
 			pthread_mutex_destroy(echo_mutex),
-			pthread_mutex_destroy(forks_mutex),
 			pthread_mutex_destroy(&args->simulation_mutex), FN_FAILED);
 	}
 	i = -1;
 	while (++i < args->nphilosophers)
 		pthread_join((*philosophers)[i], NULL);
 	print_simulation_end(echo_mutex);
+	destroy_forks_mutexes(forks_mutex, args->nphilosophers);
 	return (free(*philosophers), free(forks_taken),
-		pthread_mutex_destroy(echo_mutex), pthread_mutex_destroy(forks_mutex),
+		pthread_mutex_destroy(echo_mutex),
 		pthread_mutex_destroy(&args->simulation_mutex), FN_SUCESSED);
 }
