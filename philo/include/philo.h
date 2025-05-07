@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:40:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/05 15:06:41 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:46:24 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # include <unistd.h>
 // gettimeofday
 # include <sys/time.h>
+//phtreadtypes
+# include <bits/pthreadtypes.h>
 
 /*********************
 *		DEFINES
@@ -39,8 +41,7 @@
 
 # define MILLI_TO_MICRO 1000
 # define INTERVAL_NAP 10000
-# define TIME_THINKING_US 1
-# define LITTLE_NAP 100
+# define LITTLE_NAP 10
 
 # define RESET   "\e[0;0m"
 # define RED     "\e[0;31m"
@@ -91,19 +92,46 @@ typedef struct s_philo_data
 	pthread_mutex_t	*echo_mutex;
 	pthread_mutex_t	*forks_mutex;
 	struct timeval	last_meal_time;
-} t_philo_data;
+}	t_philo_data;
+
+/****************
+ *	run_philo.c
+ ***************/
+void	*run_philo(void *arg);
 
 /******************
-*		MAIN
-* *****************/
+ *	philo_utils.c
+ *****************/
 
-// print_error.c
+int		am_i_dead(struct timeval *now, struct timeval *last_time,
+			long *time_to_die);
+
+int		check_forks_freed(t_philo_data *data, struct timeval *init_time,
+			struct timeval *now);
+
+int		is_simulation_active(t_args *args);
+
+int		is_simulation_active(t_args *args);
+
+void	kill_philosopher(t_philo_data *data, struct timeval *now,
+			struct timeval *init_time);
+
+/*************************
+ *	init_philosophers.c
+ ************************/
+
+int		init_philosophers(t_args *args, pthread_t **philosophers,
+			pthread_mutex_t *echo_mutex, pthread_mutex_t *forks_mutex);
+
+/*******************
+ *	print_error.c
+ ******************/
 int		print_error(enum e_error_codes error);
 
-// libft_utils.c
+/*******************
+ *	libft_utils.c
+ ******************/
 int		ft_atoi(const char *str);
-
-size_t	ft_strlen(const char *str);
 
 void	ft_putstr_fd(char *s, int fd);
 

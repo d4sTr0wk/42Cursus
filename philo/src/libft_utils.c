@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:39:16 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/02/08 22:27:35 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:30:55 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-
-size_t	ft_strlen(const char *str)
-{
-	int	cnt;
-
-	cnt = 0;
-	while (*(str + (cnt)) != '\0')
-		++cnt;
-	return ((size_t)cnt);
-}
 
 int	ft_atoi(const char *str)
 {

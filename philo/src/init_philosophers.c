@@ -1,0 +1,104 @@
+/* ************************************************************************** */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   init_philosophers.c								:+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: maxgarci <maxgarci@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2025/05/05 15:54:54 by maxgarci		  #+#	#+#			 */
+/*   Updated: 2025/05/05 16:01:15 by maxgarci		 ###   ########.fr	   */
+/*																			*/
+/* ************************************************************************** */
+
+#include "philo.h"
+
+static int	create_philosophers(t_args *args, int *forks_taken,
+	pthread_mutex_t **mutexes, pthread_t **philosophers)
+{
+	int				i;
+	t_philo_data	*data;
+
+	i = -1;
+	data = NULL;
+	while (++i < args->nphilosophers)
+	{
+		data = (t_philo_data *)malloc(sizeof(t_philo_data));
+		if (!data)
+			return (ft_putstr_fd("Allocating memory error", 2), FN_FAILED);
+		data->forks_taken = forks_taken;
+		data->args = args;
+		data->id = i;
+		data->left_fork = data->id;
+		data->right_fork = (data->id + 1) % data->args->nphilosophers;
+		data->echo_mutex = mutexes[0];
+		data->forks_mutex = mutexes[1];
+		if (pthread_create(&(*philosophers)[i], NULL, run_philo, data))
+			return (ft_putstr_fd("Error creating thread", 2),
+				free(data), i);
+	}
+	return (i);
+}
+
+static int	init_variables(t_args *args, pthread_t **philosophers,
+	pthread_mutex_t **mutexes, int **forks_taken)
+{
+	int	i;
+
+	*philosophers = (pthread_t *)malloc(sizeof(pthread_t)
+			* args->nphilosophers);
+	*forks_taken = (int *)malloc(sizeof(int) * args->nphilosophers);
+	if (!*philosophers || !*forks_taken)
+	{
+		if (*philosophers)
+			free(*philosophers);
+		if (*forks_taken)
+			free(*forks_taken);
+		ft_putstr_fd("Allocating memory error", 2);
+		return (FN_FAILED);
+	}
+	if (pthread_mutex_init(mutexes[0], NULL)
+		|| pthread_mutex_init(mutexes[1], NULL)
+		|| pthread_mutex_init(&args->simulation_mutex, NULL))
+		return (free(*philosophers), free(*forks_taken), FN_FAILED);
+	i = -1;
+	while (++i < args->nphilosophers)
+		(*forks_taken)[i] = NO;
+	return (FN_SUCESSED);
+}
+
+static void	print_simulation_end(pthread_mutex_t *echo_mutex)
+{
+	pthread_mutex_lock(echo_mutex);
+	printf(YELLOW "Simulation has finished!\n" RESET);
+	pthread_mutex_unlock(echo_mutex);
+}
+
+int	init_philosophers(t_args *args, pthread_t **philosophers,
+	pthread_mutex_t *echo_mutex, pthread_mutex_t *forks_mutex)
+{
+	int				i;
+	int				*forks_taken;
+
+	forks_taken = NULL;
+	if (init_variables(args, philosophers,
+			(pthread_mutex_t *[2]){echo_mutex, forks_mutex}, &forks_taken))
+		return (FN_FAILED);
+	i = create_philosophers(args, forks_taken,
+			(pthread_mutex_t *[2]){echo_mutex, forks_mutex}, philosophers);
+	if (i < args->nphilosophers)
+	{
+		while (--i >= 0)
+			pthread_join((*philosophers)[i], NULL);
+		return (free(*philosophers), free(forks_taken),
+			pthread_mutex_destroy(echo_mutex),
+			pthread_mutex_destroy(forks_mutex),
+			pthread_mutex_destroy(&args->simulation_mutex), FN_FAILED);
+	}
+	i = -1;
+	while (++i < args->nphilosophers)
+		pthread_join((*philosophers)[i], NULL);
+	print_simulation_end(echo_mutex);
+	return (free(*philosophers), free(forks_taken),
+		pthread_mutex_destroy(echo_mutex), pthread_mutex_destroy(forks_mutex),
+		pthread_mutex_destroy(&args->simulation_mutex), FN_SUCESSED);
+}
