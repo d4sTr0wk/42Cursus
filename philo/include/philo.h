@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:40:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/06 17:46:24 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/08 08:33:22 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_philo_data
 	t_args			*args;
 	pthread_mutex_t	*echo_mutex;
 	pthread_mutex_t	*forks_mutexes;
+	struct timeval	*init_time;
 	struct timeval	last_meal_time;
 }	t_philo_data;
 
@@ -106,15 +107,13 @@ void	*run_philo(void *arg);
 int		am_i_dead(struct timeval *now, struct timeval *last_time,
 			long *time_to_die);
 
-int		check_forks_freed(t_philo_data *data, struct timeval *init_time,
-			struct timeval *now);
+int		check_forks_freed(t_philo_data *data, struct timeval *now);
 
 int		is_simulation_active(t_args *args);
 
 int		is_simulation_active(t_args *args);
 
-void	kill_philosopher(t_philo_data *data, struct timeval *now,
-			struct timeval *init_time);
+void	kill_philosopher(t_philo_data *data, struct timeval *now);
 
 /*************************
  *	init_philosophers.c

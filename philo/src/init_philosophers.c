@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   init_philosophers.c								:+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: maxgarci <maxgarci@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2025/05/05 15:54:54 by maxgarci		  #+#	#+#			 */
-/*   Updated: 2025/05/05 16:01:15 by maxgarci		 ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_philosophers.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/08 08:05:33 by maxgarci          #+#    #+#             */
+/*   Updated: 2025/05/08 09:13:17 by maxgarci         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
@@ -17,9 +17,12 @@ static int	create_philosophers(t_args *args, int *forks_taken,
 {
 	int				i;
 	t_philo_data	*data;
+	struct timeval	*init_time;
 
 	i = -1;
 	data = NULL;
+	init_time = (struct timeval *)malloc(sizeof(struct timeval));
+	gettimeofday(init_time, NULL);
 	while (++i < args->nphilosophers)
 	{
 		data = (t_philo_data *)malloc(sizeof(t_philo_data));
@@ -32,9 +35,9 @@ static int	create_philosophers(t_args *args, int *forks_taken,
 		data->right_fork = (data->id + 1) % data->args->nphilosophers;
 		data->echo_mutex = mutexes[0];
 		data->forks_mutexes = mutexes[1];
+		data->init_time = init_time;
 		if (pthread_create(&(*philosophers)[i], NULL, run_philo, data))
-			return (ft_putstr_fd("Error creating thread", 2),
-				free(data), i);
+			return (ft_putstr_fd("Error creating thread", 2), free(data), i);
 	}
 	return (i);
 }
@@ -100,6 +103,16 @@ static void	print_simulation_end(pthread_mutex_t *echo_mutex)
 	pthread_mutex_unlock(echo_mutex);
 }
 
+static int	end_philosophers(pthread_mutex_t **mutexes, int nforks,
+	pthread_t **philosophers, int *forks_taken)
+{
+	print_simulation_end(mutexes[0]);
+	destroy_forks_mutexes(mutexes[1], nforks);
+	return (free(*philosophers), free(forks_taken),
+		pthread_mutex_destroy(mutexes[0]),
+		pthread_mutex_destroy(mutexes[2]), FN_SUCESSED);
+}
+
 int	init_philosophers(t_args *args, pthread_t **philosophers,
 	pthread_mutex_t *echo_mutex, pthread_mutex_t *forks_mutex)
 {
@@ -124,9 +137,7 @@ int	init_philosophers(t_args *args, pthread_t **philosophers,
 	i = -1;
 	while (++i < args->nphilosophers)
 		pthread_join((*philosophers)[i], NULL);
-	print_simulation_end(echo_mutex);
-	destroy_forks_mutexes(forks_mutex, args->nphilosophers);
-	return (free(*philosophers), free(forks_taken),
-		pthread_mutex_destroy(echo_mutex),
-		pthread_mutex_destroy(&args->simulation_mutex), FN_SUCESSED);
+	return (end_philosophers((pthread_mutex_t *[3]){echo_mutex, forks_mutex,
+			&args->simulation_mutex}, args->nphilosophers, philosophers,
+		forks_taken));
 }
