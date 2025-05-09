@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 08:05:33 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/08 09:13:17 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:41:49 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,6 @@ static int	init_forks_mutexes(pthread_mutex_t *forks_mutexes, int nforks)
 	return (FN_SUCESSED);
 }
 
-static void	destroy_forks_mutexes(pthread_mutex_t *forks_mutexes, int nforks)
-{
-	int	i;
-
-	i = -1;
-	while (++i < nforks)
-		pthread_mutex_destroy(&forks_mutexes[i]);
-}
-
 static int	init_variables(t_args *args, pthread_t **philosophers,
 	pthread_mutex_t **mutexes, int **forks_taken)
 {
@@ -94,23 +85,6 @@ static int	init_variables(t_args *args, pthread_t **philosophers,
 	while (++i < args->nphilosophers)
 		(*forks_taken)[i] = NO;
 	return (FN_SUCESSED);
-}
-
-static void	print_simulation_end(pthread_mutex_t *echo_mutex)
-{
-	pthread_mutex_lock(echo_mutex);
-	printf(YELLOW "Simulation has finished!\n" RESET);
-	pthread_mutex_unlock(echo_mutex);
-}
-
-static int	end_philosophers(pthread_mutex_t **mutexes, int nforks,
-	pthread_t **philosophers, int *forks_taken)
-{
-	print_simulation_end(mutexes[0]);
-	destroy_forks_mutexes(mutexes[1], nforks);
-	return (free(*philosophers), free(forks_taken),
-		pthread_mutex_destroy(mutexes[0]),
-		pthread_mutex_destroy(mutexes[2]), FN_SUCESSED);
 }
 
 int	init_philosophers(t_args *args, pthread_t **philosophers,

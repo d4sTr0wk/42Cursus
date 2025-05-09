@@ -6,7 +6,7 @@
 #    By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 10:31:34 by maxgarci          #+#    #+#              #
-#    Updated: 2025/05/06 10:33:09 by maxgarci         ###   ########.fr        #
+#    Updated: 2025/05/08 15:49:11 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,10 @@ INCLUDES	:= -I./include
 
 MAIN		:= main.c
 SRC_PATH	:= src/
-SRC			:= print_error.c libft_utils.c init_philosophers.c run_philo.c \
-				philo_utils.c
+SRC			:= print_error.c libft_utils.c init_philosophers.c \
+				end_philosophers.c run_philo.c \
+				philo_utils.c check_forks_freed.c go_to_think.c \
+				go_to_sleep.c go_to_eat.c ask_for_forks.c
 SRCS		:= $(addprefix $(SRC_PATH), $(SRC))
 
 OBJ_PATH	:= obj/
