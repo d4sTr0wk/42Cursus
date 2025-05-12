@@ -6,15 +6,20 @@
 #    By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 10:31:34 by maxgarci          #+#    #+#              #
-#    Updated: 2025/05/08 15:49:11 by maxgarci         ###   ########.fr        #
+#    Updated: 2025/05/10 11:50:19 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-RED := \033[0;91m
-GREEN := \033[0;92m
-YELLOW := \033[0;93m
+# Colors
 MAGENTA = \033[35;1m
-RESTORE := \033[0;0m
+YELLOW  = \033[33;1m
+GREEN   = \033[32;1m
+WHITE   = \033[37;1m
+RESET   = \033[0m
+GRAY 	= \033[0;90m
+BLUE    = \033[34;1m
+CYAN    = \033[37;1m
+BOLD	= \033[1m
+RED		= \033[31;1m
 
 NAME		:= philo
 
@@ -37,21 +42,24 @@ OBJS		:= $(addprefix $(OBJ_PATH), $(OBJ))
 all: $(NAME)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c | $(OBJ_PATH)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@echo "$(BLUE)COMPILING $(YELLOW) $< $(WHITE)to $(YELLOW)$@\n"
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(OBJ_PATH):
 	@mkdir -p $@
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(OBJS) -o $(NAME)
+	@echo "$(WHITE)---------------------------------------------------------$(RESET)\n"
+	@echo "$(BLUE)LINKING $(YELLOW)$(SRCS) $(WHITE)to $(GREEN)$(BOLD)$(NAME)\n"
+	@$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(OBJS) -o $(NAME)
 	@echo "$(MAGENTA)$(ITALIC)Philosophers compiled!✅$(RESET)"
 
 clean:
-	@echo "$(YELLOW)Removing .o object files...$(RESET)"
+	@echo "$(YELLOW)Removing .o object files...$(RESET)\n"
 	@rm -rf $(OBJ_PATH)
 
 fclean: clean
-	@echo "$(YELLOW)Removing fractol...$(RESET)"
+	@echo "$(YELLOW)Removing fractol...$(RESET)\n"
 	@rm -f $(NAME)
 
 re: fclean all

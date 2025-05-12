@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 13:39:48 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/08 15:52:48 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/10 11:44:10 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	print_simulation_end(pthread_mutex_t *echo_mutex)
 }
 
 int	end_philosophers(pthread_mutex_t **mutexes, int nforks,
-	pthread_t **philosophers, int *forks_taken)
+	pthread_t **philosophers, unsigned char *forks_taken)
 {
 	print_simulation_end(mutexes[0]);
 	destroy_forks_mutexes(mutexes[1], nforks);

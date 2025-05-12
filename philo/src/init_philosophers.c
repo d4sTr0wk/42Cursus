@@ -6,13 +6,13 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 08:05:33 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/08 13:41:49 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/10 11:53:08 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	create_philosophers(t_args *args, int *forks_taken,
+static int	create_philosophers(t_args *args, unsigned char *forks_taken,
 	pthread_mutex_t **mutexes, pthread_t **philosophers)
 {
 	int				i;
@@ -20,7 +20,6 @@ static int	create_philosophers(t_args *args, int *forks_taken,
 	struct timeval	*init_time;
 
 	i = -1;
-	data = NULL;
 	init_time = (struct timeval *)malloc(sizeof(struct timeval));
 	gettimeofday(init_time, NULL);
 	while (++i < args->nphilosophers)
@@ -31,6 +30,7 @@ static int	create_philosophers(t_args *args, int *forks_taken,
 		data->forks_taken = forks_taken;
 		data->args = args;
 		data->id = i;
+		data->in_queue = NO;
 		data->left_fork = data->id;
 		data->right_fork = (data->id + 1) % data->args->nphilosophers;
 		data->echo_mutex = mutexes[0];
@@ -59,14 +59,24 @@ static int	init_forks_mutexes(pthread_mutex_t *forks_mutexes, int nforks)
 	return (FN_SUCESSED);
 }
 
+static int	init_fork_queue(t_args *args)
+{
+	args->fqueue = (t_fork_queue *)malloc(sizeof(t_fork_queue));
+	if (args->fqueue == NULL)
+		return (ft_putstr_fd("Allocating fork queue error", 2), FN_FAILED);
+	args->fqueue->front = NULL;
+	pthread_mutex_init(&args->fqueue->queue_mutex, NULL);
+	return (FN_SUCESSED);
+}
+
 static int	init_variables(t_args *args, pthread_t **philosophers,
-	pthread_mutex_t **mutexes, int **forks_taken)
+	pthread_mutex_t **mutexes, unsigned char **forks_taken)
 {
 	int	i;
 
 	*philosophers = (pthread_t *)malloc(sizeof(pthread_t)
 			* args->nphilosophers);
-	*forks_taken = (int *)malloc(sizeof(int) * args->nphilosophers);
+	*forks_taken = (unsigned char *)malloc(sizeof(unsigned char) * args->nphilosophers);
 	if (!*philosophers || !*forks_taken)
 	{
 		if (*philosophers)
@@ -77,6 +87,8 @@ static int	init_variables(t_args *args, pthread_t **philosophers,
 		return (FN_FAILED);
 	}
 	if (init_forks_mutexes(mutexes[1], args->nphilosophers))
+		return (free(*philosophers), free(*forks_taken), FN_FAILED);
+	if (init_fork_queue(args))
 		return (free(*philosophers), free(*forks_taken), FN_FAILED);
 	if (pthread_mutex_init(mutexes[0], NULL)
 		|| pthread_mutex_init(&args->simulation_mutex, NULL))
@@ -91,7 +103,7 @@ int	init_philosophers(t_args *args, pthread_t **philosophers,
 	pthread_mutex_t *echo_mutex, pthread_mutex_t *forks_mutex)
 {
 	int				i;
-	int				*forks_taken;
+	unsigned char	*forks_taken;
 
 	forks_taken = NULL;
 	if (init_variables(args, philosophers,

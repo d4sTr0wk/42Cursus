@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:40:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/09 10:09:29 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/10 11:51:16 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,24 +70,38 @@ enum	e_error_codes
 *		STRUCTS
 * ********************/
 
+typedef struct s_queue_node
+{
+	unsigned char		id;
+	struct s_queue_node	*next;
+}	t_queue_node;
+
+typedef struct s_fork_queue
+{
+	t_queue_node	*front;
+	pthread_mutex_t	queue_mutex;
+}	t_fork_queue;
+
 typedef struct s_args
 {
-	int				nphilosophers;
-	long			time_to_die;
-	long			time_to_eat;
-	long			time_to_sleep;
-	int				ntimes_eat;
-	volatile int	simulation_active;
-	pthread_mutex_t	simulation_mutex;
+	unsigned char			nphilosophers;
+	long					time_to_die;
+	long					time_to_eat;
+	long					time_to_sleep;
+	int						ntimes_eat;
+	volatile unsigned char	simulation_active;
+	pthread_mutex_t			simulation_mutex;
+	t_fork_queue			*fqueue;
 }	t_args;
 
 typedef struct s_philo_data
 {
-	int				id;
-	int				left_fork;
-	int				right_fork;
+	unsigned char	id;
+	unsigned char	in_queue;
+	unsigned char	left_fork;
+	unsigned char	right_fork;
 	int				cnt_meals;
-	int				*forks_taken;
+	unsigned char	*forks_taken;
 	t_args			*args;
 	pthread_mutex_t	*echo_mutex;
 	pthread_mutex_t	*forks_mutexes;
@@ -116,7 +130,7 @@ void	*run_philo(void *arg);
  * @return 1 if the philosopher has died. Otherwise, 0.
  */
 int		am_i_dead(struct timeval *now, struct timeval *last_time,
-			long *time_to_die);
+			long *time_to_die, t_args *args);
 
 /**
  * @brief Checks if simulation is still active
@@ -124,12 +138,6 @@ int		am_i_dead(struct timeval *now, struct timeval *last_time,
  * @return 1 if simulation is still active. Otherwise, 0.
  */
 int		is_simulation_active(t_args *args);
-
-/**
- * @brief Changes simulation_active value
- * @param *args arguments used by all the system
- */
-void	set_simulation_active(t_args *args);
 
 /**
  * @brief Kills the philosopher that resulted dead and frees the simulation
@@ -166,7 +174,7 @@ int		init_philosophers(t_args *args, pthread_t **philosophers,
  * @return FN_SUCCESSED
  */
 int		end_philosophers(pthread_mutex_t **mutexes, int nforks,
-			pthread_t **philosophers, int *forks_taken);
+			pthread_t **philosophers, unsigned char *forks_taken);
 
 /**
  * @brief Destroys forks's mutexes
