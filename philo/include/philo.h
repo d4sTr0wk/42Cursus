@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:40:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/10 11:51:16 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/12 09:54:17 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_queue_node
 {
 	unsigned char		id;
 	struct s_queue_node	*next;
+	struct s_queue_node	*prev;
 }	t_queue_node;
 
 typedef struct s_fork_queue
@@ -107,6 +108,7 @@ typedef struct s_philo_data
 	pthread_mutex_t	*forks_mutexes;
 	struct timeval	*init_time;
 	struct timeval	last_meal_time;
+	t_queue_node	*my_ticket;
 }	t_philo_data;
 
 /****************
