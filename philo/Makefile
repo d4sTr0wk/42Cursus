@@ -6,7 +6,7 @@
 #    By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 10:31:34 by maxgarci          #+#    #+#              #
-#    Updated: 2025/05/10 11:50:19 by maxgarci         ###   ########.fr        #
+#    Updated: 2025/05/13 14:37:57 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # Colors
@@ -24,7 +24,7 @@ RED		= \033[31;1m
 NAME		:= philo
 
 CC			:= cc
-CFLAGS		:= -g -Werror -Wextra -Wall
+CFLAGS		:= -g -Wextra -Wall
 INCLUDES	:= -I./include
 
 MAIN		:= main.c

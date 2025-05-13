@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:50:48 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/12 15:44:33 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:55:53 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	go_to_eat(t_philo_data *data, struct timeval *now)
 		usleep(INTERVAL_NAP);
 		elapsed += INTERVAL_NAP;
 	}
-	gettimeofday(&data->last_meal_time, NULL);
+	// gettimeofday(&data->last_meal_time, NULL);
 	free_forks(data);
 	return (FN_SUCESSED);
 }
