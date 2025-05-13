@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:40:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/12 15:56:43 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:28:31 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct s_philo_data
 	struct timeval	*init_time;
 	struct timeval	last_meal_time;
 	t_queue_node	*my_ticket;
+	char			first_round;
 }	t_philo_data;
 
 /****************

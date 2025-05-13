@@ -30,8 +30,6 @@ static void	take_forks(t_philo_data *data, struct timeval *now)
 			- ((data->init_time->tv_sec * 1000)
 				+ (data->init_time->tv_usec / 1e3))),
 		data->id, data->right_fork);
-	printf("init_time: %ld.%06ld\n", data->init_time->tv_sec, data->init_time->tv_usec);
-	printf("now: %ld.%06ld\n", now->tv_sec, now->tv_usec);
 	pthread_mutex_unlock(data->echo_mutex);
 }
 
@@ -68,7 +66,6 @@ static void	add_my_turn(t_philo_data *data, struct timeval *now)
 	data->my_ticket->id = data->id;
 	data->my_ticket->next = NULL;
 	data->my_ticket->prev = NULL;
-	// pthread_mutex_lock(data->echo_mutex);
 	pthread_mutex_lock(&data->args->fqueue->queue_mutex);
 	tmp = data->args->fqueue->front;
 	if (tmp == NULL)
@@ -82,16 +79,9 @@ static void	add_my_turn(t_philo_data *data, struct timeval *now)
 		tmp->next = data->my_ticket;
 		data->my_ticket->prev = tmp;
 	}
-	// gettimeofday(now, NULL);
-	// printf("%ld %u Turno añadido ",
-	// 	(long)(((now->tv_sec - data->init_time->tv_sec) * 1000)
-	// 		+ (long)((now->tv_usec - data->init_time->tv_usec) / 1e3)),
-	// 		data->id);
 	tmp = data->args->fqueue->front;
 	data->in_queue = YES;
 	pthread_mutex_unlock(&data->args->fqueue->queue_mutex);
-	// pthread_mutex_unlock(data->echo_mutex);
-	print_queue(data);
 }
 
 static void	delete_node(t_philo_data *data)
@@ -119,13 +109,19 @@ static void	delete_node(t_philo_data *data)
 	data->my_ticket = NULL;
 	data->in_queue = NO;
 	pthread_mutex_unlock(&data->args->fqueue->queue_mutex);
-	print_queue(data);
 }
 
 int	my_turn(t_philo_data *data, struct timeval *now)
 {
 	t_queue_node	*tmp;
 
+	if (data->in_queue == NO)
+		add_my_turn(data, now);
+	if (data->first_round == YES)
+	{
+		data->first_round = NO;
+		return (YES);
+	}
 	pthread_mutex_lock(&data->args->fqueue->queue_mutex);
 	tmp = data->args->fqueue->front;
 	while (tmp != NULL)
@@ -150,15 +146,8 @@ int	my_turn(t_philo_data *data, struct timeval *now)
 
 int	check_forks_freed(t_philo_data *data, struct timeval *now)
 {
-	if (data->in_queue == YES)
-	{
-		if (my_turn(data, now) == NO)
-			return (FN_FAILED);
-	}
-	else
-	{
-		add_my_turn(data, now);
-	}
+	if (my_turn(data, now) == NO)
+		return (FN_FAILED);
 	pthread_mutex_lock(&data->forks_mutexes[data->left_fork]);
 	pthread_mutex_lock(&data->forks_mutexes[data->right_fork]);
 	if (data->forks_taken[data->left_fork] == NO
@@ -166,11 +155,6 @@ int	check_forks_freed(t_philo_data *data, struct timeval *now)
 	{
 		take_forks(data, now);
 		delete_node(data);
-		// pthread_mutex_lock(data->echo_mutex);
-		// printf("%ld %u Me he borrado de la lista ves: ",
-		// 	(long)(((now->tv_sec - data->init_time->tv_sec) * 1000)
-		// 		+ (long)((now->tv_usec - data->init_time->tv_usec) / 1e3)), data->id);
-		// pthread_mutex_unlock(data->echo_mutex);
 		return (FN_SUCESSED);
 	}
 	pthread_mutex_unlock(&data->forks_mutexes[data->left_fork]);

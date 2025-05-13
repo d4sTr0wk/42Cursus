@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 10:27:25 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/10 10:21:59 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:34:03 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,6 @@ void	kill_philosopher(t_philo_data *data, struct timeval *now)
 			(long)(((now->tv_sec - data->init_time->tv_sec) * 1000)
 				+ (long)((now->tv_usec - data->init_time->tv_usec) / 1e3)),
 			data->id);
-		printf("init_time: %ld.%06ld, now: %ld.%06ld, last_time: %ld.%06ld\n",
-			(long)data->init_time->tv_sec, (long)data->init_time->tv_usec,
-			(long)now->tv_sec, (long)now->tv_usec,
-			(long)data->last_meal_time.tv_sec, (long)data->last_meal_time.tv_usec);
 		pthread_mutex_unlock(data->echo_mutex);
 	}
 	pthread_mutex_unlock(&data->args->simulation_mutex);

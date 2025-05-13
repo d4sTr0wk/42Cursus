@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:14:39 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/06 17:46:13 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:31:02 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	args_are_valid(int argc, char **args __attribute__((unused)),
 			return (print_error(INVALID_NTIMES_EAT));
 	}
 	else
-		arguments->ntimes_eat = -1;
+		arguments->ntimes_eat = -2;
 	arguments->simulation_active = 1;
 	return (FN_SUCESSED);
 }
