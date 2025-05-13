@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 13:39:48 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/10 11:44:10 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:54:12 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,22 @@ static void	print_simulation_end(pthread_mutex_t *echo_mutex)
 	pthread_mutex_lock(echo_mutex);
 	printf(YELLOW "Simulation has finished!\n" RESET);
 	pthread_mutex_unlock(echo_mutex);
+}
+
+void	free_queue(t_fork_queue *fqueue)
+{
+	t_queue_node	*tmp;
+	t_queue_node	*aux;
+
+	tmp = fqueue->front;
+	while (tmp != NULL)
+	{
+		aux = tmp;
+		tmp = tmp->next;
+		free(aux);
+	}
+	pthread_mutex_destroy(&fqueue->queue_mutex);
+	free(fqueue);
 }
 
 int	end_philosophers(pthread_mutex_t **mutexes, int nforks,

@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:47:37 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/09 11:35:50 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:43:49 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	go_to_sleep(t_philo_data *data, struct timeval *now)
 {
 	int	elapsed;
 
+	if (is_simulation_active(data->args) == NO)
+		return (free(data), FN_FAILED);
 	pthread_mutex_lock(data->echo_mutex);
 	gettimeofday(now, NULL);
 	printf(MAGENTA "%ld %d is sleeping\n",

@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:43:47 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/09 11:35:54 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:47:00 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	go_to_think(t_philo_data *data, struct timeval *now)
 {
+	if (is_simulation_active(data->args) == NO)
+		return ;
 	pthread_mutex_lock(data->echo_mutex);
 	gettimeofday(now, NULL);
 	printf(BLUE "%ld %d is thinking\n",

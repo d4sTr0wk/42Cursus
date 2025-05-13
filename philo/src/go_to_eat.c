@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:50:48 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/12 00:05:14 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:44:33 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	go_to_eat(t_philo_data *data, struct timeval *now)
 {
 	int	elapsed;
 
+	if (is_simulation_active(data->args) == NO)
+		return (free(data), FN_FAILED);
 	gettimeofday(&data->last_meal_time, NULL);
 	pthread_mutex_lock(data->echo_mutex);
 	gettimeofday(now, NULL);

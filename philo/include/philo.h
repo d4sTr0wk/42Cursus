@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:40:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/12 09:54:17 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:56:43 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_args
 	volatile unsigned char	simulation_active;
 	pthread_mutex_t			simulation_mutex;
 	t_fork_queue			*fqueue;
+	struct timeval			*init_time;
 }	t_args;
 
 typedef struct s_philo_data
@@ -166,6 +167,9 @@ int		init_philosophers(t_args *args, pthread_t **philosophers,
 /************************
  *	end_philosophers.c
  ***********************/
+
+
+void	free_queue(t_fork_queue *fqueue);
 
 /**
  * @brief Frees mutexes and structures allocated previously

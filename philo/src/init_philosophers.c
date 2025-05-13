@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 08:05:33 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/12 09:54:04 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:57:27 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static int	create_philosophers(t_args *args, unsigned char *forks_taken,
 		if (pthread_create(&(*philosophers)[i], NULL, run_philo, data))
 			return (ft_putstr_fd("Error creating thread", 2), free(data), i);
 	}
+	data->args->init_time = init_time;
 	return (i);
 }
 
@@ -124,6 +125,8 @@ int	init_philosophers(t_args *args, pthread_t **philosophers,
 	i = -1;
 	while (++i < args->nphilosophers)
 		pthread_join((*philosophers)[i], NULL);
+	free_queue(args->fqueue);
+	free(args->init_time);
 	return (end_philosophers((pthread_mutex_t *[3]){echo_mutex, forks_mutex,
 			&args->simulation_mutex}, args->nphilosophers, philosophers,
 		forks_taken));
