@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 18:36:52 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/15 08:03:58 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/17 20:03:17 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define NO_EXEC_PERM_ERROR "minishell: Permission denied\n"
 # define SINGLE_QUOTE_ERROR "minishell: Missing single quote\n"
 # define DOUBLE_QUOTE_ERROR "minishell: Missing double quote\n"
+# define NO_SUCH_FILE "No such file or directory\n"
 
 # define NUM_ERRORS 2
 # define EXPORT_FLAG 1
@@ -685,5 +686,19 @@ void					signal_d(t_lists *lists);
 void					sigint_handler(int signal);
 void					init_signals(void);
 void					signal_quit(int signal);
+
+/***************************************
+		process_str.c
+***************************************/
+
+char					*process_str(t_node *tmp, char *str, int last_status);
+
+/***************************************
+		process_str.c
+***************************************/
+
+void					skip_argument(char *str, int *read_pos);
+int						skip_redir_token(char *str, int pos);
+int						skip_redir_filename(char *str, int pos);
 
 #endif

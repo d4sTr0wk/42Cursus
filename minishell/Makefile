@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+         #
+#    By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 20:24:34 by maxgarci          #+#    #+#              #
-#    Updated: 2025/05/15 08:09:11 by maxgarci         ###   ########.fr        #
+#    Updated: 2025/05/17 20:14:54 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SRC 				:= main.c env_vars.c builts.c echo.c cd.c free.c\
 						process_command.c node_creation.c execute_one_command.c exec_comm.c \
 						exec_comm_utils.c execute_commands.c execute_child.c redirect.c \
 						set_fd.c signals.c expand.c	expand_utils1.c \
-						expand_utils2.c heredoc.c parse_redir.c get_absolute_path.c
+						expand_utils2.c heredoc.c parse_redir.c get_absolute_path.c \
+						process_str.c skip_parsing.c is_redir.c
 
 SRCS				:= $(addprefix $(SRC_PATH), $(SRC))
 

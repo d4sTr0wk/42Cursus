@@ -3,67 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   node_creation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:44:36 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/17 16:41:35 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/17 20:02:12 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	skip_argument(char *str, int *read_pos)
+static int	is_non_empty_arg(char *str, int start, int end)
 {
-	int	squote_opened;
-	int	dquote_opened;
-	int	in_quotes;
-
-	squote_opened = 0;
-	dquote_opened = 0;
-	in_quotes = 0;
-	while ((str[*read_pos] && !ft_isspace(str[*read_pos]) && !is_redir(str,
-				*read_pos)) || squote_opened || dquote_opened)
+	while (start < end)
 	{
-		if (!in_quotes && (squote_opened || dquote_opened))
-			in_quotes = 1;
-		check_quotes(str[*read_pos], &squote_opened, &dquote_opened);
-		++(*read_pos);
+		if (!ft_isspace(str[start]) && str[start] != '"' && str[start] != '\'')
+			return (1);
+		start++;
 	}
+	return (0);
 }
 
 static void	count_args_redir(char *str, int *n_args, int *n_redir)
 {
 	int	pos;
-	int	quotes;
+	int	arg_start;
 
 	pos = 0;
-	quotes = 0;
 	while (str[pos])
 	{
 		if (is_redir(str, pos))
 		{
-			while (is_redir(str, pos))
-				pos++;
-			while (ft_isspace(str[pos]))
-				pos++;
-			while (str[pos] > ' ' || quotes)
-			{
-				if (str[pos] == SINGLE_QUOTE && quotes == 1)
-					quotes = 0;
-				else if (str[pos] == SINGLE_QUOTE && quotes == 0)
-					quotes = 1;
-				else if (str[pos] == DOUBLE_QUOTE && quotes == 2)
-					quotes = 0;
-				else if (str[pos] == DOUBLE_QUOTE && quotes == 0)
-					quotes = 2;
-				pos++;
-			}
+			pos = skip_redir_token(str, pos);
+			pos = skip_redir_filename(str, pos);
 			(*n_redir)++;
 		}
 		else
 		{
+			arg_start = pos;
 			skip_argument(str, &pos);
-			(*n_args)++;
+			if (is_non_empty_arg(str, arg_start, pos))
+				(*n_args)++;
 		}
 		clear_spaces(str, &pos);
 	}

@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:54:37 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/15 08:05:04 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/17 20:31:34 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int	is_redir(char *str, int pos)
-{
-	return ((str[pos] == '>' && str[pos + 1] == '>') || str[pos] == '>'
-		|| (str[pos] == '<' && str[pos + 1] == '<') || str[pos] == '<');
-}
 
 static int	handle_type_redir(char *str, int *pos, t_redir *redir)
 {
@@ -39,19 +33,22 @@ static int	handle_type_redir(char *str, int *pos, t_redir *redir)
 	return (FN_SUCCESS);
 }
 
-static t_redir	*create_redir(char *str, int *i)
+static int	init_variables(char **filename, int *quotes)
+{
+	*filename = ft_strdup("");
+	*quotes = 0;
+	if (!*filename)
+		return (ft_putstr_fd(ENO_MEM_ERROR, 2), FN_FAILURE);
+	return (FN_SUCCESS);
+}
+
+static char	*parse_redir_filename(char *str, int *i)
 {
 	char	*filename;
-	t_redir	*redir;
 	int		quotes;
 
-	redir = malloc(sizeof(t_redir));
-	if (handle_type_redir(str, i, redir))
+	if (init_variables(&filename, &quotes))
 		return (NULL);
-	filename = ft_strdup("");
-	if (filename == NULL)
-		return (ft_putstr_fd(ENO_MEM_ERROR, 2), free(redir), NULL);
-	quotes = 0;
 	while (str[*i] > ' ' || quotes)
 	{
 		if (str[*i] == SINGLE_QUOTE && quotes == 1)
@@ -62,15 +59,29 @@ static t_redir	*create_redir(char *str, int *i)
 			quotes = 0;
 		else if (str[*i] == DOUBLE_QUOTE && quotes == 0)
 			quotes = 2;
-		else if (char_is_valid(str[*i]) || quotes)
+		if (char_is_valid(str[*i]) || quotes)
 			filename = strjoin_char(filename, str[(*i)]);
 		else
 			return (ft_putstr_fd(BAD_ASSIGNMENT_ERROR, 2), free(filename),
-				free(redir), NULL);
+				NULL);
 		(*i)++;
 	}
 	filename = strjoin_char(filename, '\0');
-	redir->filename = filename;
+	return (filename);
+}
+
+static t_redir	*create_redir(char *str, int *i)
+{
+	t_redir	*redir;
+
+	redir = malloc(sizeof(t_redir));
+	if (!redir)
+		return (ft_putstr_fd(ENO_MEM_ERROR, 2), NULL);
+	if (handle_type_redir(str, i, redir))
+		return (free(redir), NULL);
+	redir->filename = parse_redir_filename(str, i);
+	if (!redir->filename)
+		return (free(redir), NULL);
 	return (redir);
 }
 
@@ -79,11 +90,5 @@ int	parse_redir(char *str, t_command **command, int *i, int *redir_pos)
 	(*command)->redir[*redir_pos] = create_redir(str, i);
 	if (!((*command)->redir[(*redir_pos)++]))
 		return (PARSING);
-	while (is_redir(str, (*i)))
-		++(*i);
-	while (ft_isspace(str[(*i)]))
-		++(*i);
-	while (str[(*i)] > ' ' && !is_redir(str, (*i)))
-		++(*i);
 	return (FN_SUCCESS);
 }
