@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 17:05:56 by ybouhaik          #+#    #+#             */
-/*   Updated: 2025/05/13 20:40:35 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:36:21 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static int	handle_fork(t_node **nodes, t_lists *lists, int fd[2],
 	}
 	if (pid == 0)
 	{
-		signal(SIGQUIT, signal_quit);
 		if (prev_fd_in != -1)
 			close(fd[0]);
 		execute_child(lists, (t_node *[]){head, tmp}, fd, prev_fd_in);

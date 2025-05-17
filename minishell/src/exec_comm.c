@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_comm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:07:54 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/13 20:39:44 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:47:08 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	open_and_dup(int *fd, const char *filename, int flag_fileno[2],
+static void	open_and_dup(int *fd, char *filename, int flag_fileno[2],
 						mode_t mode)
 {
 	int	oflag;
@@ -26,12 +26,15 @@ static void	open_and_dup(int *fd, const char *filename, int flag_fileno[2],
 		*fd = open(filename, oflag, mode);
 	if (*fd < 0)
 	{
-		ft_putstr_fd("open error", 2);
+		ft_putstr_fd("minishell:", 2);
+		ft_putstr_fd(filename, 2);
+		ft_putstr_fd(":", 2);
+		ft_putstr_fd(NO_SUCH_FILE, 2);
 		exit(EXIT_FAILURE);
 	}
 	if (dup2(*fd, fileno) < 0)
 	{
-		ft_putstr_fd("dup2 error", 2);
+		ft_putstr_fd("minishell: dup2 error\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	close(*fd);
@@ -84,7 +87,7 @@ int	exec_comm(t_node *head, int input, int output)
 		ft_putstr_fd("fork error", 2);
 		return (FN_FAILURE);
 	}
-	else if (!pid)
+	else if (pid == 0)
 	{
 		signal(SIGQUIT, signal_quit);
 		redirect_uniq_child(head, input, output);
