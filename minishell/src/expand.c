@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouhaik <ybouhaik@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:09:35 by ybouhaik          #+#    #+#             */
-/*   Updated: 2025/04/30 11:36:44 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:41:17 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	expand_argument(t_node *tmp, int i, char *expanded)
 	free(tmp->content->args[i]);
 	tmp->content->args[i] = ft_strdup(expanded);
 	if (!tmp->content->args[i])
-		return (perror(ENO_MEM_ERROR), FN_FAILURE);
+		return (ft_putstr_fd(ENO_MEM_ERROR, 2), FN_FAILURE);
 	return (FN_SUCCESS);
 }
 
@@ -85,7 +85,7 @@ static int	update_command_if_needed(t_node *tmp)
 	tmp->content->command = malloc(sizeof(char) * \
 									(strlen(tmp->content->args[0]) + 1));
 	if (!tmp->content->command)
-		return (perror(ENO_MEM_ERROR), FN_FAILURE);
+		return (ft_putstr_fd(ENO_MEM_ERROR, 2), FN_FAILURE);
 	strcpy(tmp->content->command, tmp->content->args[0]);
 	return (FN_SUCCESS);
 }

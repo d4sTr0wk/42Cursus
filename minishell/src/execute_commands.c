@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 17:05:56 by ybouhaik          #+#    #+#             */
-/*   Updated: 2025/05/02 16:13:04 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:40:35 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	handle_pipe(int fd[2])
 {
 	if (pipe(fd) == -1)
 	{
-		perror("pipe function failed");
+		ft_putstr_fd("pipe function failed", 2);
 		return (FN_FAILURE);
 	}
 	return (FN_SUCCESS);
@@ -35,7 +35,7 @@ static int	handle_fork(t_node **nodes, t_lists *lists, int fd[2],
 	pid = fork();
 	if (pid < 0)
 	{
-		perror("fork failed");
+		ft_putstr_fd("fork failed", 2);
 		return (FN_FAILURE);
 	}
 	if (pid == 0)

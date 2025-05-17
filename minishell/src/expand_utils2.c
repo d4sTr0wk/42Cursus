@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:37:46 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/02 16:37:47 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/15 08:05:17 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	find_var_delimeter(char *str, int pos)
 	next = pos + 1;
 	while (str[next])
 	{
-		valid_char = var_char_is_valid(str[next]);
+		valid_char = char_is_valid(str[next]);
 		if (!valid_char)
 			return (next);
 		next++;

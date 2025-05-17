@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouhaik <ybouhaik@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:54:37 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/04/20 12:57:06 by ybouhaik         ###   ########.fr       */
+/*   Updated: 2025/05/15 08:05:04 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,10 @@ int	is_redir(char *str, int pos)
 		|| (str[pos] == '<' && str[pos + 1] == '<') || str[pos] == '<');
 }
 
-static inline int	valid_char_filename(char c)
-{
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '-'
-		|| c == '_' || c == '.' || ((c >= '0') && (c <= '9')));
-}
-
 static int	handle_type_redir(char *str, int *pos, t_redir *redir)
 {
 	if (!redir)
-		return (perror(ENO_MEM_ERROR), FN_FAILURE);
+		return (ft_putstr_fd(ENO_MEM_ERROR, 2), FN_FAILURE);
 	if (str[*pos] == '>' && str[*pos + 1] == '>')
 		redir->type = r_append;
 	else if (str[*pos] == '>')
@@ -36,8 +30,8 @@ static int	handle_type_redir(char *str, int *pos, t_redir *redir)
 		redir->type = r_heredoc;
 	else if (str[*pos] == '<')
 		redir->type = r_input;
-	else if (!valid_char_filename(str[*pos + 2]))
-		return (free(redir), perror(PARSING_ERROR), FN_FAILURE);
+	else if (!char_is_valid(str[*pos + 2]))
+		return (free(redir), ft_putstr_fd(PARSING_ERROR, 2), FN_FAILURE);
 	while (is_redir(str, *pos))
 		(*pos)++;
 	while (ft_isspace(str[*pos]))
@@ -48,29 +42,27 @@ static int	handle_type_redir(char *str, int *pos, t_redir *redir)
 static t_redir	*create_redir(char *str)
 {
 	int		i;
-	int		begin;
-	int		cp_i;
+	char	*filename;
 	t_redir	*redir;
 
 	redir = malloc(sizeof(t_redir));
 	i = 0;
 	if (handle_type_redir(str, &i, redir))
 		return (NULL);
-	begin = i;
-	if (!valid_char_filename(str[i]))
-		return (perror(BAD_ASSIGNMENT_ERROR), free(redir), NULL);
-	while (str[i] > ' ' && !is_redir(str, i))
+	filename = ft_strdup("");
+	if (filename == NULL)
+		return (ft_putstr_fd(ENO_MEM_ERROR, 2), free(redir), NULL);
+	while (str[i])
 	{
-		if (!valid_char_filename(str[i++]))
-			return (perror(BAD_ASSIGNMENT_ERROR), free(redir), NULL);
+		if (str[i] == SINGLE_QUOTE || str[i] == DOUBLE_QUOTE)
+			i++;
+		else if (char_is_valid(str[i]))
+			filename = strjoin_char(filename, str[i++]);
+		else
+			return (ft_putstr_fd(BAD_ASSIGNMENT_ERROR, 2), free(redir), NULL);
 	}
-	redir->filename = (char *)malloc(sizeof(char) * (i - begin + 1));
-	if (!redir->filename)
-		return (perror(ENO_MEM_ERROR), free(redir), NULL);
-	cp_i = 0;
-	while (begin < i)
-		redir->filename[cp_i++] = str[begin++];
-	redir->filename[cp_i] = '\0';
+	filename = strjoin_char(filename, '\0');
+	redir->filename = filename;
 	return (redir);
 }
 

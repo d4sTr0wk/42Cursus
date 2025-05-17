@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_comm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxgarci <maxgarci@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:07:54 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/04/30 11:41:07 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:39:44 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ static void	open_and_dup(int *fd, const char *filename, int flag_fileno[2],
 		*fd = open(filename, oflag, mode);
 	if (*fd < 0)
 	{
-		perror("open error");
+		ft_putstr_fd("open error", 2);
 		exit(EXIT_FAILURE);
 	}
 	if (dup2(*fd, fileno) < 0)
 	{
-		perror("dup2 error");
+		ft_putstr_fd("dup2 error", 2);
 		exit(EXIT_FAILURE);
 	}
 	close(*fd);
@@ -66,8 +66,8 @@ static int	child_comm_execution(t_node *head)
 	if (!access((head)->content->command, X_OK))
 		execve(head->content->command, head->content->args, NULL);
 	else
-		perror(NO_EXEC_PERM_ERROR);
-	perror("execve failed");
+		ft_putstr_fd(NO_EXEC_PERM_ERROR, 2);
+	ft_putstr_fd("execve failed", 2);
 	free_node(head);
 	exit(COMMAND_NOT_FOUND);
 }
@@ -81,7 +81,7 @@ int	exec_comm(t_node *head, int input, int output)
 	pid = fork();
 	if (pid < 0)
 	{
-		perror("fork error");
+		ft_putstr_fd("fork error", 2);
 		return (FN_FAILURE);
 	}
 	else if (!pid)

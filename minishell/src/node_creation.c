@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_creation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouhaik <ybouhaik@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:44:36 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/04/26 18:43:42 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/17 16:41:35 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ static void	skip_argument(char *str, int *read_pos)
 static void	count_args_redir(char *str, int *n_args, int *n_redir)
 {
 	int	pos;
+	int	quotes;
 
 	pos = 0;
+	quotes = 0;
 	while (str[pos])
 	{
 		if (is_redir(str, pos))
@@ -44,8 +46,18 @@ static void	count_args_redir(char *str, int *n_args, int *n_redir)
 				pos++;
 			while (ft_isspace(str[pos]))
 				pos++;
-			while (str[pos] > ' ' && !is_redir(str, pos))
+			while (str[pos] > ' ' || quotes)
+			{
+				if (str[pos] == SINGLE_QUOTE && quotes == 1)
+					quotes = 0;
+				else if (str[pos] == SINGLE_QUOTE && quotes == 0)
+					quotes = 1;
+				else if (str[pos] == DOUBLE_QUOTE && quotes == 2)
+					quotes = 0;
+				else if (str[pos] == DOUBLE_QUOTE && quotes == 0)
+					quotes = 2;
 				pos++;
+			}
 			(*n_redir)++;
 		}
 		else
@@ -68,7 +80,7 @@ static int	parse_arg(char *str, t_command **command, int *i, int *args_pos)
 	(*command)->args[*args_pos] = (char *)malloc(sizeof(char) * ((*i)
 				- new_arg_index + 1));
 	if (!(*command)->args[*args_pos])
-		return (perror(ENO_MEM_ERROR), ENO_MEM);
+		return (ft_putstr_fd(ENO_MEM_ERROR, 2), ENO_MEM);
 	while (new_arg_index < *i)
 		(*command)->args[*args_pos][cp_i++] = str[new_arg_index++];
 	(*command)->args[(*args_pos)++][cp_i] = '\0';
@@ -77,7 +89,7 @@ static int	parse_arg(char *str, t_command **command, int *i, int *args_pos)
 		(*command)->command = malloc(sizeof(char) * (strlen((*command)->args[0])
 					+ 1));
 		if (!(*command)->command)
-			return (perror(ENO_MEM_ERROR), FN_FAILURE);
+			return (ft_putstr_fd(ENO_MEM_ERROR, 2), FN_FAILURE);
 		strcpy((*command)->command, (*command)->args[0]);
 	}
 	return (FN_SUCCESS);
@@ -122,17 +134,17 @@ int	new_command(char *str, t_command **command)
 	(*command)->args = (char **)malloc(sizeof(char *) * ((*command)->num_args
 				+ 1));
 	if (!(*command)->args)
-		return (perror(ENO_MEM_ERROR), FN_FAILURE);
+		return (ft_putstr_fd(ENO_MEM_ERROR, 2), FN_FAILURE);
 	(*command)->args[n_args] = NULL;
 	if (n_redir)
 	{
 		(*command)->redir = (t_redir **)malloc(sizeof(t_redir *) * n_redir);
 		if (!(*command)->redir)
-			return (perror(ENO_MEM_ERROR), FN_FAILURE);
+			return (ft_putstr_fd(ENO_MEM_ERROR, 2), FN_FAILURE);
 	}
 	else
 		(*command)->redir = NULL;
 	if (create_command(str, command))
-		return (perror(PARSING_ERROR), FN_FAILURE);
+		return (ft_putstr_fd(PARSING_ERROR, 2), FN_FAILURE);
 	return (FN_SUCCESS);
 }
