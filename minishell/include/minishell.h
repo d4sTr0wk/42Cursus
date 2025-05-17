@@ -684,5 +684,6 @@ int						set_fd(t_node **head);
 void					signal_d(t_lists *lists);
 void					sigint_handler(int signal);
 void					init_signals(void);
+void					signal_quit(int signal);
 
 #endif

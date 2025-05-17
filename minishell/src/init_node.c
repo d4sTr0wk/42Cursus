@@ -78,8 +78,8 @@ static t_node	*fill_node(char *line, int *pos, t_lists *lists,
 	new_node->content = get_content(line, init_pos, *pos);
 	if (!new_node->content)
 		return (free_lists(new_node->var_list->env, new_node->var_list->exp),
-			free(new_node->var_list), free(new_node), ft_putstr_fd(ENO_MEM_ERROR, 2),
-			NULL);
+			free(new_node->var_list), free(new_node),
+			ft_putstr_fd(ENO_MEM_ERROR, 2), NULL);
 	return (new_node);
 }
 

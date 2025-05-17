@@ -86,6 +86,7 @@ int	exec_comm(t_node *head, int input, int output)
 	}
 	else if (!pid)
 	{
+		signal(SIGQUIT, signal_quit);
 		redirect_uniq_child(head, input, output);
 		if (head->content->command)
 			child_comm_execution(head);

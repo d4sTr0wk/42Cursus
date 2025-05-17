@@ -39,27 +39,35 @@ static int	handle_type_redir(char *str, int *pos, t_redir *redir)
 	return (FN_SUCCESS);
 }
 
-static t_redir	*create_redir(char *str)
+static t_redir	*create_redir(char *str, int *i)
 {
-	int		i;
 	char	*filename;
 	t_redir	*redir;
+	int		quotes;
 
 	redir = malloc(sizeof(t_redir));
-	i = 0;
-	if (handle_type_redir(str, &i, redir))
+	if (handle_type_redir(str, i, redir))
 		return (NULL);
 	filename = ft_strdup("");
 	if (filename == NULL)
 		return (ft_putstr_fd(ENO_MEM_ERROR, 2), free(redir), NULL);
-	while (str[i])
+	quotes = 0;
+	while (str[*i] > ' ' || quotes)
 	{
-		if (str[i] == SINGLE_QUOTE || str[i] == DOUBLE_QUOTE)
-			i++;
-		else if (char_is_valid(str[i]))
-			filename = strjoin_char(filename, str[i++]);
+		if (str[*i] == SINGLE_QUOTE && quotes == 1)
+			quotes = 0;
+		else if (str[*i] == SINGLE_QUOTE && quotes == 0)
+			quotes = 1;
+		else if (str[*i] == DOUBLE_QUOTE && quotes == 2)
+			quotes = 0;
+		else if (str[*i] == DOUBLE_QUOTE && quotes == 0)
+			quotes = 2;
+		else if (char_is_valid(str[*i]) || quotes)
+			filename = strjoin_char(filename, str[(*i)]);
 		else
-			return (ft_putstr_fd(BAD_ASSIGNMENT_ERROR, 2), free(redir), NULL);
+			return (ft_putstr_fd(BAD_ASSIGNMENT_ERROR, 2), free(filename),
+				free(redir), NULL);
+		(*i)++;
 	}
 	filename = strjoin_char(filename, '\0');
 	redir->filename = filename;
@@ -68,7 +76,7 @@ static t_redir	*create_redir(char *str)
 
 int	parse_redir(char *str, t_command **command, int *i, int *redir_pos)
 {
-	(*command)->redir[*redir_pos] = create_redir(str + (*i));
+	(*command)->redir[*redir_pos] = create_redir(str, i);
 	if (!((*command)->redir[(*redir_pos)++]))
 		return (PARSING);
 	while (is_redir(str, (*i)))
