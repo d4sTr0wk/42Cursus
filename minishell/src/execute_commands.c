@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 17:05:56 by ybouhaik          #+#    #+#             */
-/*   Updated: 2025/05/18 10:18:22 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:17:55 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int	handle_fork(t_node **nodes, t_lists *lists, int fd[2],
 	else
 	{
 		close(fd[1]);
+		init_signals();
 		wait(&status);
 	}
 	return (status);

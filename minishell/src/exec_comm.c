@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:07:54 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/17 19:47:08 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:17:42 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ int	exec_comm(t_node *head, int input, int output)
 		wait(&status);
 	if (input == r_heredoc)
 		unlink(HEREDOC_FILENAME);
+	init_signals();
 	return (WEXITSTATUS(status));
 }
