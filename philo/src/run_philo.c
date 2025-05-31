@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 10:18:02 by maxgarci          #+#    #+#             */
-/*   Updated: 2025/05/13 19:29:39 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/31 10:37:58 by maxgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	*run_philo(void *arg)
 	t_philo_data	*data;
 	struct timeval	now;
 
+	printf("Hola");
 	data = NULL;
 	data = (t_philo_data *)arg;
 	data->first_round = YES;

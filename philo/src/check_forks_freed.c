@@ -6,7 +6,7 @@
 /*   By: maxgarci <maxgarci@student.42.fr>		  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2025/05/08 15:33:18 by maxgarci		  #+#	#+#			 */
-/*   Updated: 2025/05/18 10:24:18 by maxgarci         ###   ########.fr       */
+/*   Updated: 2025/05/31 10:32:22 by maxgarci         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -30,24 +30,6 @@ static void	take_forks(t_philo_data *data, struct timeval *now)
 			- ((data->init_time->tv_sec * 1000)
 				+ (data->init_time->tv_usec / 1e3))),
 		data->id, data->right_fork);
-	pthread_mutex_unlock(data->echo_mutex);
-}
-
-static void	print_queue(t_philo_data *data)
-{
-	t_queue_node *tmp;
-
-	pthread_mutex_lock(data->echo_mutex);
-	pthread_mutex_lock(&data->args->fqueue->queue_mutex);
-	tmp = data->args->fqueue->front;
-	printf("Queue => ");
-	while (tmp != NULL)
-	{
-		printf("[id: %u] ", tmp->id);
-		tmp = tmp->next;
-	}
-	printf("\n");
-	pthread_mutex_unlock(&data->args->fqueue->queue_mutex);
 	pthread_mutex_unlock(data->echo_mutex);
 }
 
@@ -118,7 +100,6 @@ int	my_turn(t_philo_data *data)
 {
 	t_queue_node	*tmp;
 
-	pthread_mutex_lock(&data->args->fqueue->queue_mutex);
 	if (data->in_queue == NO)
 		add_my_turn(data);
 	if (data->first_round == YES)
@@ -126,6 +107,7 @@ int	my_turn(t_philo_data *data)
 		data->first_round = NO;
 		return (YES);
 	}
+	pthread_mutex_lock(&data->args->fqueue->queue_mutex);
 	tmp = data->args->fqueue->front;
 	while (tmp != NULL)
 	{
