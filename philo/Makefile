@@ -6,7 +6,7 @@
 #    By: maxgarci <maxgarci@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 10:31:34 by maxgarci          #+#    #+#              #
-#    Updated: 2025/05/31 10:32:10 by maxgarci         ###   ########.fr        #
+#    Updated: 2025/06/29 17:59:09 by maxgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # Colors
@@ -24,7 +24,7 @@ RED		= \033[31;1m
 NAME		:= philo
 
 CC			:= cc
-CFLAGS		:= -g -Wextra -Wall -Werror
+CFLAGS		:= -g -fsanitize=address -Wextra -Wall -Werror
 INCLUDES	:= -I./include
 
 MAIN		:= main.c
